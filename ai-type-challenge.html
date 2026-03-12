@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>AI 類型分類挑戰｜第一章</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+
+/* ════════════════════════════════
+   ROOT TOKENS
+════════════════════════════════ */
+:root {
+  --sky:        #e8f4fd;
+  --sky-deep:   #c8e6f8;
+  --cloud:      #ffffff;
+  --ink:        #1e2d4a;
+  --ink-soft:   #4a5f7a;
+  --ink-faint:  #8a9bb5;
+
+  --teal:       #00b8d4;
+  --teal-light: #80deea;
+  --teal-glow:  rgba(0,184,212,0.25);
+
+  --rose:       #e91e8c;
+  --rose-light: #f8bbd0;
+  --rose-glow:  rgba(233,30,140,0.25);
+
+  --amber:      #ff8f00;
+  --amber-light:#ffe0b2;
+  --amber-glow: rgba(255,143,0,0.25);
+
+  --gold:       #ffc107;
+  --gold-deep:  #ff8f00;
+  --gold-glow:  rgba(255,193,7,0.5);
+
+  --correct:    #00c853;
+  --wrong:      #f44336;
+
+  --card-shadow: 0 8px 32px rgba(30,45,74,0.12);
+  --card-radius: 24px;
+}
+
+/* ════════════════════════════════
+   RESET & BASE
+════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans TC', 'Nunito', sans-serif;
+  background: var(--sky);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Animated sky background */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(0,184,212,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 90%, rgba(233,30,140,0.08) 0%, transparent 60%),
+    linear-gradient(180deg, #dff0fb 0%, #eef7fe 40%, #f8fbff 100%);
+  z-index: 0; pointer-events: none;
+}
+
+/* Floating bubbles */
+.bubbles {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.bubble {
+  position: absolute; bottom: -80px;
+  border-radius: 50%;
+  opacity: 0;
+  animation: rise var(--rise-t) ease-in infinite;
+  animation-delay: var(--rise-d);
+}
+@keyframes rise {
+  0%   { transform: translateX(0) scale(1); opacity: 0.4; bottom: -80px; }
+  80%  { opacity: 0.15; }
+  100% { transform: translateX(var(--drift)) scale(0.6); opacity: 0; bottom: 110vh; }
+}
+
+/* ════════════════════════════════
+   LAYOUT WRAPPER
+════════════════════════════════ */
+#app {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 0 16px 60px;
+}
+
+/* ════════════════════════════════
+   TOP HEADER BAND
+════════════════════════════════ */
+.top-bar {
+  width: 100%; max-width: 900px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 0 10px;
+  animation: slideDown .6s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes slideDown { from { opacity:0; transform:translateY(-24px); } to { opacity:1; transform:none; } }
+
+.chapter-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: white; border-radius: 99px;
+  padding: 5px 14px;
+  font-size: .75rem; font-weight: 700; color: var(--teal);
+  box-shadow: 0 2px 10px rgba(0,184,212,0.2);
+  letter-spacing: .04em;
+}
+.chapter-tag span { font-size: .95rem; }
+
+.score-chips { display: flex; gap: 10px; }
+.chip {
+  display: flex; align-items: center; gap: 5px;
+  background: white; border-radius: 99px;
+  padding: 5px 14px; font-size: .82rem; font-weight: 700;
+  box-shadow: 0 2px 10px rgba(30,45,74,0.1);
+  color: var(--ink);
+}
+.chip-icon { font-size: 1rem; }
+.chip-val { color: var(--rose); font-size: 1rem; font-weight: 900; }
+
+/* ════════════════════════════════
+   PAGE TITLE
+════════════════════════════════ */
+.page-title {
+  text-align: center; margin-bottom: 8px;
+  animation: slideDown .6s .1s cubic-bezier(.22,1,.36,1) both;
+}
+.page-title h1 {
+  font-family: 'Nunito', 'Noto Sans TC', sans-serif;
+  font-size: clamp(1.7rem, 5vw, 2.6rem);
+  font-weight: 900; line-height: 1.15;
+  color: var(--ink);
+  letter-spacing: -.02em;
+}
+.page-title h1 em {
+  font-style: normal;
+  background: linear-gradient(120deg, var(--teal), var(--rose));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.page-title p {
+  margin-top: 6px; font-size: .9rem; color: var(--ink-faint); font-weight: 500;
+}
+
+/* ════════════════════════════════
+   PROGRESS PILLS
+════════════════════════════════ */
+.progress-row {
+  display: flex; gap: 7px; margin-bottom: 28px;
+  animation: slideDown .6s .2s cubic-bezier(.22,1,.36,1) both;
+}
+.prog-pill {
+  width: 36px; height: 10px; border-radius: 99px;
+  background: rgba(30,45,74,0.1);
+  transition: background .4s, box-shadow .4s;
+}
+.prog-pill.done { background: var(--correct); box-shadow: 0 0 8px rgba(0,200,83,0.4); }
+.prog-pill.active { background: var(--teal); box-shadow: 0 0 8px var(--teal-glow); animation: pillPulse 1.2s ease infinite; }
+@keyframes pillPulse { 0%,100%{box-shadow:0 0 6px var(--teal-glow);} 50%{box-shadow:0 0 16px rgba(0,184,212,0.6);} }
+
+/* ════════════════════════════════
+   SCREENS
+════════════════════════════════ */
+.screen { width: 100%; max-width: 880px; display: none; flex-direction: column; align-items: center; }
+.screen.active { display: flex; }
+
+/* ════════════════════════════════
+   SCREEN A — CARD PICK
+════════════════════════════════ */
+.pick-hint {
+  font-size: .95rem; font-weight: 700; color: var(--ink-soft);
+  margin-bottom: 28px; text-align: center;
+  animation: fadeUp .5s .3s both;
+}
+.pick-hint strong { color: var(--teal); }
+
+.cards-grid {
+  display: flex; gap: clamp(14px, 3vw, 28px);
+  justify-content: center; flex-wrap: wrap;
+  margin-bottom: 12px; width: 100%;
+}
+
+/* Individual flip card */
+.flip-card {
+  width: clamp(155px, 26vw, 210px);
+  height: clamp(220px, 35vw, 280px);
+  perspective: 1400px;
+  cursor: pointer;
+  flex-shrink: 0;
+  animation: cardEntrance .7s var(--ce-delay) cubic-bezier(.22,1,.36,1) both;
+}
+.flip-card:nth-child(1) { --ce-delay: .25s; }
+.flip-card:nth-child(2) { --ce-delay: .38s; }
+.flip-card:nth-child(3) { --ce-delay: .51s; }
+
+@keyframes cardEntrance {
+  from { opacity:0; transform: translateY(40px) rotateX(15deg); }
+  to   { opacity:1; transform: none; }
+}
+
+.flip-card:not(.used):not(.flipped) { animation: cardEntrance .7s var(--ce-delay) cubic-bezier(.22,1,.36,1) both, floatY var(--float-t,3s) ease-in-out infinite alternate; }
+.flip-card:nth-child(1) { --float-t: 3.2s; }
+.flip-card:nth-child(2) { --float-t: 2.7s; animation-delay: .5s !important; }
+.flip-card:nth-child(3) { --float-t: 3.5s; animation-delay: 1s !important; }
+@keyframes floatY { from{transform:translateY(0);} to{transform:translateY(-12px);} }
+
+.flip-inner {
+  width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform .7s cubic-bezier(.4,.2,.2,1);
+  position: relative;
+}
+.flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+.flip-card.used { opacity: .28; pointer-events: none; filter: grayscale(.5); }
+
+/* Card faces */
+.face {
+  position: absolute; inset: 0;
+  border-radius: var(--card-radius);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 20px 16px;
+}
+
+/* FRONT face — mystery */
+.face-front {
+  background: linear-gradient(145deg, #1e3a5f 0%, #0d2137 100%);
+  border: 2px solid rgba(0,184,212,0.35);
+  box-shadow: var(--card-shadow), 0 0 0 0 var(--teal-glow);
+  transition: box-shadow .25s, border-color .25s, transform .15s;
+  position: relative; overflow: hidden;
+}
+.face-front::before {
+  content: '';
+  position: absolute; inset: 6px;
+  border-radius: 18px;
+  border: 1px solid rgba(0,184,212,0.18);
+}
+.face-front::after {
+  content: '';
+  position: absolute;
+  width: 150%; height: 150%; top: -25%; left: -25%;
+  background: radial-gradient(circle at 60% 35%, rgba(0,184,212,0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.flip-card:not(.used):hover .face-front {
+  border-color: var(--teal);
+  box-shadow: var(--card-shadow), 0 0 28px var(--teal-glow);
+  transform: scale(1.03) translateY(-4px);
+}
+
+.card-number {
+  font-family: 'Nunito', sans-serif;
+  font-size: 4rem; font-weight: 900;
+  background: linear-gradient(135deg, var(--teal-light), var(--teal));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  line-height: 1;
+}
+.card-label {
+  font-size: .72rem; font-weight: 700; letter-spacing: .12em;
+  color: rgba(200,230,248,0.55); text-transform: uppercase;
+  margin-top: 8px;
+}
+.card-tap {
+  margin-top: 18px; font-size: 1.7rem;
+  animation: tapBounce 1.4s ease-in-out infinite;
+}
+@keyframes tapBounce { 0%,100%{transform:scale(1);} 50%{transform:scale(1.25) rotate(-5deg);} }
+
+/* BACK face — revealed */
+.face-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(145deg, #e8f8fc, #d0eefa);
+  border: 2px solid rgba(0,184,212,0.4);
+  box-shadow: var(--card-shadow);
+  text-align: center; gap: 8px;
+}
+.back-icon { font-size: 2.6rem; }
+.back-title { font-size: .82rem; font-weight: 800; color: var(--ink); line-height: 1.35; }
+
+/* ════════════════════════════════
+   SCREEN B — QUESTION
+════════════════════════════════ */
+
+/* Scenario display card */
+.scenario-card {
+  background: white;
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow), 0 2px 0 rgba(0,184,212,0.15) inset;
+  padding: clamp(22px, 4vw, 40px) clamp(20px, 4vw, 36px);
+  max-width: 680px; width: 100%;
+  margin-bottom: 22px;
+  text-align: center;
+  border: 2px solid rgba(0,184,212,0.15);
+  animation: scaleReveal .5s cubic-bezier(.22,1,.36,1) both;
+  position: relative; overflow: hidden;
+}
+.scenario-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--teal), var(--rose), var(--amber));
+}
+@keyframes scaleReveal {
+  from { opacity:0; transform:scale(.9) translateY(16px); }
+  to   { opacity:1; transform:none; }
+}
+
+.sc-icon { font-size: clamp(2.5rem, 6vw, 3.5rem); margin-bottom: 10px; display: block; }
+.sc-title {
+  font-size: clamp(.95rem, 2.5vw, 1.15rem);
+  font-weight: 900; color: var(--ink);
+  margin-bottom: 10px;
+}
+.sc-desc {
+  font-size: clamp(.82rem, 2vw, .96rem);
+  line-height: 1.75; color: var(--ink-soft); font-weight: 500;
+}
+
+/* Audio waveform */
+.audio-row {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 16px; font-size: .75rem; font-weight: 700;
+  color: var(--teal);
+}
+.wave { display: flex; align-items: center; gap: 2.5px; height: 18px; }
+.wave-bar {
+  width: 3.5px; border-radius: 3px; background: var(--teal);
+  animation: waveDance var(--wd,0.4s) ease-in-out infinite alternate;
+  height: 4px;
+}
+.wave-bar:nth-child(1){--wd:.38s;}
+.wave-bar:nth-child(2){--wd:.55s;animation-delay:.06s;}
+.wave-bar:nth-child(3){--wd:.44s;animation-delay:.12s;}
+.wave-bar:nth-child(4){--wd:.62s;animation-delay:.04s;}
+.wave-bar:nth-child(5){--wd:.42s;animation-delay:.09s;}
+@keyframes waveDance { from{height:4px;opacity:.5;} to{height:18px;opacity:1;} }
+.audio-row.muted .wave-bar { animation: none; height: 4px; opacity: .35; }
+.audio-row.muted { color: var(--ink-faint); }
+
+/* Question prompt */
+.q-label {
+  font-size: clamp(.85rem, 2.2vw, .98rem);
+  font-weight: 700; color: var(--ink-soft);
+  margin-bottom: 18px; text-align: center;
+  animation: fadeUp .4s .1s both;
+}
+.q-label strong { color: var(--teal); }
+
+/* Answer buttons */
+.answers {
+  display: flex; gap: clamp(10px, 2.5vw, 20px);
+  flex-wrap: wrap; justify-content: center;
+  width: 100%; max-width: 700px;
+}
+
+.ans-btn {
+  flex: 1; min-width: clamp(130px, 26vw, 180px); max-width: 210px;
+  padding: clamp(16px, 3vw, 24px) 12px;
+  border-radius: 20px;
+  border: 3px solid transparent;
+  cursor: pointer;
+  background: white;
+  box-shadow: 0 4px 18px rgba(30,45,74,0.1);
+  transition: transform .2s, box-shadow .2s, border-color .15s;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  animation: fadeUp .5s var(--ab-d) cubic-bezier(.22,1,.36,1) both;
+  position: relative; overflow: hidden;
+  font-family: inherit;
+}
+.ans-btn:nth-child(1){--ab-d:.12s;}
+.ans-btn:nth-child(2){--ab-d:.22s;}
+.ans-btn:nth-child(3){--ab-d:.32s;}
+
+.ans-btn::after {
+  content:'';
+  position:absolute; inset:0;
+  opacity:0; transition:opacity .2s;
+  border-radius:17px;
+}
+
+/* Teal — perception */
+.ans-btn.type-perception { border-color: rgba(0,184,212,0.25); }
+.ans-btn.type-perception::after { background: radial-gradient(circle at 50% 50%, rgba(0,184,212,0.1), transparent 70%); }
+.ans-btn.type-perception:hover:not(:disabled) { border-color: var(--teal); box-shadow:0 6px 24px var(--teal-glow); transform:translateY(-4px); }
+.ans-btn.type-perception:hover::after { opacity:1; }
+.ans-btn.type-perception .ans-icon { color: var(--teal); }
+.ans-btn.type-perception .ans-name { color: var(--teal); }
+
+/* Rose — recommendation */
+.ans-btn.type-recommendation { border-color: rgba(233,30,140,0.2); }
+.ans-btn.type-recommendation::after { background: radial-gradient(circle at 50% 50%, rgba(233,30,140,0.08), transparent 70%); }
+.ans-btn.type-recommendation:hover:not(:disabled) { border-color: var(--rose); box-shadow:0 6px 24px var(--rose-glow); transform:translateY(-4px); }
+.ans-btn.type-recommendation:hover::after { opacity:1; }
+.ans-btn.type-recommendation .ans-icon { color: var(--rose); }
+.ans-btn.type-recommendation .ans-name { color: var(--rose); }
+
+/* Amber — generative */
+.ans-btn.type-generative { border-color: rgba(255,143,0,0.25); }
+.ans-btn.type-generative::after { background: radial-gradient(circle at 50% 50%, rgba(255,143,0,0.1), transparent 70%); }
+.ans-btn.type-generative:hover:not(:disabled) { border-color: var(--amber); box-shadow:0 6px 24px var(--amber-glow); transform:translateY(-4px); }
+.ans-btn.type-generative:hover::after { opacity:1; }
+.ans-btn.type-generative .ans-icon { color: var(--amber); }
+.ans-btn.type-generative .ans-name { color: var(--amber); }
+
+.ans-icon { font-size: clamp(1.8rem, 4vw, 2.3rem); }
+.ans-name {
+  font-size: clamp(.92rem, 2.3vw, 1.05rem);
+  font-weight: 900; letter-spacing: .02em;
+}
+.ans-sub {
+  font-size: .7rem; font-weight: 600;
+  color: var(--ink-faint); text-align: center; line-height: 1.3;
+}
+
+/* SELECTED shimmer */
+.ans-btn.selected {
+  animation: shimmerSelect .5s cubic-bezier(.22,1,.36,1) forwards !important;
+}
+@keyframes shimmerSelect {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.07); }
+  70%  { transform: scale(.97); }
+  100% { transform: scale(1); }
+}
+.ans-btn.type-perception.selected  { border-color: var(--teal); box-shadow: 0 0 0 4px var(--teal-glow), 0 0 28px var(--teal-glow); }
+.ans-btn.type-recommendation.selected { border-color: var(--rose); box-shadow: 0 0 0 4px var(--rose-glow), 0 0 28px var(--rose-glow); }
+.ans-btn.type-generative.selected  { border-color: var(--amber); box-shadow: 0 0 0 4px var(--amber-glow), 0 0 28px var(--amber-glow); }
+
+/* CORRECT HIGHLIGHT — gold blink */
+.ans-btn.correct-hl {
+  animation: goldBlink .65s ease infinite !important;
+  border-color: var(--gold) !important;
+}
+@keyframes goldBlink {
+  0%,100%{ box-shadow:0 0 10px var(--gold-glow); border-color:var(--gold); }
+  50%    { box-shadow:0 0 30px rgba(255,193,7,.9), 0 0 0 5px var(--gold-glow); border-color:#ffe57f; }
+}
+
+.ans-btn:disabled { pointer-events: none; opacity: .55; }
+.ans-btn.keep-visible:disabled { opacity: 1 !important; }
+
+/* Explanation panel */
+.explain-panel {
+  background: white;
+  border-left: 5px solid var(--teal);
+  border-radius: 0 16px 16px 0;
+  padding: 16px 22px;
+  max-width: 680px; width: 100%;
+  margin-top: 20px;
+  font-size: clamp(.82rem, 2vw, .92rem); line-height: 1.7;
+  color: var(--ink-soft);
+  box-shadow: 0 4px 18px rgba(0,184,212,0.1);
+  animation: slideInRight .45s cubic-bezier(.22,1,.36,1) both;
+  display: none;
+}
+.explain-panel.show { display: block; }
+@keyframes slideInRight { from{opacity:0;transform:translateX(-20px);} to{opacity:1;transform:none;} }
+.explain-panel strong { color: var(--teal); font-weight: 800; }
+
+/* Next button */
+.next-btn {
+  margin-top: 22px;
+  padding: 13px 42px; border-radius: 99px;
+  background: linear-gradient(135deg, var(--teal), #0288d1);
+  color: white; font-family: inherit;
+  font-size: .98rem; font-weight: 800;
+  border: none; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,184,212,0.4);
+  transition: transform .2s, box-shadow .2s;
+  display: none; align-items: center; gap: 8px;
+  animation: fadeUp .4s both;
+}
+.next-btn.show { display: inline-flex; }
+.next-btn:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 8px 30px rgba(0,184,212,0.5); }
+
+/* ════════════════════════════════
+   FEEDBACK OVERLAY
+════════════════════════════════ */
+#feedbackLayer {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+
+.fb-circle {
+  border-radius: 50%;
+  width: clamp(120px, 28vw, 190px);
+  height: clamp(120px, 28vw, 190px);
+  display: flex; align-items: center; justify-content: center;
+  font-size: clamp(2.8rem, 8vw, 4.5rem);
+  animation: fbPop .55s cubic-bezier(.175,.885,.32,1.275) both;
+}
+.fb-circle.correct {
+  background: radial-gradient(circle, #fffde7, var(--gold) 55%, #e65100 100%);
+  box-shadow: 0 0 60px var(--gold-glow), 0 0 120px rgba(255,193,7,.35);
+  color: white;
+}
+.fb-circle.wrong {
+  background: radial-gradient(circle, #ffcdd2, #f44336 55%, #b71c1c 100%);
+  box-shadow: 0 0 60px rgba(244,67,54,.5), 0 0 120px rgba(244,67,54,.3);
+  color: white;
+}
+@keyframes fbPop {
+  0%  { transform:scale(.25) rotate(-15deg); opacity:0; }
+  65% { transform:scale(1.12) rotate(5deg);  opacity:1; }
+  100%{ transform:scale(1) rotate(0);         opacity:1; }
+}
+.fb-circle.fade-out { animation: fbFade .4s ease forwards; }
+@keyframes fbFade { to{transform:scale(1.6);opacity:0;} }
+
+/* ════════════════════════════════
+   CONFETTI PARTICLES
+════════════════════════════════ */
+.confetti-wrap {
+  position: fixed; inset: 0; z-index: 199; pointer-events: none; overflow: hidden;
+}
+.conf {
+  position: absolute;
+  top: -20px;
+  border-radius: 3px;
+  animation: confFall var(--cf-t) var(--cf-d) ease-in forwards;
+}
+@keyframes confFall {
+  0%   { transform: translateY(0) rotate(0deg) translateX(0); opacity:1; }
+  100% { transform: translateY(110vh) rotate(720deg) translateX(var(--cf-drift)); opacity:.2; }
+}
+
+/* ════════════════════════════════
+   END SCREEN OVERLAY
+════════════════════════════════ */
+#endOverlay {
+  position: fixed; inset: 0; z-index: 300;
+  display: none;
+  flex-direction: column;
+  align-items: center; justify-content: flex-end;
+  padding-bottom: 6vh;
+}
+
+/* Blurred game background stays visible */
+.end-blur-bg {
+  position: absolute; inset: 0;
+  background: rgba(232,244,253,0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: fadeIn .5s ease both;
+}
+@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+
+/* Result card */
+.end-card {
+  position: relative; z-index: 1;
+  background: white;
+  border-radius: 30px;
+  padding: clamp(28px,5vw,50px) clamp(24px,5vw,52px);
+  max-width: 460px; width: 92%;
+  text-align: center;
+  box-shadow: 0 24px 80px rgba(30,45,74,0.2);
+  animation: endCardUp .65s .2s cubic-bezier(.22,1,.36,1) both;
+  border: 2px solid rgba(0,184,212,0.2);
+}
+@keyframes endCardUp { from{opacity:0;transform:translateY(60px);} to{opacity:1;transform:none;} }
+
+.end-trophy { font-size: clamp(3rem,8vw,5rem); display:block; margin-bottom:10px; }
+.end-title {
+  font-family: 'Nunito', sans-serif;
+  font-size: clamp(1.4rem,4vw,1.9rem); font-weight:900;
+  background: linear-gradient(120deg, var(--teal), var(--rose));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  margin-bottom:10px;
+}
+.end-score-big {
+  font-size: clamp(2.2rem,6vw,3.2rem); font-weight:900;
+  color: var(--gold-deep); margin: 10px 0;
+}
+.end-score-big span { font-size:.9rem; font-weight:500; color:var(--ink-faint); }
+.end-msg { font-size:.88rem; line-height:1.7; color:var(--ink-soft); margin-bottom:26px; }
+
+/* Action buttons */
+.end-btns { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+
+.end-btn {
+  flex:1; min-width:130px; max-width:170px;
+  padding:14px 16px; border-radius:16px;
+  border: none; cursor:pointer; font-family:inherit;
+  font-size:.95rem; font-weight:800;
+  display:flex; align-items:center; justify-content:center; gap:7px;
+  transition: transform .2s, box-shadow .2s;
+}
+.end-btn:hover { transform:translateY(-3px); }
+
+.btn-retry {
+  background: linear-gradient(135deg, var(--teal), #0288d1);
+  color: white;
+  box-shadow: 0 5px 20px rgba(0,184,212,0.4);
+}
+.btn-retry:hover { box-shadow:0 8px 28px rgba(0,184,212,.55); }
+
+.btn-exit {
+  background: var(--sky-deep);
+  color: var(--ink-soft);
+  box-shadow: 0 4px 14px rgba(30,45,74,0.1);
+}
+.btn-exit:hover { box-shadow:0 6px 20px rgba(30,45,74,.18); }
+
+/* ════════════════════════════════
+   FAREWELL SCREEN
+════════════════════════════════ */
+#farewellScreen {
+  display:none;
+  flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; gap:18px;
+  min-height:70vh;
+  animation: scaleReveal .6s cubic-bezier(.22,1,.36,1) both;
+}
+#farewellScreen.show { display:flex; }
+#farewellScreen .fw-icon { font-size: 5rem; }
+#farewellScreen h2 {
+  font-family:'Nunito',sans-serif; font-size:clamp(1.6rem,5vw,2.2rem); font-weight:900;
+  background:linear-gradient(120deg,var(--teal),var(--rose));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+#farewellScreen p { font-size:.9rem; color:var(--ink-soft); max-width:300px; line-height:1.7; }
+#farewellScreen .close-btn {
+  padding:12px 36px; border-radius:99px;
+  background:linear-gradient(135deg,var(--rose),#c2185b);
+  color:white; font-family:inherit; font-size:.96rem; font-weight:800;
+  border:none; cursor:pointer;
+  box-shadow:0 4px 20px var(--rose-glow);
+  transition:transform .2s;
+}
+#farewellScreen .close-btn:hover { transform:translateY(-2px) scale(1.04); }
+
+/* ════════════════════════════════
+   UTILITIES
+════════════════════════════════ */
+@keyframes fadeUp {
+  from{opacity:0;transform:translateY(18px);} to{opacity:1;transform:none;}
+}
+
+/* Mobile tweaks */
+@media(max-width:480px){
+  .ans-btn { min-width: 110px; max-width:none; }
+  .end-card { border-radius:22px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Floating bubbles background -->
+<div class="bubbles" id="bubbles"></div>
+
+<!-- Feedback circle (correct ✓ / wrong ✗) -->
+<div id="feedbackLayer"></div>
+
+<!-- Confetti container -->
+<div class="confetti-wrap" id="confettiWrap"></div>
+
+<!-- ══════════════════════════════════
+     END OVERLAY
+══════════════════════════════════ -->
+<div id="endOverlay">
+  <div class="end-blur-bg"></div>
+  <div class="end-card">
+    <span class="end-trophy" id="endTrophy">🏆</span>
+    <div class="end-title" id="endTitle">挑戰完成！</div>
+    <div class="end-score-big" id="endScoreBig">0 <span>/ 5 題</span></div>
+    <div class="end-msg" id="endMsg"></div>
+    <div class="end-btns">
+      <button class="end-btn btn-retry" id="btnRetry">🔄 再來一次</button>
+      <button class="end-btn btn-exit"  id="btnExit">🚪 退出</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     MAIN APP
+══════════════════════════════════ -->
+<div id="app">
+
+  <!-- Top bar -->
+  <div class="top-bar">
+    <div class="chapter-tag"><span>📘</span> 第一章・AI 是什麼？</div>
+    <div class="score-chips">
+      <div class="chip"><span class="chip-icon">⭐</span>得分 <span class="chip-val" id="scoreVal">0</span></div>
+      <div class="chip"><span class="chip-icon">📋</span><span id="qCount">1/5</span></div>
+    </div>
+  </div>
+
+  <!-- Title -->
+  <div class="page-title">
+    <h1>AI 類型<em>分類挑戰</em> 🤖</h1>
+    <p>翻牌・判斷・挑戰三種 AI 類型！</p>
+  </div>
+
+  <!-- Progress pills -->
+  <div class="progress-row" id="progressRow"></div>
+
+  <!-- ── SCREEN A: Card Pick ── -->
+  <div class="screen active" id="screenPick">
+    <p class="pick-hint">👇 點一張神秘卡片，開始這一題！<br><strong>每次只選一張</strong></p>
+    <div class="cards-grid" id="cardsGrid"></div>
+  </div>
+
+  <!-- ── SCREEN B: Question ── -->
+  <div class="screen" id="screenQuestion">
+    <div class="scenario-card" id="scenarioCard">
+      <span class="sc-icon" id="scIcon"></span>
+      <div class="sc-title" id="scTitle"></div>
+      <div class="sc-desc"  id="scDesc"></div>
+      <div class="audio-row" id="audioRow">
+        <span>🔊</span>
+        <div class="wave">
+          <div class="wave-bar"></div><div class="wave-bar"></div>
+          <div class="wave-bar"></div><div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+        </div>
+        <span id="audioLabel">語音播放中…</span>
+      </div>
+    </div>
+
+    <p class="q-label">這個情境屬於哪一種 <strong>AI 類型</strong>？</p>
+
+    <div class="answers" id="answersRow">
+      <button class="ans-btn type-perception"    data-type="perception"     onclick="handleAnswer(this)">
+        <span class="ans-icon">👁️</span>
+        <span class="ans-name">感知 AI</span>
+        <span class="ans-sub">看得見・聽得到<br>辨識圖像聲音</span>
+      </button>
+      <button class="ans-btn type-recommendation" data-type="recommendation" onclick="handleAnswer(this)">
+        <span class="ans-icon">💡</span>
+        <span class="ans-name">建議 AI</span>
+        <span class="ans-sub">推薦・預測<br>根據資料分析</span>
+      </button>
+      <button class="ans-btn type-generative"    data-type="generative"     onclick="handleAnswer(this)">
+        <span class="ans-icon">✨</span>
+        <span class="ans-name">創作 AI</span>
+        <span class="ans-sub">生成式 AI<br>創造新內容</span>
+      </button>
+    </div>
+
+    <div class="explain-panel" id="explainPanel"></div>
+    <button class="next-btn" id="nextBtn" onclick="goNext()">
+      <span id="nextBtnTxt">下一題 →</span>
+    </button>
+  </div>
+
+  <!-- ── SCREEN: Farewell ── -->
+  <div id="farewellScreen">
+    <div class="fw-icon">🤖</div>
+    <h2>掰掰！下次見！</h2>
+    <p>謝謝你參加 AI 類型分類挑戰！<br>繼續保持好奇心，你是最棒的 AI 小達人！</p>
+    <button class="close-btn" onclick="window.close()">關閉視窗 ✕</button>
+  </div>
+
+</div><!-- /app -->
+
+<script>
+/* ═══════════════════════════════════════════
+   ① 情境資料庫 (5 題)
+═══════════════════════════════════════════ */
+const SCENARIOS = [
+  {
+    id: 'S01',
+    icon: '🏫',
+    title: '校門口的人臉辨識機器人',
+    desc: '咬咬走到校門口，機器人抬頭看了他一眼，立刻說：「早安，咬咬！」機器人不需要聽名字，只靠「看臉」就認出他了，還順便掃描了他便當裡的食物。',
+    speech: '咬咬走到校門口，機器人抬頭看了他一眼，立刻說：早安，咬咬！機器人不需要聽名字，只靠看臉就認出他了，還順便掃描了他便當裡的食物。請問這是哪一種AI類型？',
+    type: 'perception',
+    explain: '這是<strong>感知 AI</strong>！感知 AI 就像給電腦裝上眼睛和耳朵，讓它能辨識圖片、臉孔、聲音。臉部辨識門禁、語音助理都是感知 AI 的代表！'
+  },
+  {
+    id: 'S02',
+    icon: '📺',
+    title: 'YouTube 猜到我喜歡什麼',
+    desc: '咬咬昨天看了好幾部昆蟲影片，今天一打開 YouTube，首頁立刻出現更多昆蟲影片，還有一欄「你可能也喜歡」，每部都讓他想看！',
+    speech: '咬咬昨天看了好幾部昆蟲影片，今天一打開 YouTube，首頁立刻出現更多昆蟲影片，還有一欄你可能也喜歡，每部都讓他想看！請問這是哪一種AI類型？',
+    type: 'recommendation',
+    explain: '這是<strong>建議 AI</strong>！建議 AI 會根據你過去的行為，預測並推薦你可能感興趣的東西。Netflix、Spotify、購物網站的「猜你喜歡」都屬於這類！'
+  },
+  {
+    id: 'S03',
+    icon: '📝',
+    title: 'AI 幫我寫一篇故事',
+    desc: '可可在國語課輸入：「我想要一篇關於住在月亮上的小貓的故事，要有點搞笑。」幾秒後，AI 就產出一篇全新的故事，完全是它自己「想」出來的！',
+    speech: '可可在國語課輸入：我想要一篇關於住在月亮上的小貓的故事，要有點搞笑。幾秒後，AI 就產出一篇全新的故事，完全是它自己想出來的！請問這是哪一種AI類型？',
+    type: 'generative',
+    explain: '這是<strong>創作 AI（生成式 AI）</strong>！生成式 AI 能根據你的提示，從無到有創造出全新的文字、圖片或音樂。ChatGPT 和因材網的「e 度」都是生成式 AI！'
+  },
+  {
+    id: 'S04',
+    icon: '🎵',
+    title: '智慧音箱聽懂我說的話',
+    desc: '早上七點，思思對著音箱說：「播放輕鬆的音樂！」音箱馬上回答：「好的！」並開始播放音樂。它不需要按鍵，只靠「聽」就能懂思思說什麼。',
+    speech: '早上七點，思思對著音箱說：播放輕鬆的音樂！音箱馬上回答：好的！並開始播放音樂。它不需要按鍵，只靠聽就能懂思思說什麼。請問這是哪一種AI類型？',
+    type: 'perception',
+    explain: '這是<strong>感知 AI</strong>！語音辨識是感知 AI 的代表，它用「耳朵」接收我們說的話，分析聲音後理解意思。Siri、Google 助理都是這樣工作的！'
+  },
+  {
+    id: 'S05',
+    icon: '🎨',
+    title: 'AI 把我的想像畫出來',
+    desc: '歐匿輸入：「一隻穿著太空衣的橘色貓咪，在彩色星球上玩泡泡。」不到一分鐘，AI 就畫出一張從來沒有人畫過的全新圖片！',
+    speech: '歐匿輸入：一隻穿著太空衣的橘色貓咪，在彩色星球上玩泡泡。不到一分鐘，AI 就畫出一張從來沒有人畫過的全新圖片！請問這是哪一種AI類型？',
+    type: 'generative',
+    explain: '這是<strong>創作 AI（生成式 AI）</strong>！AI 繪圖工具能把你的文字描述「畫」成圖片，每次生成的結果都是全新的！因材網的「繪圖精靈」就是這樣的生成式 AI。'
+  }
+];
+
+/* ═══════════════════════════════════════════
+   ② MySQL 預留接口
+   ── 只需將 DB_CONFIG.enabled 改為 true，
+      並設定 DB_CONFIG.endpoint 即可上線 ──
+═══════════════════════════════════════════ */
+const DB_CONFIG = {
+  enabled:  false,                    // ← 上線時改 true
+  endpoint: '/api/ai-challenge/log'   // ← 填入後端 REST API 路徑
+};
+
+/**
+ * 寫入一筆答題紀錄
+ * @param {object} row
+ *   row.time          - ISO 時間字串 (時間)
+ *   row.scenario_type - 情境代碼+標題 (情境類型)
+ *   row.answer        - 玩家點選的類型 (回答)
+ *   row.is_correct    - 是否答對 boolean (是否答對)
+ *   row.end_action    - 'retry'|'exit'|null (選擇重新遊玩或退出)
+ *
+ * MySQL 建表參考：
+ *   CREATE TABLE ai_challenge_log (
+ *     id             INT AUTO_INCREMENT PRIMARY KEY,
+ *     time           DATETIME NOT NULL,
+ *     scenario_type  VARCHAR(100),
+ *     answer         VARCHAR(50),
+ *     is_correct     TINYINT(1),
+ *     end_action     VARCHAR(20),
+ *     created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+ *   );
+ */
+async function dbLog(row) {
+  console.table(row); // 本地除錯
+  if (!DB_CONFIG.enabled) return;
+  try {
+    const res = await fetch(DB_CONFIG.endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(row)
+    });
+    if (!res.ok) console.warn('[DB] log failed:', res.status);
+  } catch (e) {
+    console.warn('[DB] network error:', e);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   ③ 遊戲狀態
+═══════════════════════════════════════════ */
+let state = {};
+
+function resetState() {
+  state = {
+    deck:       shuffle([...SCENARIOS]),  // 亂序題庫
+    qIndex:     0,                        // 目前第幾題 (0-based)
+    score:      0,
+    current:    null,                     // 目前情境物件
+    answered:   false,
+    totalQ:     SCENARIOS.length
+  };
+}
+
+/* ═══════════════════════════════════════════
+   ④ 初始化 / 建立頁面元素
+═══════════════════════════════════════════ */
+function initGame() {
+  resetState();
+  showMain();
+  buildProgress();
+  buildCards();
+  updateHUD();
+  showScreen('screenPick');
+}
+
+function showMain() {
+  document.getElementById('app').style.display = 'flex';
+  document.getElementById('farewellScreen').classList.remove('show');
+  document.getElementById('endOverlay').style.display = 'none';
+}
+
+/* Progress pills */
+function buildProgress() {
+  const row = document.getElementById('progressRow');
+  row.innerHTML = '';
+  for (let i = 0; i < state.totalQ; i++) {
+    const d = document.createElement('div');
+    d.className = 'prog-pill' + (i === 0 ? ' active' : '');
+    d.id = 'pill-' + i;
+    row.appendChild(d);
+  }
+}
+
+function updateProgress() {
+  for (let i = 0; i < state.totalQ; i++) {
+    const el = document.getElementById('pill-' + i);
+    if (!el) continue;
+    el.className = 'prog-pill';
+    if (i < state.qIndex)  el.classList.add('done');
+    else if (i === state.qIndex) el.classList.add('active');
+  }
+}
+
+/* Floating bubbles */
+(function buildBubbles() {
+  const wrap = document.getElementById('bubbles');
+  const colors = ['rgba(0,184,212,.18)','rgba(233,30,140,.12)','rgba(255,193,7,.15)','rgba(0,200,83,.12)'];
+  for (let i = 0; i < 18; i++) {
+    const b = document.createElement('div');
+    const size = 20 + Math.random() * 50;
+    b.className = 'bubble';
+    b.style.cssText = `
+      left: ${Math.random()*100}%;
+      width: ${size}px; height: ${size}px;
+      background: ${colors[i % colors.length]};
+      --rise-t: ${8 + Math.random()*12}s;
+      --rise-d: ${Math.random()*10}s;
+      --drift: ${(Math.random()-0.5)*120}px;
+    `;
+    wrap.appendChild(b);
+  }
+})();
+
+/* ═══════════════════════════════════════════
+   ⑤ 卡片翻牌 (Screen A)
+═══════════════════════════════════════════ */
+function buildCards() {
+  const grid = document.getElementById('cardsGrid');
+  grid.innerHTML = '';
+
+  // Show 3 cards: the current scenario + 2 decoys (or reused)
+  // Labels are just 1/2/3, content revealed on flip
+  for (let i = 0; i < 3; i++) {
+    const sc = state.deck[(state.qIndex + i) % state.deck.length];
+    const card = document.createElement('div');
+    card.className = 'flip-card';
+    card.dataset.slot = i;
+    card.innerHTML = `
+      <div class="flip-inner">
+        <div class="face face-front">
+          <div class="card-number">${i + 1}</div>
+          <div class="card-label">神秘情境</div>
+          <div class="card-tap">👆</div>
+        </div>
+        <div class="face face-back">
+          <div class="back-icon">${sc.icon}</div>
+          <div class="back-title">${sc.title}</div>
+        </div>
+      </div>`;
+    card.addEventListener('click', () => onCardClick(card, i));
+    // Touch support (iPad)
+    card.addEventListener('touchend', e => { e.preventDefault(); onCardClick(card, i); }, { passive: false });
+    grid.appendChild(card);
+  }
+}
+
+function onCardClick(card, slot) {
+  if (card.classList.contains('used') || card.classList.contains('flipped')) return;
+
+  // Flip chosen card
+  card.classList.add('flipped');
+
+  // Gray out others
+  setTimeout(() => {
+    document.querySelectorAll('.flip-card').forEach((c, idx) => {
+      if (idx !== slot) c.classList.add('used');
+    });
+  }, 250);
+
+  // Always play the current qIndex scenario
+  state.current = state.deck[state.qIndex];
+  state.answered = false;
+
+  setTimeout(() => showQuestion(state.current), 700);
+}
+
+/* ═══════════════════════════════════════════
+   ⑥ 問題畫面 (Screen B)
+═══════════════════════════════════════════ */
+function showQuestion(sc) {
+  document.getElementById('scIcon').textContent  = sc.icon;
+  document.getElementById('scTitle').textContent = sc.title;
+  document.getElementById('scDesc').textContent  = sc.desc;
+
+  // Reset answer buttons
+  document.querySelectorAll('.ans-btn').forEach(b => {
+    b.disabled = false;
+    b.classList.remove('selected','correct-hl','keep-visible');
+    b.style.opacity = '1';
+  });
+
+  // Reset panels
+  const ep = document.getElementById('explainPanel');
+  ep.classList.remove('show'); ep.innerHTML = '';
+
+  const nb = document.getElementById('nextBtn');
+  nb.classList.remove('show');
+
+  // Audio indicator reset
+  const ar = document.getElementById('audioRow');
+  ar.classList.remove('muted');
+  document.getElementById('audioLabel').textContent = '語音播放中…';
+
+  showScreen('screenQuestion');
+  speak(sc.speech, () => {
+    ar.classList.add('muted');
+    document.getElementById('audioLabel').textContent = '播放完畢';
+  });
+}
+
+/* ═══════════════════════════════════════════
+   ⑦ 語音 (Web Speech API)
+═══════════════════════════════════════════ */
+function speak(text, onEnd) {
+  if (!window.speechSynthesis) { if(onEnd) onEnd(); return; }
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'zh-TW'; u.rate = 0.92; u.pitch = 1.05;
+  u.onend = onEnd || null;
+  window.speechSynthesis.speak(u);
+}
+
+/* ═══════════════════════════════════════════
+   ⑧ 答題處理
+═══════════════════════════════════════════ */
+function handleAnswer(btn) {
+  if (state.answered) return;
+  state.answered = true;
+
+  const chosen  = btn.dataset.type;
+  const correct = state.current.type;
+  const ok      = chosen === correct;
+
+  // Stop speech immediately
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  const ar = document.getElementById('audioRow');
+  ar.classList.add('muted');
+  document.getElementById('audioLabel').textContent = '播放完畢';
+
+  // Flash selected
+  btn.classList.add('selected');
+
+  // Disable all buttons
+  document.querySelectorAll('.ans-btn').forEach(b => {
+    b.disabled = true;
+    if (b !== btn) b.style.opacity = '.45';
+    b.classList.add('keep-visible');
+  });
+
+  // Feedback
+  if (ok) {
+    state.score++;
+    showFeedback('correct');
+    spawnConfetti();
+    playSound('correct');
+  } else {
+    showFeedback('wrong');
+    playSound('wrong');
+    // Highlight correct answer
+    const correctBtn = document.querySelector(`.ans-btn[data-type="${correct}"]`);
+    if (correctBtn) {
+      correctBtn.style.opacity = '1';
+      correctBtn.classList.add('correct-hl');
+    }
+  }
+
+  // DB log
+  dbLog({
+    time:          new Date().toISOString(),
+    scenario_type: `${state.current.id} ${state.current.title}`,
+    answer:        chosen,
+    is_correct:    ok,
+    end_action:    null
+  });
+
+  updateHUD();
+
+  // Show explanation & next button after delay
+  setTimeout(() => {
+    const ep = document.getElementById('explainPanel');
+    ep.innerHTML = state.current.explain;
+    ep.classList.add('show');
+
+    const nb = document.getElementById('nextBtn');
+    const isLast = state.qIndex >= state.totalQ - 1;
+    document.getElementById('nextBtnTxt').textContent = isLast ? '查看結果 🎉' : '下一題 →';
+    nb.classList.add('show');
+  }, 1400);
+}
+
+/* ═══════════════════════════════════════════
+   ⑨ 回饋動畫
+═══════════════════════════════════════════ */
+function showFeedback(type) {
+  const layer = document.getElementById('feedbackLayer');
+  const el = document.createElement('div');
+  el.className = `fb-circle ${type}`;
+  el.textContent = type === 'correct' ? '✓' : '✗';
+  layer.appendChild(el);
+  setTimeout(() => {
+    el.classList.add('fade-out');
+    setTimeout(() => layer.innerHTML = '', 420);
+  }, 900);
+}
+
+/* ═══════════════════════════════════════════
+   ⑩ 音效 (Web Audio API)
+═══════════════════════════════════════════ */
+function playSound(type) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (type === 'correct') {
+      [[523.25,0],[659.25,.1],[783.99,.2],[1046.5,.32]].forEach(([f,d]) => {
+        const osc = ctx.createOscillator(), g = ctx.createGain();
+        osc.connect(g); g.connect(ctx.destination);
+        osc.type = 'sine'; osc.frequency.value = f;
+        g.gain.setValueAtTime(0, ctx.currentTime + d);
+        g.gain.linearRampToValueAtTime(.28, ctx.currentTime + d + .04);
+        g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + d + .45);
+        osc.start(ctx.currentTime + d);
+        osc.stop(ctx.currentTime + d + .5);
+      });
+    } else {
+      const osc = ctx.createOscillator(), g = ctx.createGain();
+      osc.connect(g); g.connect(ctx.destination);
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(200, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(90, ctx.currentTime + .35);
+      g.gain.setValueAtTime(.22, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + .38);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + .4);
+    }
+  } catch(e) {}
+}
+
+/* ═══════════════════════════════════════════
+   ⑪ 彩色紙屑
+═══════════════════════════════════════════ */
+function spawnConfetti() {
+  const wrap = document.getElementById('confettiWrap');
+  const colors = ['#ffd700','#00b8d4','#e91e8c','#00c853','#ff8f00','#7c4dff'];
+  for (let i = 0; i < 55; i++) {
+    const c = document.createElement('div');
+    c.className = 'conf';
+    const size = 7 + Math.random() * 9;
+    c.style.cssText = `
+      left: ${Math.random()*100}%;
+      width: ${size}px; height: ${size * (.4 + Math.random()*.6)}px;
+      background: ${colors[i % colors.length]};
+      transform: rotate(${Math.random()*360}deg);
+      --cf-t: ${1.4 + Math.random()*.8}s;
+      --cf-d: ${Math.random()*.5}s;
+      --cf-drift: ${(Math.random()-0.5)*160}px;
+    `;
+    wrap.appendChild(c);
+  }
+  setTimeout(() => wrap.innerHTML = '', 2600);
+}
+
+/* ═══════════════════════════════════════════
+   ⑫ 下一題 / 結束
+═══════════════════════════════════════════ */
+function goNext() {
+  state.qIndex++;
+  updateProgress();
+
+  if (state.qIndex >= state.totalQ) {
+    showEndScreen();
+    return;
+  }
+
+  updateHUD();
+  showScreen('screenPick');
+  buildCards();
+}
+
+/* ═══════════════════════════════════════════
+   ⑬ 結束畫面
+═══════════════════════════════════════════ */
+function showEndScreen() {
+  const total = state.totalQ;
+  const s = state.score;
+  const pct = s / total;
+
+  let trophy, title, msg;
+  if (pct === 1) {
+    trophy = '🏆'; title = '完美通關！';
+    msg = `哇！${total} 題全部答對！你是真正的 AI 小達人，三種 AI 類型都難不倒你！`;
+  } else if (pct >= .6) {
+    trophy = '⭐'; title = '做得很棒！';
+    msg = `你答對了 ${s} 題，已經很厲害了！再多複習幾次，你一定能全部答對！`;
+  } else {
+    trophy = '💪'; title = '繼續加油！';
+    msg = `你答對了 ${s} 題。感知、建議、創作（生成式AI）三種類型，再看一遍說明，你會越來越強的！`;
+  }
+
+  document.getElementById('endTrophy').textContent = trophy;
+  document.getElementById('endTitle').textContent  = title;
+  document.getElementById('endScoreBig').innerHTML = `${s} <span>/ ${total} 題</span>`;
+  document.getElementById('endMsg').textContent    = msg;
+  document.getElementById('endOverlay').style.display = 'flex';
+}
+
+/* Retry button */
+document.getElementById('btnRetry').addEventListener('click', () => {
+  dbLog({ time: new Date().toISOString(), scenario_type:'END', answer:null, is_correct:null, end_action:'retry' });
+  document.getElementById('endOverlay').style.display = 'none';
+  initGame();
+});
+
+/* Exit button */
+document.getElementById('btnExit').addEventListener('click', () => {
+  dbLog({ time: new Date().toISOString(), scenario_type:'END', answer:null, is_correct:null, end_action:'exit' });
+  document.getElementById('endOverlay').style.display = 'none';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('farewellScreen').classList.add('show');
+});
+
+/* ═══════════════════════════════════════════
+   ⑭ HUD & Screen helpers
+═══════════════════════════════════════════ */
+function updateHUD() {
+  document.getElementById('scoreVal').textContent = state.score;
+  document.getElementById('qCount').textContent   = `${state.qIndex + 1}/${state.totalQ}`;
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === id));
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+/* ═══════════════════════════════════════════
+   ⑮ BOOT
+═══════════════════════════════════════════ */
+initGame();
+</script>
+</body>
+</html>
