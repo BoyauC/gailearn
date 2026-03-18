@@ -104,8 +104,11 @@
             };
 
             if (scriptUrls[scriptName]) {
-                const fileName = scriptUrls[scriptName].split('/').slice(-2, -1)[0]; // Extract file name from URL
-                scriptView.innerHTML = `<iframe src="${scriptUrls[scriptName]}" width="100%" height="100%" frameborder="0"></iframe>`;
+                const url = scriptUrls[scriptName];
+                const fileId = url.match(/\/d\/([a-zA-Z0-9_-]+)/)?.[1] || '未知檔案'; // 提取檔案 ID
+                const fileName = scriptName === 'script1' ? '腳本 1' : fileId; // 預設名稱或檔案 ID
+
+                scriptView.innerHTML = `<iframe src="${url}" width="100%" height="100%" frameborder="0"></iframe>`;
                 document.querySelector(`button[onclick="loadScript('${scriptName}')"]`).innerText = fileName;
             } else {
                 scriptView.innerHTML = '<p>無法載入腳本內容。</p>';
