@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>腳本檢視與意見回饋</title>
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 30%;
+            background-color: #f4f4f4;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .script-view {
+            flex: 1;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            padding: 10px;
+            overflow-y: auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .buttons button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .buttons button.clear {
+            background-color: #f44336;
+            color: white;
+        }
+        .buttons button.submit {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>腳本列表</h2>
+        <button onclick="loadScript('script1')">腳本 1</button>
+        <button onclick="loadScript('script2')">腳本 2</button>
+        <button onclick="loadScript('script3')">腳本 3</button>
+    </div>
+    <div class="content">
+        <div class="script-view" id="script-view">
+            <p>請選擇左側的腳本以檢視內容。</p>
+        </div>
+        <div class="form-group">
+            <label for="name">姓名</label>
+            <input type="text" id="name" placeholder="請輸入您的姓名">
+        </div>
+        <div class="form-group">
+            <label for="suggestion">建議</label>
+            <textarea id="suggestion" rows="5" placeholder="請輸入您的建議"></textarea>
+        </div>
+        <div class="buttons">
+            <button class="clear" onclick="clearForm()">清除</button>
+            <button class="submit" onclick="submitForm()">送出</button>
+        </div>
+    </div>
+
+    <script>
+        function loadScript(scriptName) {
+            const scriptView = document.getElementById('script-view');
+            const scriptUrls = {
+                'script1': 'https://drive.google.com/file/d/your-docx-or-pdf-id/view',
+                'script2': 'https://drive.google.com/file/d/your-docx-or-pdf-id/view',
+                'script3': 'https://drive.google.com/file/d/your-docx-or-pdf-id/view'
+            };
+
+            if (scriptUrls[scriptName]) {
+                scriptView.innerHTML = `<iframe src="${scriptUrls[scriptName]}" width="100%" height="100%" frameborder="0"></iframe>`;
+            } else {
+                scriptView.innerHTML = '<p>無法載入腳本內容。</p>';
+            }
+        }
+
+        function clearForm() {
+            document.getElementById('name').value = '';
+            document.getElementById('suggestion').value = '';
+        }
+
+        function submitForm() {
+            const name = document.getElementById('name').value;
+            const suggestion = document.getElementById('suggestion').value;
+            const script = document.getElementById('script-view').innerText;
+
+            if (!name || !suggestion) {
+                alert('請填寫所有欄位！');
+                return;
+            }
+
+            const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSeJy26hqwmzK_joozim4G0d0jYAxdRi0SEAqiP9WnLwPxo6xQ/viewform?usp=dialog';
+            const formData = new FormData();
+            formData.append('entry.your-name-field-id', name);
+            formData.append('entry.your-suggestion-field-id', suggestion);
+            formData.append('entry.your-script-field-id', script);
+
+            fetch(formUrl, {
+                method: 'POST',
+                body: formData
+            }).then(() => {
+                alert('送出成功！');
+                clearForm();
+            }).catch(() => {
+                alert('送出失敗，請稍後再試。');
+            });
+        }
+    </script>
+</body>
+</html>
