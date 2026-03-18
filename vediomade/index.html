@@ -130,21 +130,24 @@
                 return;
             }
 
-            const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSeJy26hqwmzK_joozim4G0d0jYAxdRi0SEAqiP9WnLwPxo6xQ/viewform?usp=dialog';
-            const formData = new FormData();
-            formData.append('entry.your-name-field-id', name);
-            formData.append('entry.your-suggestion-field-id', suggestion);
-            formData.append('entry.your-script-field-id', script);
+            const formUrl = 'https://script.google.com/macros/s/AKfycbzwCWQoZvgpVgekkGuHGEgbsnZ8o3DoRKHAV-lqBYuAsuXw5bjEP6Jo3lCIa9lXMve9/exec';
+            const data = { name, suggestion, script };
 
             fetch(formUrl, {
                 method: 'POST',
-                body: formData
-            }).then(() => {
-                alert('送出成功！');
-                clearForm();
-            }).catch(() => {
-                alert('送出失敗，請稍後再試。');
-            });
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json' }
+            }).then(response => response.json())
+              .then(result => {
+                  if (result.status === 'success') {
+                      alert('送出成功！');
+                      clearForm();
+                  } else {
+                      alert('送出失敗，請稍後再試。');
+                  }
+              }).catch(() => {
+                  alert('送出失敗，請稍後再試。');
+              });
         }
     </script>
 </body>
