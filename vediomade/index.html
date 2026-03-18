@@ -12,10 +12,15 @@
             height: 100vh;
         }
         .sidebar {
-            width: 30%;
+            width: 20%; /* 減少左邊視窗的寬度 */
             background-color: #f4f4f4;
             padding: 20px;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar button {
+            display: block; /* 將按鈕改為區塊元素 */
+            width: 100%;
+            margin-bottom: 10px; /* 增加按鈕之間的間距 */
         }
         .content {
             flex: 1;
@@ -99,7 +104,9 @@
             };
 
             if (scriptUrls[scriptName]) {
+                const fileName = scriptUrls[scriptName].split('/').slice(-2, -1)[0]; // Extract file name from URL
                 scriptView.innerHTML = `<iframe src="${scriptUrls[scriptName]}" width="100%" height="100%" frameborder="0"></iframe>`;
+                document.querySelector(`button[onclick="loadScript('${scriptName}')"]`).innerText = fileName;
             } else {
                 scriptView.innerHTML = '<p>無法載入腳本內容。</p>';
             }
