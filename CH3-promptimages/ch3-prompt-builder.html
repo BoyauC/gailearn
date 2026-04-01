@@ -1040,20 +1040,76 @@ function spawnConfetti() {
 ══════════════════════════════════════════════════ */
 loadMetadata().then(() => initGame());
 
-/* ── Google Sites iframe 高度通報（自動適配）──
-   Google Sites 嵌入時建議手動將 iframe 高度設為 800px 或更高
-   此程式碼同時通報父層視窗實際高度供參考
-   新增額外補償高度以確保所有內容可見                  */
+/* ── Google Sites iframe 自動高度調整（增強版）──
+   由於 Google Sites 無法手動設定高度，採用更積極的自動調整策略
+   包含：MutationObserver、圖片加載、內容變動監聽              */
 (function(){
-  function reportHeight(){
+  const reportHeight = () => {
     const scrollHeight = document.documentElement.scrollHeight;
-    const compensatedHeight = scrollHeight + 20; // 額外補償 20px 緩衝
-    try { window.parent.postMessage({ type:'iframeHeight', height: compensatedHeight }, '*'); } catch(e){}
-  }
+    const bodyHeight = document.body.scrollHeight;
+    const maxHeight = Math.max(scrollHeight, bodyHeight);
+    const compensatedHeight = maxHeight + 40; // 額外補償 40px
+    
+    try { 
+      window.parent.postMessage({ type:'iframeHeight', height: compensatedHeight }, '*'); 
+      // 同時嘗試調整自身高度
+      document.documentElement.style.height = 'auto';
+      document.body.style.height = 'auto';
+    } catch(e){}
+  };
+  
+  // 1. 頁面初始加載
   reportHeight();
+  
+  // 2. 監聽視窗調整
   window.addEventListener('resize', reportHeight);
-  // 延遲再報告一次，確保圖片等資源加載完成
-  setTimeout(reportHeight, 1500);
+  
+  // 3. 監聽所有圖片加載完成
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', reportHeight);
+  }
+  window.addEventListener('load', reportHeight);
+  
+  // 4. 監聽圖片加載事件
+  const images = document.querySelectorAll('img');
+  let loadedCount = 0;
+  const imageLoadHandler = () => {
+    loadedCount++;
+    if(loadedCount === images.length){
+      setTimeout(reportHeight, 300);
+    }
+  };
+  images.forEach(img => {
+    if(img.complete) {
+      loadedCount++;
+    } else {
+      img.addEventListener('load', imageLoadHandler);
+      img.addEventListener('error', imageLoadHandler);
+    }
+  });
+  if(loadedCount === images.length){
+    setTimeout(reportHeight, 300);
+  }
+  
+  // 5. MutationObserver 監控 DOM 變動
+  const observer = new MutationObserver(() => {
+    setTimeout(reportHeight, 100);
+  });
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['style', 'class']
+  });
+  
+  // 6. 定期檢查高度變動（保險措施）
+  setInterval(reportHeight, 2000);
+  
+  // 7. 延遲多次報告，確保所有資源完成加載
+  setTimeout(reportHeight, 500);
+  setTimeout(reportHeight, 1000);
+  setTimeout(reportHeight, 2000);
+  setTimeout(reportHeight, 3000);
 })();
 </script>
 </body>
