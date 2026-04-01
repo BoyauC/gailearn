@@ -95,10 +95,24 @@ body::before {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 12px 16px;
+  padding: 0 12px 32px;
   max-width: 1100px;
   margin: 0 auto;
   gap: 0;
+}
+
+/* ── 平板直立或小屏幕高度：增加底部填充 ── */
+@media (max-height: 800px), (orientation: portrait) and (max-width: 1024px) {
+  #app {
+    padding-bottom: 48px;
+  }
+}
+
+/* ── 更小的屏幕高度：進一步增加填充 ── */
+@media (max-height: 600px) {
+  #app {
+    padding-bottom: 60px;
+  }
 }
 
 /* ── Top bar ── */
@@ -1027,15 +1041,19 @@ function spawnConfetti() {
 loadMetadata().then(() => initGame());
 
 /* ── Google Sites iframe 高度通報（自動適配）──
-   Google Sites 嵌入時建議手動將 iframe 高度設為 700px
-   此程式碼同時通報父層視窗實際高度供參考            */
+   Google Sites 嵌入時建議手動將 iframe 高度設為 800px 或更高
+   此程式碼同時通報父層視窗實際高度供參考
+   新增額外補償高度以確保所有內容可見                  */
 (function(){
   function reportHeight(){
-    const h = document.documentElement.scrollHeight;
-    try { window.parent.postMessage({ type:'iframeHeight', height: h }, '*'); } catch(e){}
+    const scrollHeight = document.documentElement.scrollHeight;
+    const compensatedHeight = scrollHeight + 20; // 額外補償 20px 緩衝
+    try { window.parent.postMessage({ type:'iframeHeight', height: compensatedHeight }, '*'); } catch(e){}
   }
   reportHeight();
   window.addEventListener('resize', reportHeight);
+  // 延遲再報告一次，確保圖片等資源加載完成
+  setTimeout(reportHeight, 1500);
 })();
 </script>
 </body>
