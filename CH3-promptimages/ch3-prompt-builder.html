@@ -315,6 +315,7 @@ select.chosen { border-color:var(--green); background:linear-gradient(135deg,#f0
   transition:box-shadow .3s, border-color .3s;
   position:relative;
   min-height: 0;         /* 允許在 grid 內縮小 */
+  aspect-ratio: 16 / 9;  /* 保持統一的 16:9 比例 */
 }
 .img-slot.slot-1 { border-color:rgba(255,87,34,.2); }
 .img-slot.slot-2 { border-color:rgba(233,30,140,.2); }
@@ -349,10 +350,11 @@ select.chosen { border-color:var(--green); background:linear-gradient(135deg,#f0
   flex:1; position:relative; overflow:hidden;
   background:#f8fafc;
   min-height: 0;         /* 關鍵：允許縮小到 flex 分配的高度 */
+  display:flex; align-items:center; justify-content:center;
 }
 .slot-canvas-wrap img {
-  position:absolute; inset:0; width:100%; height:100%;
-  object-fit:cover;
+  position:static; width:100%; height:100%;
+  object-fit:contain;  /* ✨ 改為 contain，完整顯示圖片 */
 }
 
 /* Slot info bar */
