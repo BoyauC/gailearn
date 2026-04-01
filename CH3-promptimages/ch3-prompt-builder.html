@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
@@ -350,8 +350,9 @@ select.chosen { border-color:var(--green); background:linear-gradient(135deg,#f0
   background:#f8fafc;
   min-height: 0;         /* 關鍵：允許縮小到 flex 分配的高度 */
 }
-.slot-canvas-wrap canvas {
+.slot-canvas-wrap img {
   position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover;
 }
 
 /* Slot info bar */
@@ -518,7 +519,7 @@ select.chosen { border-color:var(--green); background:linear-gradient(135deg,#f0
   <!-- Title -->
   <div class="page-title">
     <h1>畫圖<em>提示詞</em>建構器 🖼️</h1>
-    <p>選擇主題、風格、元素、背景，組合出你的 AI 繪圖提示詞！</p>
+    <p>選擇風格、主題、光線、元素，組合出你的 AI 繪圖提示詞！</p>
   </div>
 
   <!-- ── TOP: SELECTORS ── -->
@@ -530,10 +531,10 @@ select.chosen { border-color:var(--green); background:linear-gradient(135deg,#f0
         <div class="sel-wrap">
           <select id="selTheme" class="theme-sel" onchange="onSelectChange()">
             <option value="">── 選擇主題 ──</option>
-            <option value="cat">🐱 可愛的貓咪</option>
-            <option value="dragon">🐉 神祕的龍</option>
-            <option value="robot">🤖 未來機器人</option>
-            <option value="mermaid">🧜 海底美人魚</option>
+            <option value="橘貓">🐱 橘貓</option>
+            <option value="咖啡杯">☕ 咖啡杯</option>
+            <option value="舊書店">📚 舊書店</option>
+            <option value="公車站">🚌 公車站</option>
           </select>
         </div>
       </div>
@@ -543,10 +544,10 @@ select.chosen { border-color:var(--green); background:linear-gradient(135deg,#f0
         <div class="sel-wrap">
           <select id="selStyle" class="style-sel" onchange="onSelectChange()">
             <option value="">── 選擇風格 ──</option>
-            <option value="cartoon">🎠 卡通插畫</option>
-            <option value="watercolor">🎨 水彩畫風</option>
-            <option value="pixel">👾 像素點陣</option>
-            <option value="oilpainting">🖼️ 油畫風格</option>
+            <option value="印象派">🎨 印象派</option>
+            <option value="水彩">💧 水彩</option>
+            <option value="極簡">✏️ 極簡</option>
+            <option value="賽博龐克">🌃 賽博龐克</option>
           </select>
         </div>
       </div>
@@ -556,23 +557,23 @@ select.chosen { border-color:var(--green); background:linear-gradient(135deg,#f0
         <div class="sel-wrap">
           <select id="selElement" class="element-sel" onchange="onSelectChange()">
             <option value="">── 選擇元素 ──</option>
-            <option value="flowers">🌸 手持鮮花</option>
-            <option value="lightning">⚡ 閃電魔法</option>
-            <option value="bubbles">🫧 漂浮泡泡</option>
-            <option value="stars">⭐ 閃亮星星</option>
+            <option value="肥皂泡">🫧 肥皂泡</option>
+            <option value="雨滴">🌧️ 雨滴</option>
+            <option value="綠意">🌿 綠意</option>
+            <option value="舊照片">📷 舊照片</option>
           </select>
         </div>
       </div>
 
       <div class="selector-group">
-        <div class="selector-label bg"><span class="lbl-icon">🌄</span>背景</div>
+        <div class="selector-label bg"><span class="lbl-icon">☀️</span>光線</div>
         <div class="sel-wrap">
           <select id="selBg" class="bg-sel" onchange="onSelectChange()">
-            <option value="">── 選擇背景 ──</option>
-            <option value="forest">🌲 神秘森林</option>
-            <option value="space">🚀 浩瀚宇宙</option>
-            <option value="ocean">🌊 深海世界</option>
-            <option value="city">🏙️ 霓虹城市</option>
+            <option value="">── 選擇光線 ──</option>
+            <option value="金光">🌅 金光</option>
+            <option value="冷光">❄️ 冷光</option>
+            <option value="暖燈">🕯️ 暖燈</option>
+            <option value="霓虹">🌃 霓虹</option>
           </select>
         </div>
       </div>
@@ -585,7 +586,7 @@ select.chosen { border-color:var(--green); background:linear-gradient(135deg,#f0
     <div class="prompt-area">
       <div class="prompt-label">📝 你的 AI 繪圖提示詞</div>
       <div class="prompt-text" id="promptText">
-        <span class="placeholder">請先在上方選擇主題、風格、元素和背景…</span>
+        <span class="placeholder">請先在上方選擇風格、主題、光線和元素…</span>
       </div>
     </div>
     <button class="generate-btn" id="generateBtn" onclick="generateImage()">
@@ -636,1146 +637,79 @@ select.chosen { border-color:var(--green); background:linear-gradient(135deg,#f0
 ══════════════════════════════════════════════════ */
 const OPTS = {
   theme: {
-    cat:     { label:'可愛的貓咪', emoji:'🐱', color:'#ff9800' },
-    dragon:  { label:'神祕的龍',   emoji:'🐉', color:'#e53935' },
-    robot:   { label:'未來機器人', emoji:'🤖', color:'#1565c0' },
-    mermaid: { label:'海底美人魚', emoji:'🧜', color:'#00897b' }
+    '橘貓':  { label:'橘貓',    emoji:'🐱' },
+    '咖啡杯':{ label:'咖啡杯',  emoji:'☕' },
+    '舊書店':{ label:'舊書店',  emoji:'📚' },
+    '公車站':{ label:'公車站',  emoji:'🚌' }
   },
   style: {
-    cartoon:    { label:'卡通插畫', emoji:'🎠' },
-    watercolor: { label:'水彩畫風', emoji:'🎨' },
-    pixel:      { label:'像素點陣', emoji:'👾' },
-    oilpainting:{ label:'油畫風格', emoji:'🖼️' }
+    '印象派':   { label:'印象派',   emoji:'🎨' },
+    '水彩':     { label:'水彩',     emoji:'💧' },
+    '極簡':     { label:'極簡',     emoji:'✏️' },
+    '賽博龐克': { label:'賽博龐克', emoji:'🌃' }
   },
   element: {
-    flowers:   { label:'手持鮮花', emoji:'🌸', color:'#e91e8c' },
-    lightning: { label:'閃電魔法', emoji:'⚡', color:'#ffd600' },
-    bubbles:   { label:'漂浮泡泡', emoji:'🫧', color:'#29b6f6' },
-    stars:     { label:'閃亮星星', emoji:'⭐', color:'#ffca28' }
+    '肥皂泡':{ label:'肥皂泡', emoji:'🫧' },
+    '雨滴':  { label:'雨滴',   emoji:'🌧️' },
+    '綠意':  { label:'綠意',   emoji:'🌿' },
+    '舊照片':{ label:'舊照片', emoji:'📷' }
   },
   bg: {
-    forest: { label:'神秘森林', skyTop:'#1b5e20', skyBot:'#388e3c', ground:'#2e7d32' },
-    space:  { label:'浩瀚宇宙', skyTop:'#0d0221', skyBot:'#1a0533', ground:'#120038' },
-    ocean:  { label:'深海世界', skyTop:'#01579b', skyBot:'#0277bd', ground:'#004d7a' },
-    city:   { label:'霓虹城市', skyTop:'#1a0038', skyBot:'#2d0062', ground:'#12002b' }
+    '金光':{ label:'金光', emoji:'🌅' },
+    '冷光':{ label:'冷光', emoji:'❄️' },
+    '暖燈':{ label:'暖燈', emoji:'🕯️' },
+    '霓虹':{ label:'霓虹', emoji:'🌃' }
   }
 };
 
 /* ══════════════════════════════════════════════════
-   ②  PROMPT TEXT TEMPLATES
-   256 = 4×4×4×4 combinations
-   Stored as function of (theme, style, element, bg)
+   ②  IMAGE METADATA（從 Assets/all_meta.json 載入）
 ══════════════════════════════════════════════════ */
-const PROMPT_TEMPLATES = {
-  // theme → style specific intros
-  themeStyle: {
-    'cat-cartoon':    '一隻活潑可愛的卡通貓咪，擁有大大的眼睛和粉紅色的爪子，',
-    'cat-watercolor': '用柔美水彩筆觸描繪的溫柔貓咪，毛髮如水波般暈染，',
-    'cat-pixel':      '一隻用像素方格繪製的復古可愛貓咪，8-bit 遊戲風格，',
-    'cat-oilpainting':'以厚重油彩技法描繪的高貴貓咪，筆觸豐富充滿質感，',
-    'dragon-cartoon': '一條造型誇張的卡通小龍，有可愛的大角和萌萌的表情，',
-    'dragon-watercolor':'以水彩渲染的夢幻龍族，鱗片在光影中閃耀如寶石，',
-    'dragon-pixel':   '一條8-bit像素風格的龍，充滿復古電玩的神祕感，',
-    'dragon-oilpainting':'用油畫技法描繪的威嚴巨龍，色彩濃郁如古典神話壁畫，',
-    'robot-cartoon':  '一個外形圓潤可愛的卡通機器人，有閃亮的天線和友善的LED眼睛，',
-    'robot-watercolor':'以輕盈水彩描繪的未來機器人，金屬質感中帶有柔和的色彩流動，',
-    'robot-pixel':    '一台像素風格的復古機器人，像是從經典電玩遊戲走出來的角色，',
-    'robot-oilpainting':'以寫實油畫技法描繪的未來機器人，金屬反光栩栩如生，',
-    'mermaid-cartoon':'一位笑容燦爛的卡通美人魚，有彩虹色的魚尾和波浪般的長髮，',
-    'mermaid-watercolor':'用水彩暈染描繪的夢幻美人魚，顏色如海浪般自由流動，',
-    'mermaid-pixel':  '一位8-bit像素風的美人魚，如同復古海洋遊戲中的傳說角色，',
-    'mermaid-oilpainting':'以古典油畫技法描繪的神祕美人魚，如博物館中的珍貴畫作，'
-  },
-  element: {
-    flowers:   '手捧一束盛開的繽紛鮮花，花瓣隨風輕輕飄散，',
-    lightning: '掌心揮舞著強大的閃電魔法，電光石火令人屏息，',
-    bubbles:   '周圍漂浮著大大小小的彩虹泡泡，如夢似幻，',
-    stars:     '身旁閃耀著無數璀璨星星，金光點點如夜空撒落，'
-  },
-  bg: {
-    forest: '置身於光線斑斕的神秘森林，古老大樹環繞，晨霧輕繞其間。',
-    space:  '漂浮於壯闊無垠的宇宙星空，星雲彩霞在身後綿延，美麗而深邃。',
-    ocean:  '悠游於幽藍深海世界，珊瑚礁與發光魚群點綴四周，神秘瑰麗。',
-    city:   '站立在霓虹閃爍的未來城市，五彩光牌倒映於潮濕的街道上。'
+let IMAGE_MAP = {};  // key: "風格/主題/光線/元素" → {batch, fname, story, kw}
+
+async function loadMetadata() {
+  try {
+    const resp = await fetch('Assets/all_meta.json');
+    const data = await resp.json();
+    data.forEach(row => {
+      // 修正一筆資料錯誤：「向冷光」→「冷光」
+      const kw = (row.kw || '').replace('向冷光', '冷光');
+      const parts = kw.split(' / ');
+      if (parts.length === 4) {
+        IMAGE_MAP[parts.join('/')] = {
+          batch: row.batch,
+          fname: row.fname,
+          story: row.story,
+          kw:    kw
+        };
+      }
+    });
+    console.log('[CH3] 載入圖片資料', Object.keys(IMAGE_MAP).length, '筆');
+  } catch(e) {
+    console.warn('[CH3] 無法載入 all_meta.json:', e);
   }
-};
+}
+
+// t=主題, s=風格, e=元素, b=光線
+function lookupImage(t, s, e, b) {
+  return IMAGE_MAP[`${s}/${t}/${b}/${e}`] || null;
+}
+
+function getImageSrc(entry) {
+  return `Assets/${entry.batch}/images/${entry.fname}.png`;
+}
 
 function buildPrompt(t, s, e, b) {
-  const ts = PROMPT_TEMPLATES.themeStyle[`${t}-${s}`] || '';
-  const el = PROMPT_TEMPLATES.element[e] || '';
-  const bg = PROMPT_TEMPLATES.bg[b] || '';
-  return ts + el + bg;
+  const entry = lookupImage(t, s, e, b);
+  return entry ? entry.kw : `${s} / ${t} / ${b} / ${e}`;
 }
 
 /* ══════════════════════════════════════════════════
-   ③  SVG / CANVAS RENDERER
-   Generates a unique visual for each of 256 combos
-   using deterministic Canvas2D drawing.
+   ③  （Canvas 繪圖已移除，改用實際圖片）
 ══════════════════════════════════════════════════ */
 
-// Seeded RNG for deterministic randomness per combo
-function SeededRNG(seed) {
-  let s = seed;
-  return function() {
-    s = (s * 1664525 + 1013904223) & 0xffffffff;
-    return (s >>> 0) / 0xffffffff;
-  };
-}
 
-function getComboSeed(t, s, e, b) {
-  const ti = ['cat','dragon','robot','mermaid'].indexOf(t);
-  const si = ['cartoon','watercolor','pixel','oilpainting'].indexOf(s);
-  const ei = ['flowers','lightning','bubbles','stars'].indexOf(e);
-  const bi = ['forest','space','ocean','city'].indexOf(b);
-  return ti * 64 + si * 16 + ei * 4 + bi + 1;
-}
 
-function drawImage(canvas, t, s, e, b) {
-  const W = canvas.width  = canvas.offsetWidth  || 320;
-  const H = canvas.height = canvas.offsetHeight || 240;
-  const ctx = canvas.getContext('2d');
-  const rng = SeededRNG(getComboSeed(t, s, e, b) * 997 + 13);
-
-  const bgOpts = OPTS.bg[b];
-  const themeOpts = OPTS.theme[t];
-
-  /* ── 1. Background gradient ── */
-  const grad = ctx.createLinearGradient(0,0,0,H);
-  grad.addColorStop(0, bgOpts.skyTop);
-  grad.addColorStop(1, bgOpts.skyBot);
-  ctx.fillStyle = grad;
-  ctx.fillRect(0,0,W,H);
-
-  /* ── 2. Background details (bg-specific) ── */
-  drawBgDetails(ctx, b, W, H, rng);
-
-  /* ── 3. Style-specific filter effect (pre-subject) ── */
-  drawStylePreEffect(ctx, s, W, H, rng);
-
-  /* ── 4. Main subject ── */
-  drawSubject(ctx, t, s, W, H, themeOpts.color, rng);
-
-  /* ── 5. Element overlay ── */
-  drawElement(ctx, e, W, H, rng);
-
-  /* ── 6. Style post-effect ── */
-  drawStylePostEffect(ctx, s, W, H, rng);
-
-  /* ── 7. Vignette ── */
-  const vig = ctx.createRadialGradient(W/2,H/2,H*.25,W/2,H/2,H*.85);
-  vig.addColorStop(0, 'transparent');
-  vig.addColorStop(1, 'rgba(0,0,0,0.28)');
-  ctx.fillStyle = vig;
-  ctx.fillRect(0,0,W,H);
-}
-
-/* ── Background detail layers ── */
-function drawBgDetails(ctx, b, W, H, rng) {
-  if (b === 'space') {
-    // Stars
-    for (let i=0;i<80;i++) {
-      const x = rng()*W, y = rng()*H*.8;
-      const r = rng()*.8+.2;
-      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2);
-      ctx.fillStyle = `rgba(255,255,255,${rng()*.7+.3})`; ctx.fill();
-    }
-    // Nebula
-    const neb = ctx.createRadialGradient(W*.7,H*.2,10,W*.7,H*.2,W*.4);
-    neb.addColorStop(0,'rgba(150,80,255,0.25)');
-    neb.addColorStop(1,'transparent');
-    ctx.fillStyle=neb; ctx.fillRect(0,0,W,H);
-
-  } else if (b === 'forest') {
-    // Ground
-    ctx.fillStyle='#1b5e20'; ctx.fillRect(0,H*.65,W,H);
-    // Trees
-    for (let i=0;i<6;i++) {
-      const x=rng()*W, trunkH=H*(.25+rng()*.15);
-      ctx.fillStyle='#3e2723'; ctx.fillRect(x-4,H*.65-trunkH,8,trunkH);
-      ctx.beginPath(); ctx.arc(x,H*.65-trunkH-20,25+rng()*20,0,Math.PI*2);
-      ctx.fillStyle=`rgba(${27+Math.floor(rng()*30)},${94+Math.floor(rng()*30)},${32+Math.floor(rng()*20)},0.9)`; ctx.fill();
-    }
-    // Mist
-    const mist=ctx.createLinearGradient(0,H*.55,0,H*.72);
-    mist.addColorStop(0,'rgba(200,230,200,0.18)'); mist.addColorStop(1,'transparent');
-    ctx.fillStyle=mist; ctx.fillRect(0,H*.55,W,H*.2);
-
-  } else if (b === 'ocean') {
-    // Wave layers
-    for (let layer=0;layer<3;layer++) {
-      const y = H*.45 + layer*12;
-      const alpha = .15 + layer*.08;
-      ctx.beginPath(); ctx.moveTo(0,y);
-      for (let x=0;x<W;x+=20) {
-        ctx.lineTo(x, y + Math.sin((x+rng()*50)/30)*8);
-      }
-      ctx.lineTo(W,H); ctx.lineTo(0,H); ctx.closePath();
-      ctx.fillStyle=`rgba(0,150,200,${alpha})`; ctx.fill();
-    }
-    // Bubbles
-    for (let i=0;i<12;i++) {
-      const x=rng()*W, y=H*.4+rng()*H*.5, r=rng()*6+2;
-      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2);
-      ctx.strokeStyle='rgba(100,200,255,0.5)'; ctx.lineWidth=1.5; ctx.stroke();
-    }
-    // Coral
-    ctx.fillStyle='rgba(255,100,80,0.4)';
-    for (let i=0;i<5;i++) {
-      const cx=rng()*W, base=H*.88;
-      for (let j=0;j<3;j++) {
-        ctx.beginPath(); ctx.moveTo(cx+j*8-8,base);
-        ctx.lineTo(cx+j*8-8, base-20-rng()*15);
-        ctx.lineWidth=4; ctx.strokeStyle=`rgba(255,${100+Math.floor(rng()*80)},80,0.5)`;
-        ctx.stroke();
-      }
-    }
-
-  } else if (b === 'city') {
-    // Buildings
-    const neonCols=['#ff00ff','#00ffff','#ff6600','#00ff88','#ff0066'];
-    for (let i=0;i<8;i++) {
-      const bw=30+rng()*40, bh=H*(.3+rng()*.5);
-      const bx=i*(W/7)-10;
-      ctx.fillStyle=`rgb(${10+Math.floor(rng()*20)},${0+Math.floor(rng()*10)},${20+Math.floor(rng()*20)})`;
-      ctx.fillRect(bx, H-bh, bw, bh);
-      // Windows
-      const col=neonCols[Math.floor(rng()*neonCols.length)];
-      for (let wy=H-bh+8;wy<H-8;wy+=12) {
-        for (let wx=bx+5;wx<bx+bw-5;wx+=10) {
-          if (rng()>.35) {
-            ctx.fillStyle=`rgba(${hexToRgb(col)},${.4+rng()*.4})`; 
-            ctx.fillRect(wx,wy,5,5);
-          }
-        }
-      }
-      // Neon sign
-      ctx.strokeStyle=col; ctx.lineWidth=1.5;
-      ctx.strokeRect(bx+2,H-bh-2,bw-4,3);
-    }
-    // Reflection puddles
-    const refl=ctx.createLinearGradient(0,H*.85,0,H);
-    refl.addColorStop(0,'rgba(80,0,120,0.3)'); refl.addColorStop(1,'rgba(120,0,80,0.1)');
-    ctx.fillStyle=refl; ctx.fillRect(0,H*.85,W,H);
-  }
-}
-
-/* ── Style pre-effects ── */
-function drawStylePreEffect(ctx, s, W, H, rng) {
-  if (s === 'watercolor') {
-    /* ★ WATERCOLOR：先鋪一層白色半透明紙質底 + 淡彩暈染斑塊 */
-    ctx.fillStyle = 'rgba(255,252,245,0.55)';
-    ctx.fillRect(0,0,W,H);
-    // 大面積淡彩暈染（多層色塊疊加，模擬水彩下色）
-    const wcPalette=['rgba(255,200,180,0.18)','rgba(180,220,255,0.18)',
-                     'rgba(200,255,210,0.15)','rgba(255,230,180,0.18)'];
-    for(let i=0;i<6;i++){
-      const x=rng()*W*1.2-W*.1, y=rng()*H*1.2-H*.1, r=W*(.35+rng()*.3);
-      const g=ctx.createRadialGradient(x,y,0,x,y,r);
-      g.addColorStop(0,wcPalette[i%wcPalette.length]);
-      g.addColorStop(0.6,'rgba(255,255,255,0.06)');
-      g.addColorStop(1,'transparent');
-      ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
-    }
-  } else if (s === 'pixel') {
-    /* ★ PIXEL：先把整個背景像素化（大格子化） */
-    const PS=8; // 像素大小
-    // 把現有背景圖案取樣後重畫成大像素塊
-    const tempCanvas=document.createElement('canvas');
-    tempCanvas.width=Math.ceil(W/PS); tempCanvas.height=Math.ceil(H/PS);
-    const tCtx=tempCanvas.getContext('2d');
-    tCtx.drawImage(ctx.canvas,0,0,Math.ceil(W/PS),Math.ceil(H/PS));
-    ctx.imageSmoothingEnabled=false;
-    ctx.drawImage(tempCanvas,0,0,W,H);
-    // 疊加黑色網格線
-    ctx.strokeStyle='rgba(0,0,0,0.25)'; ctx.lineWidth=0.5;
-    for(let x=0;x<=W;x+=PS){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
-    for(let y=0;y<=H;y+=PS){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
-  } else if (s === 'oilpainting') {
-    /* ★ OIL PAINTING：深色底 + 暗部厚塗效果 */
-    const darkOverlay=ctx.createLinearGradient(0,0,0,H);
-    darkOverlay.addColorStop(0,'rgba(20,10,5,0.35)');
-    darkOverlay.addColorStop(0.5,'rgba(10,5,0,0.2)');
-    darkOverlay.addColorStop(1,'rgba(30,15,5,0.45)');
-    ctx.fillStyle=darkOverlay; ctx.fillRect(0,0,W,H);
-    // 帆布紋路（細橫條）
-    for(let y=0;y<H;y+=3){
-      ctx.fillStyle=`rgba(0,0,0,${0.04+rng()*0.03})`;
-      ctx.fillRect(0,y,W,1);
-    }
-    // 帆布紋路（細直條）
-    for(let x=0;x<W;x+=4){
-      ctx.fillStyle=`rgba(0,0,0,${0.02+rng()*0.02})`;
-      ctx.fillRect(x,0,1,H);
-    }
-  }
-  // cartoon：不加 pre-effect，直接用鮮豔背景
-}
-
-/* ── Main subject drawing ── */
-function drawSubject(ctx, t, s, W, H, color, rng) {
-  const cx = W/2, cy = H*.52;
-  const scale = Math.min(W,H)/320;
-
-  /* ★★★ 四種風格各有完全不同的渲染路徑 ★★★ */
-
-  if (s === 'pixel') {
-    // 像素風：關閉平滑化，主角用大像素方塊繪製
-    drawPixelSubject(ctx, t, cx, cy, scale, color, rng);
-    return;
-  }
-
-  if (s === 'cartoon') {
-    // 卡通風：純色填滿 + 粗黑外框 + 無漸層陰影
-    ctx.save();
-    ctx.shadowColor='transparent'; ctx.shadowBlur=0;
-    drawSubjectCartoon(ctx, t, cx, cy, scale, color, rng);
-    ctx.restore();
-    return;
-  }
-
-  if (s === 'watercolor') {
-    // 水彩風：低透明度多層疊色 + 模糊邊緣 + 無外框
-    ctx.save();
-    ctx.globalAlpha = 0.78;
-    drawSubjectWatercolor(ctx, t, cx, cy, scale, color, rng);
-    ctx.restore();
-    return;
-  }
-
-  if (s === 'oilpainting') {
-    // 油畫風：深色飽和 + 厚塗光影 + 強烈明暗對比
-    drawSubjectOilPainting(ctx, t, cx, cy, scale, color, rng);
-    return;
-  }
-}
-
-/* ── CARTOON style: thick black outline + flat color, no gradients ── */
-function drawSubjectCartoon(ctx, t, cx, cy, sc, color, rng) {
-  ctx.lineJoin='round'; ctx.lineCap='round';
-  // Bright solid body glow (cartoon-style aura)
-  ctx.beginPath(); ctx.arc(cx, cy-10*sc, 55*sc, 0, Math.PI*2);
-  ctx.fillStyle=hexAlpha(color, .12); ctx.fill();
-  if (t==='cat')     drawCat(ctx, cx, cy, sc, color, 'cartoon', rng);
-  if (t==='dragon')  drawDragon(ctx, cx, cy, sc, color, 'cartoon', rng);
-  if (t==='robot')   drawRobot(ctx, cx, cy, sc, color, 'cartoon', rng);
-  if (t==='mermaid') drawMermaid(ctx, cx, cy, sc, color, 'cartoon', rng);
-  // Heavy black outline pass (draw again in stroke mode)
-  applyCartoonOutline(ctx, t, cx, cy, sc, color, rng);
-}
-
-/* Cartoon outline: a second pass with thick stroke over the subject */
-function applyCartoonOutline(ctx, t, cx, cy, sc, col, rng) {
-  ctx.save(); ctx.translate(cx, cy);
-  ctx.strokeStyle='#111'; ctx.lineWidth=3.5*sc; ctx.lineJoin='round'; ctx.lineCap='round';
-  // Body outline ellipse
-  if(t==='cat'||t==='robot'){
-    roundRect(ctx,-30*sc,-20*sc,60*sc,55*sc,22*sc); ctx.stroke();
-    ctx.beginPath(); ctx.arc(0,-40*sc,32*sc,0,Math.PI*2); ctx.stroke();
-  } else if(t==='dragon'){
-    ctx.beginPath(); ctx.ellipse(0,15*sc,28*sc,40*sc,0,0,Math.PI*2); ctx.stroke();
-    ctx.beginPath(); ctx.ellipse(0,-38*sc,24*sc,20*sc,0,0,Math.PI*2); ctx.stroke();
-  } else if(t==='mermaid'){
-    ctx.beginPath(); ctx.ellipse(0,-15*sc,20*sc,28*sc,0,0,Math.PI*2); ctx.stroke();
-    ctx.beginPath(); ctx.ellipse(0,25*sc,20*sc,45*sc,.05,0,Math.PI*2); ctx.stroke();
-  }
-  ctx.restore();
-}
-
-/* ── WATERCOLOR style: multi-layer translucent blobs, soft edges ── */
-function drawSubjectWatercolor(ctx, t, cx, cy, sc, color, rng) {
-  const c = hexToRgbArr(color);
-  // Paint multiple soft translucent layers to simulate watercolor
-  for(let layer=0; layer<4; layer++){
-    const offsetX=(rng()-.5)*8*sc;
-    const offsetY=(rng()-.5)*6*sc;
-    const alpha=0.18+layer*0.08;
-    ctx.save();
-    ctx.translate(cx+offsetX, cy+offsetY);
-    ctx.globalAlpha=alpha;
-    // Draw simplified silhouette for each layer
-    drawWCSilhouette(ctx, t, sc, color, rng);
-    ctx.restore();
-  }
-  // Final layer slightly more opaque for definition
-  ctx.save();
-  ctx.translate(cx, cy);
-  ctx.globalAlpha=0.55;
-  drawWCSilhouette(ctx, t, sc, color, rng);
-  ctx.restore();
-  // Watercolor bleed effect: soft halo around subject
-  const halo=ctx.createRadialGradient(cx,cy-10*sc,20*sc,cx,cy-10*sc,70*sc);
-  halo.addColorStop(0,`rgba(${c},0.1)`);
-  halo.addColorStop(0.5,`rgba(${c},0.04)`);
-  halo.addColorStop(1,'transparent');
-  ctx.fillStyle=halo; ctx.fillRect(0,0,ctx.canvas.width,ctx.canvas.height);
-}
-
-function drawWCSilhouette(ctx, t, sc, color, rng) {
-  const c=hexToRgbArr(color);
-  // Simplified blob silhouette per theme (no outlines, just translucent fills)
-  ctx.fillStyle=`rgb(${c})`;
-  if(t==='cat'){
-    ctx.beginPath(); ctx.ellipse(0,5*sc,34*sc,48*sc,0,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(0,-45*sc,28*sc,26*sc,0,0,Math.PI*2); ctx.fill();
-  } else if(t==='dragon'){
-    ctx.beginPath(); ctx.ellipse(0,10*sc,32*sc,50*sc,.1,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(0,-40*sc,26*sc,22*sc,0,0,Math.PI*2); ctx.fill();
-    // Wings as blobs
-    ctx.beginPath(); ctx.ellipse(-52*sc,-20*sc,30*sc,18*sc,-.4,0,Math.PI*2);
-    ctx.fillStyle=hexAlpha(color,0.6); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(52*sc,-20*sc,30*sc,18*sc,.4,0,Math.PI*2); ctx.fill();
-  } else if(t==='robot'){
-    ctx.fillRect(-32*sc,-22*sc,64*sc,72*sc);
-    ctx.beginPath(); ctx.ellipse(0,-55*sc,30*sc,24*sc,0,0,Math.PI*2); ctx.fill();
-  } else if(t==='mermaid'){
-    ctx.beginPath(); ctx.ellipse(0,-10*sc,22*sc,32*sc,0,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(0,30*sc,18*sc,48*sc,.05,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(0,-52*sc,22*sc,20*sc,0,0,Math.PI*2); ctx.fill();
-  }
-  // White bloom highlight
-  ctx.fillStyle='rgba(255,255,255,0.18)';
-  ctx.beginPath(); ctx.ellipse(-8*sc,-30*sc,14*sc,20*sc,-.3,0,Math.PI*2); ctx.fill();
-}
-
-/* ── OIL PAINTING style: dark saturated tones + dramatic lighting ── */
-function drawSubjectOilPainting(ctx, t, cx, cy, sc, color, rng) {
-  const c=hexToRgbArr(color);
-  // Dark dramatic underpainting: deep shadow version
-  ctx.save();
-  ctx.translate(cx+4*sc, cy+6*sc);
-  ctx.globalAlpha=0.45;
-  ctx.fillStyle='#1a0a00';
-  drawOilSilhouette(ctx, t, sc);
-  ctx.restore();
-
-  // Main subject with rich, dark-saturated color
-  ctx.save();
-  ctx.translate(cx, cy);
-  ctx.globalAlpha=1;
-  drawOilSubject(ctx, t, sc, color, rng);
-  ctx.restore();
-
-  // Bright impasto highlight (thick white paint strokes on lit side)
-  ctx.save();
-  ctx.translate(cx-10*sc, cy-20*sc);
-  ctx.globalAlpha=0.22;
-  ctx.fillStyle='#fffbe8';
-  drawOilSilhouette(ctx, t, sc*0.6);
-  ctx.restore();
-}
-
-function drawOilSilhouette(ctx, t, sc){
-  if(t==='cat'){
-    ctx.beginPath(); ctx.ellipse(0,5*sc,34*sc,48*sc,0,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(0,-45*sc,28*sc,26*sc,0,0,Math.PI*2); ctx.fill();
-  } else if(t==='dragon'){
-    ctx.beginPath(); ctx.ellipse(0,10*sc,32*sc,50*sc,.1,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(-52*sc,-20*sc,28*sc,16*sc,-.4,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(52*sc,-20*sc,28*sc,16*sc,.4,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(0,-38*sc,24*sc,20*sc,0,0,Math.PI*2); ctx.fill();
-  } else if(t==='robot'){
-    ctx.fillRect(-32*sc,-22*sc,64*sc,72*sc);
-    ctx.fillRect(-30*sc,-74*sc,60*sc,50*sc);
-  } else if(t==='mermaid'){
-    ctx.beginPath(); ctx.ellipse(0,25*sc,18*sc,48*sc,0,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(0,-15*sc,20*sc,30*sc,0,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(0,-50*sc,22*sc,20*sc,0,0,Math.PI*2); ctx.fill();
-  }
-}
-
-function drawOilSubject(ctx, t, sc, color, rng){
-  const c=hexToRgbArr(color);
-  // Rich saturated fill with strong light-shadow gradient
-  const ltGrad=ctx.createLinearGradient(-60*sc,-80*sc,40*sc,80*sc);
-  // Lit side: boosted brightness, shadow side: deep dark
-  ltGrad.addColorStop(0,`rgba(255,255,220,0.35)`);
-  ltGrad.addColorStop(0.35,`rgba(${c},1)`);
-  ltGrad.addColorStop(0.7,hexAlpha(color,0.85));
-  ltGrad.addColorStop(1,'rgba(10,5,0,0.6)');
-
-  // Draw main forms with gradient
-  ctx.fillStyle=ltGrad;
-  drawOilSilhouette(ctx, t, sc);
-
-  // Secondary deep shadow overlay
-  const shadowGrad=ctx.createLinearGradient(30*sc,-20*sc,60*sc,70*sc);
-  shadowGrad.addColorStop(0,'transparent');
-  shadowGrad.addColorStop(1,'rgba(0,0,0,0.42)');
-  ctx.fillStyle=shadowGrad;
-  drawOilSilhouette(ctx, t, sc);
-
-  // Impasto highlight strokes (thick paint marks)
-  ctx.strokeStyle='rgba(255,255,200,0.55)';
-  ctx.lineCap='round';
-  for(let i=0;i<8;i++){
-    const hx=(rng()-.5)*50*sc, hy=-60*sc+rng()*60*sc;
-    const len=(10+rng()*25)*sc;
-    const angle=-0.4+rng()*0.5;
-    ctx.lineWidth=(2+rng()*3)*sc;
-    ctx.beginPath();
-    ctx.moveTo(hx,hy);
-    ctx.lineTo(hx+Math.cos(angle)*len, hy+Math.sin(angle)*len);
-    ctx.stroke();
-  }
-}
-
-/* ── Cat ── */
-function drawCat(ctx, cx, cy, sc, col, style, rng) {
-  const c = hexToRgbArr(col);
-  // Body
-  ctx.save();
-  ctx.translate(cx, cy);
-  if (style==='watercolor') { ctx.globalAlpha=.85; }
-
-  // Tail
-  ctx.beginPath();
-  ctx.moveTo(30*sc,20*sc); ctx.quadraticCurveTo(70*sc,-10*sc,60*sc,-50*sc);
-  ctx.lineWidth=10*sc; ctx.strokeStyle=`rgb(${c})`; ctx.lineCap='round'; ctx.stroke();
-
-  // Body oval
-  roundRect(ctx, -30*sc, -20*sc, 60*sc, 55*sc, 22*sc);
-  ctx.fillStyle=`rgb(${c})`; ctx.fill();
-  if (style==='oilpainting') {
-    ctx.strokeStyle=`rgba(${c},.5)`; ctx.lineWidth=3*sc; ctx.stroke();
-  }
-
-  // Belly
-  roundRect(ctx, -15*sc, 0*sc, 30*sc, 28*sc, 12*sc);
-  ctx.fillStyle=`rgba(255,255,255,.3)`; ctx.fill();
-
-  // Head
-  ctx.beginPath(); ctx.arc(0,-40*sc, 32*sc, 0, Math.PI*2);
-  ctx.fillStyle=`rgb(${c})`; ctx.fill();
-
-  // Ears
-  ctx.beginPath();
-  ctx.moveTo(-28*sc,-60*sc); ctx.lineTo(-18*sc,-85*sc); ctx.lineTo(-5*sc,-60*sc);
-  ctx.fillStyle=`rgb(${c})`; ctx.fill();
-  ctx.beginPath();
-  ctx.moveTo(5*sc,-60*sc); ctx.lineTo(18*sc,-85*sc); ctx.lineTo(28*sc,-60*sc);
-  ctx.fill();
-
-  // Inner ears
-  ctx.beginPath();
-  ctx.moveTo(-24*sc,-65*sc); ctx.lineTo(-17*sc,-80*sc); ctx.lineTo(-9*sc,-65*sc);
-  ctx.fillStyle='rgba(255,180,200,.6)'; ctx.fill();
-  ctx.beginPath();
-  ctx.moveTo(9*sc,-65*sc); ctx.lineTo(17*sc,-80*sc); ctx.lineTo(24*sc,-65*sc); ctx.fill();
-
-  // Eyes
-  ctx.beginPath(); ctx.ellipse(-12*sc,-42*sc,7*sc,9*sc,0,0,Math.PI*2);
-  ctx.fillStyle='#fff'; ctx.fill();
-  ctx.beginPath(); ctx.ellipse(12*sc,-42*sc,7*sc,9*sc,0,0,Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.ellipse(-12*sc,-42*sc,4*sc,5*sc,0,0,Math.PI*2);
-  ctx.fillStyle='#222'; ctx.fill();
-  ctx.beginPath(); ctx.ellipse(12*sc,-42*sc,4*sc,5*sc,0,0,Math.PI*2); ctx.fill();
-  // Shine
-  ctx.beginPath(); ctx.arc(-10*sc,-44*sc,1.5*sc,0,Math.PI*2);
-  ctx.fillStyle='white'; ctx.fill();
-  ctx.beginPath(); ctx.arc(14*sc,-44*sc,1.5*sc,0,Math.PI*2); ctx.fill();
-
-  // Nose & mouth
-  ctx.beginPath(); ctx.arc(0,-36*sc,3*sc,0,Math.PI*2);
-  ctx.fillStyle='#ff8a80'; ctx.fill();
-  ctx.beginPath(); ctx.moveTo(0,-33*sc); ctx.lineTo(-5*sc,-28*sc);
-  ctx.moveTo(0,-33*sc); ctx.lineTo(5*sc,-28*sc);
-  ctx.strokeStyle='#ff8a80'; ctx.lineWidth=1.5*sc; ctx.stroke();
-
-  // Whiskers
-  ctx.lineWidth=.8*sc; ctx.strokeStyle=`rgba(255,255,255,.6)`;
-  [[-8,-36,-28,-34],[-8,-36,-28,-38],[8,-36,28,-34],[8,-36,28,-38]].forEach(([x1,y1,x2,y2])=>{
-    ctx.beginPath(); ctx.moveTo(x1*sc,y1*sc); ctx.lineTo(x2*sc,y2*sc); ctx.stroke();
-  });
-
-  ctx.restore();
-}
-
-/* ── Dragon ── */
-function drawDragon(ctx, cx, cy, sc, col, style, rng) {
-  const c = hexToRgbArr(col);
-  ctx.save(); ctx.translate(cx, cy);
-
-  // Wing left
-  ctx.beginPath();
-  ctx.moveTo(-20*sc,-20*sc); ctx.lineTo(-80*sc,-60*sc); ctx.lineTo(-70*sc,-10*sc);
-  ctx.lineTo(-55*sc,10*sc); ctx.closePath();
-  ctx.fillStyle=hexAlpha(col,.7); ctx.fill();
-  if(style==='oilpainting'){ ctx.strokeStyle=hexAlpha(col,.4); ctx.lineWidth=2*sc; ctx.stroke(); }
-
-  // Wing right
-  ctx.beginPath();
-  ctx.moveTo(20*sc,-20*sc); ctx.lineTo(80*sc,-60*sc); ctx.lineTo(70*sc,-10*sc);
-  ctx.lineTo(55*sc,10*sc); ctx.closePath();
-  ctx.fillStyle=hexAlpha(col,.7); ctx.fill();
-
-  // Body
-  ctx.beginPath(); ctx.ellipse(0,15*sc,28*sc,40*sc,0,0,Math.PI*2);
-  ctx.fillStyle=`rgb(${c})`; ctx.fill();
-
-  // Belly scales
-  for (let i=0;i<4;i++) {
-    ctx.beginPath(); ctx.ellipse(0,(i*12-8)*sc,12*sc,6*sc,0,0,Math.PI*2);
-    ctx.fillStyle=`rgba(255,255,200,.3)`; ctx.fill();
-  }
-
-  // Head
-  ctx.beginPath(); ctx.ellipse(0,-38*sc,24*sc,20*sc,-.1,0,Math.PI*2);
-  ctx.fillStyle=`rgb(${c})`; ctx.fill();
-
-  // Horns
-  ctx.beginPath(); ctx.moveTo(-12*sc,-52*sc); ctx.lineTo(-16*sc,-80*sc); ctx.lineTo(-6*sc,-54*sc);
-  ctx.fillStyle=`rgba(${c},.8)`; ctx.fill();
-  ctx.beginPath(); ctx.moveTo(12*sc,-52*sc); ctx.lineTo(16*sc,-80*sc); ctx.lineTo(6*sc,-54*sc); ctx.fill();
-
-  // Eyes glow
-  [[-10,-40],[10,-40]].forEach(([ex,ey])=>{
-    const eg=ctx.createRadialGradient(ex*sc,ey*sc,0,ex*sc,ey*sc,8*sc);
-    eg.addColorStop(0,'#fff700'); eg.addColorStop(1,'rgba(255,200,0,0)');
-    ctx.fillStyle=eg; ctx.fillRect((ex-8)*sc,(ey-8)*sc,16*sc,16*sc);
-    ctx.beginPath(); ctx.ellipse(ex*sc,ey*sc,5*sc,7*sc,0,0,Math.PI*2);
-    ctx.fillStyle='#222'; ctx.fill();
-    ctx.beginPath(); ctx.ellipse(ex*sc,ey*sc,2*sc,3*sc,.3,0,Math.PI*2);
-    ctx.fillStyle='#ff0'; ctx.fill();
-  });
-
-  // Mouth / fire
-  ctx.beginPath(); ctx.moveTo(-10*sc,-24*sc); ctx.lineTo(10*sc,-24*sc);
-  ctx.strokeStyle='#ff6600'; ctx.lineWidth=2.5*sc; ctx.lineCap='round'; ctx.stroke();
-  // Flame
-  ctx.beginPath();
-  ctx.moveTo(8*sc,-22*sc); ctx.bezierCurveTo(20*sc,-10*sc,28*sc,0*sc,20*sc,10*sc);
-  ctx.bezierCurveTo(14*sc,2*sc,10*sc,-2*sc,8*sc,-22*sc);
-  ctx.fillStyle='rgba(255,120,0,.7)'; ctx.fill();
-
-  // Tail
-  ctx.beginPath(); ctx.moveTo(10*sc,50*sc);
-  ctx.quadraticCurveTo(50*sc,60*sc,60*sc,30*sc);
-  ctx.lineWidth=8*sc; ctx.strokeStyle=`rgb(${c})`; ctx.lineCap='round'; ctx.stroke();
-
-  ctx.restore();
-}
-
-/* ── Robot ── */
-function drawRobot(ctx, cx, cy, sc, col, style, rng) {
-  const c = hexToRgbArr(col);
-  ctx.save(); ctx.translate(cx, cy);
-
-  // Antenna
-  ctx.beginPath(); ctx.moveTo(0,-75*sc); ctx.lineTo(0,-90*sc);
-  ctx.strokeStyle=`rgb(${c})`; ctx.lineWidth=3*sc; ctx.stroke();
-  ctx.beginPath(); ctx.arc(0,-93*sc,5*sc,0,Math.PI*2);
-  ctx.fillStyle='#ff5252'; ctx.fill();
-  // Glow on antenna ball
-  const ag=ctx.createRadialGradient(0,-93*sc,0,0,-93*sc,10*sc);
-  ag.addColorStop(0,'rgba(255,80,80,.5)'); ag.addColorStop(1,'transparent');
-  ctx.fillStyle=ag; ctx.beginPath(); ctx.arc(0,-93*sc,10*sc,0,Math.PI*2); ctx.fill();
-
-  // Arms
-  ctx.fillStyle=`rgba(${c},.8)`;
-  roundRect(ctx,-52*sc,-22*sc,14*sc,38*sc,6*sc); ctx.fill();
-  roundRect(ctx, 38*sc,-22*sc,14*sc,38*sc,6*sc); ctx.fill();
-  // Hands
-  ctx.beginPath(); ctx.arc(-45*sc,18*sc,9*sc,0,Math.PI*2);
-  ctx.fillStyle=`rgb(${c})`; ctx.fill();
-  ctx.beginPath(); ctx.arc(45*sc,18*sc,9*sc,0,Math.PI*2); ctx.fill();
-
-  // Body
-  roundRect(ctx,-34*sc,-20*sc,68*sc,70*sc,14*sc);
-  ctx.fillStyle=`rgb(${c})`; ctx.fill();
-  if(style==='oilpainting'){
-    ctx.strokeStyle=`rgba(255,255,255,.2)`; ctx.lineWidth=2*sc; ctx.stroke();
-  }
-
-  // Chest panel
-  roundRect(ctx,-22*sc,-8*sc,44*sc,36*sc,8*sc);
-  ctx.fillStyle='rgba(0,0,0,.25)'; ctx.fill();
-  // LED lights
-  const leds=['#ff5252','#69ff47','#40c4ff'];
-  leds.forEach((lc,i)=>{
-    ctx.beginPath(); ctx.arc((-14+i*14)*sc,4*sc,4*sc,0,Math.PI*2);
-    ctx.fillStyle=lc; ctx.fill();
-    const lg=ctx.createRadialGradient((-14+i*14)*sc,4*sc,0,(-14+i*14)*sc,4*sc,8*sc);
-    lg.addColorStop(0,lc+'88'); lg.addColorStop(1,'transparent');
-    ctx.fillStyle=lg; ctx.fillRect((-22+i*14)*sc,-4*sc,16*sc,16*sc);
-  });
-  // Speaker lines
-  for(let i=0;i<3;i++){
-    ctx.beginPath(); ctx.moveTo(-16*sc,(18+i*5)*sc); ctx.lineTo(16*sc,(18+i*5)*sc);
-    ctx.strokeStyle='rgba(255,255,255,.3)'; ctx.lineWidth=1.5*sc; ctx.stroke();
-  }
-
-  // Legs
-  roundRect(ctx,-24*sc,52*sc,18*sc,30*sc,7*sc);
-  ctx.fillStyle=`rgba(${c},.9)`; ctx.fill();
-  roundRect(ctx, 6*sc,52*sc,18*sc,30*sc,7*sc); ctx.fill();
-  // Feet
-  roundRect(ctx,-28*sc,78*sc,24*sc,10*sc,5*sc); ctx.fill();
-  roundRect(ctx,  4*sc,78*sc,24*sc,10*sc,5*sc); ctx.fill();
-
-  // Head
-  roundRect(ctx,-32*sc,-75*sc,64*sc,52*sc,16*sc);
-  ctx.fillStyle=`rgb(${c})`; ctx.fill();
-
-  // Face screen
-  roundRect(ctx,-22*sc,-68*sc,44*sc,36*sc,10*sc);
-  ctx.fillStyle='rgba(0,20,40,.7)'; ctx.fill();
-
-  // Eyes (screens)
-  [[-12,-54],[12,-54]].forEach(([ex,ey])=>{
-    roundRect(ctx,(ex-8)*sc,ey*sc,16*sc,12*sc,4*sc);
-    ctx.fillStyle='#00e5ff'; ctx.fill();
-    const eg=ctx.createRadialGradient(ex*sc,(ey+6)*sc,0,ex*sc,(ey+6)*sc,12*sc);
-    eg.addColorStop(0,'rgba(0,229,255,.4)'); eg.addColorStop(1,'transparent');
-    ctx.fillStyle=eg; ctx.beginPath(); ctx.arc(ex*sc,(ey+6)*sc,12*sc,0,Math.PI*2); ctx.fill();
-  });
-
-  // Mouth bar
-  roundRect(ctx,-14*sc,-38*sc,28*sc,6*sc,3*sc);
-  ctx.fillStyle='#00e5ff'; ctx.fill();
-
-  ctx.restore();
-}
-
-/* ── Mermaid ── */
-function drawMermaid(ctx, cx, cy, sc, col, style, rng) {
-  const c = hexToRgbArr(col);
-  ctx.save(); ctx.translate(cx, cy);
-
-  // Tail fin
-  ctx.beginPath();
-  ctx.moveTo(-5*sc,60*sc);
-  ctx.bezierCurveTo(-40*sc,50*sc,-50*sc,80*sc,-30*sc,90*sc);
-  ctx.bezierCurveTo(-10*sc,95*sc,10*sc,95*sc,30*sc,90*sc);
-  ctx.bezierCurveTo(50*sc,80*sc,40*sc,50*sc,5*sc,60*sc);
-  ctx.fillStyle='rgba(0,188,212,.85)'; ctx.fill();
-
-  // Tail body
-  ctx.beginPath(); ctx.ellipse(0,25*sc,20*sc,45*sc,.05,0,Math.PI*2);
-  const tg=ctx.createLinearGradient(-20*sc,0,20*sc,70*sc);
-  tg.addColorStop(0,`rgb(${c})`);
-  tg.addColorStop(1,'rgba(0,150,200,.9)');
-  ctx.fillStyle=tg; ctx.fill();
-
-  // Scale pattern on tail
-  for(let row=0;row<4;row++) {
-    for(let col2=0;col2<3;col2++) {
-      ctx.beginPath();
-      ctx.arc((-12+col2*12)*sc,(10+row*14)*sc,7*sc,Math.PI,0);
-      ctx.strokeStyle='rgba(255,255,255,.25)'; ctx.lineWidth=1*sc; ctx.stroke();
-    }
-  }
-
-  // Torso (upper body)
-  ctx.beginPath(); ctx.ellipse(0,-15*sc,20*sc,28*sc,0,0,Math.PI*2);
-  ctx.fillStyle='#ffd5b8'; ctx.fill();
-
-  // Shell top
-  ctx.beginPath(); ctx.ellipse(-12*sc,-18*sc,10*sc,7*sc,.3,0,Math.PI*2);
-  ctx.fillStyle=`rgb(${c})`; ctx.fill();
-  ctx.beginPath(); ctx.ellipse(12*sc,-18*sc,10*sc,7*sc,-.3,0,Math.PI*2); ctx.fill();
-
-  // Arms
-  ctx.beginPath();
-  ctx.moveTo(-18*sc,-20*sc); ctx.bezierCurveTo(-40*sc,-10*sc,-38*sc,20*sc,-22*sc,25*sc);
-  ctx.lineWidth=10*sc; ctx.strokeStyle='#ffd5b8'; ctx.lineCap='round'; ctx.stroke();
-  ctx.beginPath();
-  ctx.moveTo(18*sc,-20*sc); ctx.bezierCurveTo(40*sc,-10*sc,38*sc,20*sc,22*sc,25*sc);
-  ctx.stroke();
-
-  // Neck & head
-  ctx.beginPath(); ctx.arc(0,-48*sc,24*sc,0,Math.PI*2);
-  ctx.fillStyle='#ffd5b8'; ctx.fill();
-
-  // Hair
-  ctx.beginPath();
-  ctx.moveTo(-24*sc,-55*sc);
-  ctx.bezierCurveTo(-50*sc,-40*sc,-45*sc,10*sc,-25*sc,20*sc);
-  ctx.bezierCurveTo(-20*sc,25*sc,-18*sc,15*sc,-15*sc,5*sc);
-  ctx.bezierCurveTo(-20*sc,-10*sc,-22*sc,-35*sc,-16*sc,-58*sc);
-  ctx.fillStyle=`rgb(${c})`; ctx.fill();
-  ctx.beginPath();
-  ctx.moveTo(24*sc,-55*sc);
-  ctx.bezierCurveTo(50*sc,-40*sc,45*sc,10*sc,25*sc,20*sc);
-  ctx.bezierCurveTo(20*sc,25*sc,18*sc,15*sc,15*sc,5*sc);
-  ctx.bezierCurveTo(20*sc,-10*sc,22*sc,-35*sc,16*sc,-58*sc);
-  ctx.fillStyle=`rgb(${c})`; ctx.fill();
-  // Hair top
-  ctx.beginPath(); ctx.arc(0,-60*sc,20*sc,Math.PI,0);
-  ctx.fill();
-
-  // Eyes
-  [[-9,-50],[9,-50]].forEach(([ex,ey])=>{
-    ctx.beginPath(); ctx.ellipse(ex*sc,ey*sc,5*sc,6.5*sc,0,0,Math.PI*2);
-    ctx.fillStyle='#333'; ctx.fill();
-    ctx.beginPath(); ctx.arc((ex-1)*sc,(ey-1)*sc,1.5*sc,0,Math.PI*2);
-    ctx.fillStyle='white'; ctx.fill();
-    // Lashes
-    for(let l=-2;l<=2;l++){
-      ctx.beginPath(); ctx.moveTo((ex+l*2)*sc,(ey-6)*sc); ctx.lineTo((ex+l*1.8)*sc,(ey-9)*sc);
-      ctx.strokeStyle='#333'; ctx.lineWidth=1.2*sc; ctx.stroke();
-    }
-  });
-
-  // Smile
-  ctx.beginPath(); ctx.arc(0,-45*sc,8*sc,.1,Math.PI-.1);
-  ctx.strokeStyle='#d4726e'; ctx.lineWidth=1.8*sc; ctx.stroke();
-
-  // Flower hair accessory
-  drawFlowerCluster(ctx,-18*sc,-66*sc,sc*.7,'#ff80ab');
-
-  ctx.restore();
-}
-
-/* ── Pixel subject (special style) ── */
-function drawPixelSubject(ctx, t, cx, cy, sc, col, rng) {
-  ctx.imageSmoothingEnabled = false;
-  const ps = Math.max(4, Math.round(5*sc)); // pixel size
-  const c = hexToRgbArr(col);
-
-  // Define pixel art grids per theme (16x16 logical pixels)
-  const GRIDS = {
-    cat: [
-      '0011110000000000',
-      '0112221100000000',
-      '1122222110011001',
-      '1222222211022201',
-      '1222222211022201',
-      '1222222111011001',
-      '0112111100000000',
-      '0011100000000000',
-      '0011100000000000',
-      '0011111000000000',
-      '0011222100000000',
-      '0012222110000000',
-      '0011222100000000',
-      '0001111000000000',
-      '0000110000000000',
-      '0000100000000000'
-    ],
-    dragon: [
-      '0000000011000000',
-      '0000000111100000',
-      '0001100111111000',
-      '0111110111111100',
-      '1111111011111100',
-      '0111110001111100',
-      '0001100001111000',
-      '0000000001110000',
-      '0000000001110000',
-      '0000000011110000',
-      '0000000011100000',
-      '0000000011000000',
-      '0000000110000000',
-      '0000001110000000',
-      '0000001100000000',
-      '0000001000000000'
-    ],
-    robot: [
-      '0011111111110000',
-      '0110000000011000',
-      '0101001001010000',
-      '0101001001010000',
-      '0110000000011000',
-      '0011111111110000',
-      '0000111111100000',
-      '0001001100100000',
-      '0001002200100000',
-      '0001002200100000',
-      '0001001100100000',
-      '0000111111100000',
-      '0001100001100000',
-      '0011100001110000',
-      '0011000000110000',
-      '0011000000110000'
-    ],
-    mermaid: [
-      '0000011110000000',
-      '0000122221000000',
-      '0001222222100000',
-      '0001222222100000',
-      '0000112211000000',
-      '0000011110000000',
-      '0000013310000000',
-      '0000133331000000',
-      '0001333333100000',
-      '0001333333100000',
-      '0000333333000000',
-      '0000033330000000',
-      '0000033330000000',
-      '0000133331000000',
-      '0001133311000000',
-      '0001100011000000'
-    ]
-  };
-
-  const grid = GRIDS[t];
-  const startX = cx - 8*ps;
-  const startY = cy - 8*ps;
-  const COLORS = {
-    '1': `rgb(${c})`,
-    '2': `rgba(255,255,255,0.4)`,
-    '3': 'rgba(0,200,255,0.7)'
-  };
-
-  grid.forEach((row, ri) => {
-    row.split('').forEach((cell, ci) => {
-      if (cell !== '0') {
-        ctx.fillStyle = COLORS[cell] || `rgb(${c})`;
-        ctx.fillRect(startX + ci*ps, startY + ri*ps, ps, ps);
-        // Pixel highlight
-        ctx.fillStyle = 'rgba(255,255,255,0.15)';
-        ctx.fillRect(startX + ci*ps, startY + ri*ps, ps/2, ps/2);
-      }
-    });
-  });
-}
-
-/* ── Element overlays ── */
-function drawElement(ctx, e, W, H, rng) {
-  const cx=W/2, cy=H/2;
-  const sc = Math.min(W,H)/320;
-
-  if (e==='flowers') {
-    const positions = [[-60,-30],[60,-20],[-70,20],[65,10],[0,-60]];
-    const colors=['#ff80ab','#ff5252','#ff9800','#ea80fc','#ff4081'];
-    positions.forEach(([dx,dy],i)=>{
-      drawFlowerCluster(ctx,cx+dx*sc,cy+dy*sc,sc*.8,colors[i%colors.length]);
-    });
-    // Petals falling
-    for(let i=0;i<8;i++){
-      const px=rng()*W, py=rng()*H*.7;
-      drawPetal(ctx,px,py,sc*.5,'#ff80ab',rng()*Math.PI*2);
-    }
-
-  } else if (e==='lightning') {
-    // Main bolt
-    ctx.save();
-    ctx.shadowColor='#ffe000'; ctx.shadowBlur=20;
-    const boltPath=[[cx-10*sc,cy-80*sc],[cx+20*sc,cy-30*sc],
-                    [cx-5*sc,cy-20*sc],[cx+25*sc,cy+50*sc]];
-    ctx.beginPath(); ctx.moveTo(...boltPath[0]);
-    boltPath.slice(1).forEach(p=>ctx.lineTo(...p));
-    ctx.strokeStyle='#ffe000'; ctx.lineWidth=5*sc; ctx.lineCap='round'; ctx.lineJoin='round';
-    ctx.stroke();
-    // Glow layer
-    ctx.lineWidth=12*sc; ctx.strokeStyle='rgba(255,220,0,0.25)'; ctx.stroke();
-    ctx.restore();
-    // Smaller bolts
-    for(let i=0;i<3;i++){
-      ctx.save(); ctx.shadowColor='#fff'; ctx.shadowBlur=8;
-      const bx=cx+(-50+i*50)*sc, by=cy-60*sc;
-      ctx.beginPath(); ctx.moveTo(bx,by);
-      ctx.lineTo(bx+15*sc,by+30*sc); ctx.lineTo(bx+5*sc,by+35*sc); ctx.lineTo(bx+18*sc,by+55*sc);
-      ctx.strokeStyle='rgba(255,240,100,.6)'; ctx.lineWidth=2.5*sc;
-      ctx.lineJoin='round'; ctx.stroke(); ctx.restore();
-    }
-    // Electric sparks
-    for(let i=0;i<12;i++){
-      ctx.beginPath(); ctx.arc(cx+(-60+rng()*120)*sc,cy+(-80+rng()*80)*sc,1.5*sc,0,Math.PI*2);
-      ctx.fillStyle=`rgba(255,255,100,${rng()*.6+.2})`; ctx.fill();
-    }
-
-  } else if (e==='bubbles') {
-    const bubbleData=[
-      {x:-.5,y:-.6,r:22,a:.7},{x:.4,y:-.5,r:16,a:.6},{x:-.7,y:.1,r:14,a:.65},
-      {x:.6,y:.2,r:18,a:.55},{x:.1,y:-.8,r:12,a:.7},{x:-.3,y:.5,r:10,a:.6},
-      {x:.5,y:-.2,r:8,a:.65},{x:-.6,y:-.3,r:20,a:.5}
-    ];
-    bubbleData.forEach(({x,y,r,a})=>{
-      const bx=cx+x*W*.45, by=cy+y*H*.45, br=r*sc;
-      // Rainbow gradient
-      const hue = rng()*360;
-      const bg=ctx.createRadialGradient(bx-br*.3,by-br*.3,0,bx,by,br);
-      bg.addColorStop(0,`hsla(${hue},80%,90%,${a*.5})`);
-      bg.addColorStop(.7,`hsla(${hue+60},60%,60%,${a*.3})`);
-      bg.addColorStop(1,`hsla(${hue},70%,50%,${a*.6})`);
-      ctx.beginPath(); ctx.arc(bx,by,br,0,Math.PI*2);
-      ctx.fillStyle=bg; ctx.fill();
-      ctx.strokeStyle=`hsla(${hue},70%,80%,${a})`;
-      ctx.lineWidth=1.5*sc; ctx.stroke();
-      // Shine
-      ctx.beginPath(); ctx.arc(bx-br*.3,by-br*.3,br*.2,0,Math.PI*2);
-      ctx.fillStyle=`rgba(255,255,255,${a*.6})`; ctx.fill();
-    });
-
-  } else if (e==='stars') {
-    const starPositions=[
-      [-70,-70,18],[70,-60,14],[-80,20,10],[75,25,16],
-      [-40,-85,12],[40,-80,20],[0,-95,8],[-60,50,10],[60,55,12]
-    ];
-    starPositions.forEach(([dx,dy,r])=>{
-      drawStar(ctx,cx+dx*sc,cy+dy*sc,r*sc,'#FFD700','#FFF8DC');
-    });
-    // Sparkle trail
-    for(let i=0;i<15;i++){
-      const sx=rng()*W, sy=rng()*H*.6, ss=rng()*3+1;
-      ctx.beginPath(); ctx.arc(sx,sy,ss*sc,0,Math.PI*2);
-      ctx.fillStyle=`rgba(255,215,0,${rng()*.7+.2})`; ctx.fill();
-    }
-  }
-}
-
-/* ── Style post effects ── */
-function drawStylePostEffect(ctx, s, W, H, rng) {
-  if (s === 'cartoon') {
-    /* ★ CARTOON：加強輪廓感 + 色調鮮豔化 + 半透明漸層高光 */
-    // 漫畫速度線（放射狀）
-    ctx.save();
-    ctx.globalAlpha=0.06;
-    ctx.strokeStyle='#000';
-    const cx=W/2, cy=H/2;
-    for(let i=0;i<24;i++){
-      const a=i*(Math.PI*2/24);
-      ctx.lineWidth=1+rng()*2;
-      ctx.beginPath();
-      ctx.moveTo(cx+Math.cos(a)*60, cy+Math.sin(a)*60);
-      ctx.lineTo(cx+Math.cos(a)*Math.max(W,H), cy+Math.sin(a)*Math.max(W,H));
-      ctx.stroke();
-    }
-    ctx.restore();
-    // 白色漫畫高光橢圓（左上角）
-    ctx.save();
-    ctx.globalAlpha=0.15;
-    ctx.fillStyle='white';
-    ctx.beginPath(); ctx.ellipse(W*.25, H*.18, W*.12, H*.07, -.4, 0, Math.PI*2);
-    ctx.fill();
-    ctx.restore();
-    // 飽和度加強 overlay
-    ctx.globalCompositeOperation='saturation';
-    ctx.fillStyle='rgba(255,100,50,0.08)';
-    ctx.fillRect(0,0,W,H);
-    ctx.globalCompositeOperation='source-over';
-
-  } else if (s === 'watercolor') {
-    /* ★ WATERCOLOR：紙張紋理 + 水彩邊緣暈散 + 紙色整體覆蓋 */
-    // 紙張纖維紋（大量細小灰點）
-    ctx.save();
-    for(let i=0;i<400;i++){
-      const x=rng()*W, y=rng()*H, sz=rng()*1.8;
-      const grey=Math.floor(180+rng()*60);
-      ctx.fillStyle=`rgba(${grey},${grey},${grey},${rng()*.06})`;
-      ctx.fillRect(x,y,sz,sz);
-    }
-    // 水彩邊緣暈染（四邊向內淡出）
-    const edgeTop=ctx.createLinearGradient(0,0,0,H*.15);
-    edgeTop.addColorStop(0,'rgba(255,252,240,0.45)'); edgeTop.addColorStop(1,'transparent');
-    ctx.fillStyle=edgeTop; ctx.fillRect(0,0,W,H*.15);
-    const edgeBot=ctx.createLinearGradient(0,H*.85,0,H);
-    edgeBot.addColorStop(0,'transparent'); edgeBot.addColorStop(1,'rgba(255,252,240,0.4)');
-    ctx.fillStyle=edgeBot; ctx.fillRect(0,H*.85,W,H*.15);
-    const edgeL=ctx.createLinearGradient(0,0,W*.1,0);
-    edgeL.addColorStop(0,'rgba(255,252,240,0.3)'); edgeL.addColorStop(1,'transparent');
-    ctx.fillStyle=edgeL; ctx.fillRect(0,0,W*.1,H);
-    const edgeR=ctx.createLinearGradient(W*.9,0,W,0);
-    edgeR.addColorStop(0,'transparent'); edgeR.addColorStop(1,'rgba(255,252,240,0.3)');
-    ctx.fillStyle=edgeR; ctx.fillRect(W*.9,0,W*.1,H);
-    // 整體暖色紙調疊加
-    ctx.fillStyle='rgba(255,248,220,0.12)'; ctx.fillRect(0,0,W,H);
-    ctx.restore();
-
-  } else if (s === 'pixel') {
-    /* ★ PIXEL：強化像素網格 + CRT 掃描線 + 色彩量化（低彩度抖動）*/
-    // 像素網格
-    ctx.save();
-    const PS=8;
-    ctx.strokeStyle='rgba(0,0,0,0.2)'; ctx.lineWidth=0.5;
-    for(let x=0;x<=W;x+=PS){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
-    for(let y=0;y<=H;y+=PS){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
-    // CRT 水平掃描線
-    ctx.globalAlpha=0.08;
-    ctx.fillStyle='#000';
-    for(let y=0;y<H;y+=4){ ctx.fillRect(0,y,W,2); }
-    // 螢幕邊角暗角
-    const crt=ctx.createRadialGradient(W/2,H/2,H*.25,W/2,H/2,H*.85);
-    crt.addColorStop(0,'transparent'); crt.addColorStop(1,'rgba(0,0,0,0.45)');
-    ctx.globalAlpha=1; ctx.fillStyle=crt; ctx.fillRect(0,0,W,H);
-    // 螢幕反光（左上弧形高光）
-    ctx.globalAlpha=0.07; ctx.fillStyle='white';
-    ctx.beginPath(); ctx.ellipse(W*.2,H*.15,W*.35,H*.2,-.2,0,Math.PI*2); ctx.fill();
-    ctx.restore();
-
-  } else if (s === 'oilpainting') {
-    /* ★ OIL PAINTING：畫框暗角 + 帆布厚塗筆觸 + 古典暖黃色調 */
-    // 大量帆布筆觸（隨機方向的短矩形）
-    ctx.save();
-    for(let i=0;i<120;i++){
-      const x=rng()*W, y=rng()*H;
-      const l=(8+rng()*28), w=(1.5+rng()*3);
-      const a=rng()*Math.PI;
-      const bright=rng()>.65;
-      ctx.save(); ctx.translate(x,y); ctx.rotate(a);
-      ctx.fillStyle=bright ? `rgba(255,245,200,${rng()*.09})` : `rgba(0,0,0,${rng()*.07})`;
-      ctx.fillRect(-l/2,-w/2,l,w);
-      ctx.restore();
-    }
-    // 古典暖黃色調（琥珀glazing）
-    ctx.fillStyle='rgba(180,120,30,0.1)'; ctx.fillRect(0,0,W,H);
-    // 深色暗角（強烈畫框效果）
-    const darkVig=ctx.createRadialGradient(W/2,H/2,H*.2,W/2,H/2,H*.9);
-    darkVig.addColorStop(0,'transparent');
-    darkVig.addColorStop(0.55,'rgba(10,5,0,0.15)');
-    darkVig.addColorStop(1,'rgba(0,0,0,0.65)');
-    ctx.fillStyle=darkVig; ctx.fillRect(0,0,W,H);
-    // 畫框邊線（模擬畫布邊緣）
-    ctx.strokeStyle='rgba(80,40,10,0.4)'; ctx.lineWidth=6;
-    ctx.strokeRect(3,3,W-6,H-6);
-    ctx.restore();
-  }
-}
-
-/* ── Drawing helpers ── */
-function drawFlowerCluster(ctx, cx, cy, sc, color) {
-  for(let i=0;i<5;i++){
-    const a=i*(Math.PI*2/5);
-    ctx.beginPath(); ctx.ellipse(
-      cx+Math.cos(a)*8*sc, cy+Math.sin(a)*8*sc, 6*sc, 4*sc, a, 0, Math.PI*2
-    );
-    ctx.fillStyle=color; ctx.fill();
-  }
-  ctx.beginPath(); ctx.arc(cx,cy,5*sc,0,Math.PI*2);
-  ctx.fillStyle='#fff9c4'; ctx.fill();
-}
-function drawPetal(ctx, x, y, sc, color, angle) {
-  ctx.save(); ctx.translate(x,y); ctx.rotate(angle);
-  ctx.beginPath(); ctx.ellipse(0,0,4*sc,8*sc,0,0,Math.PI*2);
-  ctx.fillStyle=hexAlpha(color,.55); ctx.fill(); ctx.restore();
-}
-function drawStar(ctx, cx, cy, r, col1, col2) {
-  const n=5, inner=r*.45;
-  const sg=ctx.createRadialGradient(cx,cy,0,cx,cy,r);
-  sg.addColorStop(0,col2); sg.addColorStop(1,col1);
-  ctx.beginPath();
-  for(let i=0;i<n*2;i++){
-    const a=i*Math.PI/n - Math.PI/2;
-    const rv=i%2===0?r:inner;
-    i===0 ? ctx.moveTo(cx+Math.cos(a)*rv,cy+Math.sin(a)*rv)
-          : ctx.lineTo(cx+Math.cos(a)*rv,cy+Math.sin(a)*rv);
-  }
-  ctx.closePath();
-  ctx.fillStyle=sg; ctx.fill();
-  // glow
-  const glow=ctx.createRadialGradient(cx,cy,0,cx,cy,r*1.5);
-  glow.addColorStop(0,'rgba(255,215,0,0.3)'); glow.addColorStop(1,'transparent');
-  ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(cx,cy,r*1.5,0,Math.PI*2); ctx.fill();
-}
-function roundRect(ctx,x,y,w,h,r){
-  ctx.beginPath();
-  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.arcTo(x+w,y,x+w,y+r,r);
-  ctx.lineTo(x+w,y+h-r); ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
-  ctx.lineTo(x+r,y+h); ctx.arcTo(x,y+h,x,y+h-r,r);
-  ctx.lineTo(x,y+r); ctx.arcTo(x,y,x+r,y,r);
-  ctx.closePath();
-}
-
-/* ── Colour helpers ── */
-function hexToRgb(hex) {
-  hex=hex.replace('#','');
-  if(hex.length===3) hex=hex.split('').map(c=>c+c).join('');
-  const n=parseInt(hex,16);
-  return `${(n>>16)&255},${(n>>8)&255},${n&255}`;
-}
-function hexToRgbArr(hex){ return hexToRgb(hex); }
-function hexAlpha(hex,a){ return `rgba(${hexToRgb(hex)},${a})`; }
 
 /* ══════════════════════════════════════════════════
    ④  MySQL DB STUB
@@ -1820,10 +754,10 @@ async function dbLog(row) {
 let G = {};
 function resetState() {
   G = {
-    sessionId:   crypto.randomUUID?.() || Date.now().toString(36),
-    useCount:    0,
-    gameStart:   Date.now(),
-    slotCanvases:[]   // store canvas refs for end-screen thumbs
+    sessionId:  crypto.randomUUID?.() || Date.now().toString(36),
+    useCount:   0,
+    gameStart:  Date.now(),
+    slotImages: []   // 儲存各圖片 src 供結束畫面縮圖使用
   };
 }
 
@@ -1855,7 +789,7 @@ function initGame() {
     info.innerHTML=''; info.classList.remove('show');
   });
 
-  G.slotCanvases=[];
+  G.slotImages=[];
   onSelectChange();
 }
 
@@ -1902,23 +836,23 @@ function onSelectChange() {
   const promptEl=document.getElementById('promptText');
   if (!allChosen) {
     const missing=[];
-    if(!t) missing.push('主題');
     if(!s) missing.push('風格');
+    if(!t) missing.push('主題');
+    if(!b) missing.push('光線');
     if(!e) missing.push('元素');
-    if(!b) missing.push('背景');
     promptEl.innerHTML=`<span class="placeholder">還需要選擇：${missing.join('、')}…</span>`;
     return;
   }
 
-  const text=buildPrompt(t,s,e,b);
-  const to=OPTS.theme[t], so=OPTS.style[s], eo=OPTS.element[e], bo=OPTS.bg[b];
+  const entry = lookupImage(t, s, e, b);
+  const so=OPTS.style[s], to=OPTS.theme[t], bo=OPTS.bg[b], eo=OPTS.element[e];
 
   promptEl.innerHTML =
-    `<span class="tag tag-theme">${to.emoji} ${to.label}</span> ` +
     `<span class="tag tag-style">${so.emoji} ${so.label}</span> ` +
-    `<span class="tag tag-element">${eo.emoji} ${eo.label}</span> ` +
-    `<span class="tag tag-bg">${OPTS.theme.cat.emoji.replace('🐱','🌄')} ${bo.label}</span>` +
-    `：${text}`;
+    `<span class="tag tag-theme">${to.emoji} ${to.label}</span> ` +
+    `<span class="tag tag-bg">${bo.emoji} ${bo.label}</span> ` +
+    `<span class="tag tag-element">${eo.emoji} ${eo.label}</span>` +
+    (entry ? `<div style="margin-top:8px;font-size:.85rem;color:#4a5f7a;line-height:1.6;">${entry.story}</div>` : '');
 }
 
 /* ══════════════════════════════════════════════════
@@ -1978,43 +912,41 @@ function generateImage() {
 }
 
 function renderSlot(slot, slotIdx, t, s, e, b) {
-  // Remove empty placeholder
   const empty=slot.querySelector('.slot-empty');
   if(empty) empty.style.display='none';
 
-  // Create canvas
+  const entry = lookupImage(t, s, e, b);
+
   const wrap=document.createElement('div');
   wrap.className='slot-canvas-wrap';
-  const canvas=document.createElement('canvas');
-  wrap.appendChild(canvas);
+
+  if (entry) {
+    const img=document.createElement('img');
+    img.src = getImageSrc(entry);
+    img.alt = entry.kw;
+    img.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;';
+    wrap.appendChild(img);
+    G.slotImages[slotIdx] = img.src;
+  } else {
+    wrap.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#aaa;font-size:3rem;">🖼️</div>';
+  }
+
   slot.insertBefore(wrap, document.getElementById('info'+slotIdx));
-
-  // Draw
-  drawImage(canvas, t, s, e, b);
-  G.slotCanvases[slotIdx]=canvas;
-
   slot.classList.add('filled','slot-appear');
 
-  // Info bar
-  const to=OPTS.theme[t], so=OPTS.style[s], eo=OPTS.element[e], bo=OPTS.bg[b];
+  const so=OPTS.style[s], to=OPTS.theme[t], bo=OPTS.bg[b], eo=OPTS.element[e];
   const info=document.getElementById('info'+slotIdx);
+  const storyText = entry ? entry.story : '';
   info.innerHTML=`
     <div class="slot-info-tags">
-      <span class="slot-info-tag sit-theme">${to.emoji} ${to.label}</span>
       <span class="slot-info-tag sit-style">${so.emoji} ${so.label}</span>
+      <span class="slot-info-tag sit-theme">${to.emoji} ${to.label}</span>
+      <span class="slot-info-tag sit-bg">${bo.emoji} ${bo.label}</span>
       <span class="slot-info-tag sit-element">${eo.emoji} ${eo.label}</span>
-      <span class="slot-info-tag sit-bg">🌄 ${bo.label}</span>
     </div>
-    <div class="slot-info-prompt">${buildPrompt(t,s,e,b).slice(0,60)}…</div>`;
+    <div class="slot-info-prompt">${storyText.slice(0,60)}…</div>`;
   info.classList.add('show');
 
-  // Resize canvas to actual pixel dimensions
-  setTimeout(()=>{
-    const W=wrap.offsetWidth, H=wrap.offsetHeight;
-    if(W>0&&H>0){ canvas.width=W; canvas.height=H; drawImage(canvas,t,s,e,b); }
-  }, 50);
-
-  // Confetti on first best image
   if(slotIdx===0) spawnConfetti();
 }
 
@@ -2026,16 +958,14 @@ function showEndOverlay() {
     // Build end gallery thumbs
     const gallEl=document.getElementById('endGallery');
     gallEl.innerHTML='';
-    G.slotCanvases.forEach(src=>{
+    G.slotImages.forEach(src=>{
       if(!src) return;
       const thumb=document.createElement('div');
       thumb.className='end-thumb';
-      // Clone canvas content
-      const mini=document.createElement('canvas');
-      mini.width=70; mini.height=70;
-      const mctx=mini.getContext('2d');
-      mctx.drawImage(src,0,0,70,70);
-      thumb.appendChild(mini);
+      const img=document.createElement('img');
+      img.src=src;
+      img.style.cssText='width:70px;height:70px;object-fit:cover;border-radius:8px;';
+      thumb.appendChild(img);
       gallEl.appendChild(thumb);
     });
     document.getElementById('endOverlay').classList.add('show');
@@ -2095,9 +1025,9 @@ function spawnConfetti() {
 }
 
 /* ══════════════════════════════════════════════════
-   BOOT
+   BOOT  — 先載入圖片資料，再初始化遊戲
 ══════════════════════════════════════════════════ */
-initGame();
+loadMetadata().then(() => initGame());
 
 /* ── Google Sites iframe 高度通報（自動適配）──
    Google Sites 嵌入時建議手動將 iframe 高度設為 700px

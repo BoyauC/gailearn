@@ -1,0 +1,2050 @@
+﻿[
+    {
+        "batch":  "Images_1_16",
+        "num":  1,
+        "prompt":  "Impressionist, Orange Cat with Soap Bubbles, Golden Hour",
+        "kw":  "印象派 / 橘貓 / 金光 / 肥皂泡",
+        "story":  "像莫內畫筆下的光影，橘貓在金色的午後追逐著發光的泡泡。",
+        "fname":  "Gemini_Generated_Image_cibbpqcibbpqcibb"
+    },
+    {
+        "batch":  "Images_1_16",
+        "num":  2,
+        "prompt":  "Impressionist, Orange Cat with Soap Bubbles, Overcast",
+        "kw":  "印象派 / 橘貓 / 冷光 / 肥皂泡",
+        "story":  "灰濛濛的街道上，色彩鮮艷的泡泡成了貓咪眼中唯一的驚喜。",
+        "fname":  "Gemini_Generated_Image_ae2dwiae2dwiae2d"
+    },
+    {
+        "batch":  "Images_1_16",
+        "num":  3,
+        "prompt":  "Impressionist, Orange Cat with Soap Bubbles, Warm Lamp",
+        "kw":  "印象派 / 橘貓 / 暖燈 / 肥皂泡",
+        "story":  "室內溫馨的燈光映照在貓毛上，泡泡反射出油畫般的厚重質感。",
+        "fname":  "Gemini_Generated_Image_jtbcw6jtbcw6jtbc"
+    },
+    {
+        "batch":  "Images_1_16",
+        "num":  4,
+        "prompt":  "Impressionist, Orange Cat with Soap Bubbles, Neon Reflect",
+        "kw":  "印象派 / 橘貓 / 霓虹 / 肥皂泡",
+        "story":  "濕冷的雨夜街頭，橘貓在五彩斑斕的倒影中與泡泡共舞。",
+        "fname":  "Gemini_Generated_Image_oefsb0oefsb0oefs"
+    },
+    {
+        "batch":  "Images_1_16",
+        "num":  5,
+        "prompt":  "Impressionist, Orange Cat with Old Photos, Golden Hour",
+        "kw":  "印象派 / 橘貓 / 金光 / 舊照片",
+        "story":  "閣樓陽光灑在老照片與懶洋洋的貓身上，散發懷舊的油彩氣息。",
+        "fname":  "Gemini_Generated_Image_mpn9gfmpn9gfmpn9"
+    },
+    {
+        "batch":  "Images_1_16",
+        "num":  6,
+        "prompt":  "Impressionist, Orange Cat with Old Photos, Overcast",
+        "kw":  "印象派 / 橘貓 / 冷光 / 舊照片",
+        "story":  "憂鬱的銀灰色調中，貓咪守著斑駁的照片，彷彿在沈默的畫布中守候往日。",
+        "fname":  "Gemini_Generated_Image_bcvippbcvippbcvi"
+    },
+    {
+        "batch":  "Images_1_16",
+        "num":  7,
+        "prompt":  "Impressionist, Orange Cat with Old Photos, Warm Lamp",
+        "kw":  "印象派 / 橘貓 / 暖燈 / 舊照片",
+        "story":  "檯燈下照片裡的人影與貓重疊，昏黃筆觸勾勒出跨越時空的眷戀。",
+        "fname":  "Gemini_Generated_Image_bi8jqpbi8jqpbi8j"
+    },
+    {
+        "batch":  "Images_1_16",
+        "num":  8,
+        "prompt":  "Impressionist, Orange Cat with Old Photos, Neon Reflect",
+        "kw":  "印象派 / 橘貓 / 霓虹 / 舊照片",
+        "story":  "櫥窗內的貓與舊照片，被窗外穿梭的霓虹燈染上了科幻的色彩。",
+        "fname":  "Gemini_Generated_Image_rquguqrquguqrqug"
+    },
+    {
+        "batch":  "Images_1_16",
+        "num":  9,
+        "prompt":  "Impressionist, Orange Cat with Potted Plants, Golden Hour",
+        "kw":  "印象派 / 橘貓 / 金光 / 綠意",
+        "story":  "綠葉與橘色貓毛在強烈陽光下交織，畫面充滿了自然的律動感。",
+        "fname":  "Gemini_Generated_Image_komc8mkomc8mkomc"
+    },
+    {
+        "batch":  "Images_1_16",
+        "num":  10,
+        "prompt":  "Impressionist, Orange Cat with Potted Plants, Overcast",
+        "kw":  "印象派 / 橘貓 / 冷光 / 綠意",
+        "story":  "平淡的陰雨天，窗邊的植物與貓構成一幅靜謐且內斂的寫生。",
+        "fname":  "Gemini_Generated_Image_1k3wx41k3wx41k3w"
+    },
+    {
+        "batch":  "Images_1_16",
+        "num":  11,
+        "prompt":  "Impressionist, Orange Cat with Potted Plants, Warm Lamp",
+        "kw":  "印象派 / 橘貓 / 暖燈 / 綠意",
+        "story":  "溫暖光線穿透葉片，貓咪安靜地沉浸在室內微型森林的夢境裡。",
+        "fname":  "Gemini_Generated_Image_uekzduekzduekzdu"
+    },
+    {
+        "batch":  "Images_1_16",
+        "num":  12,
+        "prompt":  "Impressionist, Orange Cat with Potted Plants, Neon Reflect",
+        "kw":  "印象派 / 橘貓 / 霓虹 / 綠意",
+        "story":  "城市的人造光滲透進室內，貓咪在迷幻的紅綠光影中凝視夜空。",
+        "fname":  "Gemini_Generated_Image_jquxtcjquxtcjqux"
+    },
+    {
+        "batch":  "Images_1_16",
+        "num":  13,
+        "prompt":  "Impressionist, Orange Cat with Raindrops, Golden Hour",
+        "kw":  "印象派 / 橘貓 / 金光 / 雨滴",
+        "story":  "雨後天晴，玻璃上的水珠折射出金色的斑點，貓咪正好奇凝望。",
+        "fname":  "Gemini_Generated_Image_lfs2m7lfs2m7lfs2"
+    },
+    {
+        "batch":  "Images_1_16",
+        "num":  14,
+        "prompt":  "Impressionist, Orange Cat with Raindrops, Overcast",
+        "kw":  "印象派 / 橘貓 / 冷光 / 雨滴",
+        "story":  "透過佈滿雨水的窗戶看去，貓咪的身影顯得朦朧且富有詩意。",
+        "fname":  "Gemini_Generated_Image_utktd9utktd9utkt"
+    },
+    {
+        "batch":  "Images_1_16",
+        "num":  15,
+        "prompt":  "Impressionist, Orange Cat with Raindrops, Warm Lamp",
+        "kw":  "印象派 / 橘貓 / 暖燈 / 雨滴",
+        "story":  "外頭寒雨冰冷，室內燈火暖黃，水珠在窗上閃爍如鑽石。",
+        "fname":  "Gemini_Generated_Image_7eyqq37eyqq37eyq"
+    },
+    {
+        "batch":  "Images_1_16",
+        "num":  16,
+        "prompt":  "Impressionist, Orange Cat with Raindrops, Neon Reflect",
+        "kw":  "印象派 / 橘貓 / 霓虹 / 雨滴",
+        "story":  "霓虹燈火在流動的水滴中破碎，貓影如同色彩斑斕的電子幻象。",
+        "fname":  "Gemini_Generated_Image_4d9f4q4d9f4q4d9f"
+    },
+    {
+        "batch":  "Images_17_32",
+        "num":  17,
+        "prompt":  "Watercolor, Orange Cat with Soap Bubbles, Golden Hour",
+        "kw":  "水彩 / 橘貓 / 金光 / 肥皂泡",
+        "story":  "輕盈的色塊渲染出透明感，貓咪追逐泡泡的動作像水花般靈動。",
+        "fname":  "Gemini_Generated_Image_vl55isvl55isvl55"
+    },
+    {
+        "batch":  "Images_17_32",
+        "num":  18,
+        "prompt":  "Watercolor, Orange Cat with Soap Bubbles, Overcast",
+        "kw":  "水彩 / 橘貓 / 冷光 / 肥皂泡",
+        "story":  "濕潤的紙質紋理，彩色泡泡如同貓咪在陰雨午後的一場白日夢。",
+        "fname":  "Gemini_Generated_Image_opkvw9opkvw9opkv"
+    },
+    {
+        "batch":  "Images_17_32",
+        "num":  19,
+        "prompt":  "Watercolor, Orange Cat with Soap Bubbles, Warm Lamp",
+        "kw":  "水彩 / 橘貓 / 暖燈 / 肥皂泡",
+        "story":  "暖橘色的水暈擴散，泡泡在燈火映照下呈現出柔和的透明光澤。",
+        "fname":  "Gemini_Generated_Image_qvexedqvexedqvex"
+    },
+    {
+        "batch":  "Images_17_32",
+        "num":  20,
+        "prompt":  "Watercolor, Orange Cat with Soap Bubbles, Neon Reflect",
+        "kw":  "水彩 / 橘貓 / 霓虹 / 肥皂泡",
+        "story":  "迷幻的水彩流動，貓與泡泡在紙上交融成一場都會霓虹的迷蹤。",
+        "fname":  "Gemini_Generated_Image_ehcty7ehcty7ehct"
+    },
+    {
+        "batch":  "Images_17_32",
+        "num":  21,
+        "prompt":  "Watercolor, Orange Cat with Old Photos, Golden Hour",
+        "kw":  "水彩 / 橘貓 / 金光 / 舊照片",
+        "story":  "泛黃的渲染背景，咖啡色的毛與舊照片交織成一段溫柔的思念。",
+        "fname":  "Gemini_Generated_Image_bbqifgbbqifgbbqi"
+    },
+    {
+        "batch":  "Images_17_32",
+        "num":  22,
+        "prompt":  "Watercolor, Orange Cat with Old Photos, Overcast",
+        "kw":  "水彩 / 橘貓 / 冷光 / 舊照片",
+        "story":  "內斂的水彩筆觸，描繪出雨天午後貓咪獨自進行的記憶旅行。",
+        "fname":  "Gemini_Generated_Image_m02tk0m02tk0m02t"
+    },
+    {
+        "batch":  "Images_17_32",
+        "num":  23,
+        "prompt":  "Watercolor, Orange Cat with Old Photos, Warm Lamp",
+        "kw":  "水彩 / 橘貓 / 暖燈 / 舊照片",
+        "story":  "柔軟的光影邊緣，貓的呼吸蒸氣與照片中的模糊影像巧妙重疊。",
+        "fname":  "Gemini_Generated_Image_owh41oowh41oowh4"
+    },
+    {
+        "batch":  "Images_17_32",
+        "num":  24,
+        "prompt":  "Watercolor, Orange Cat with Old Photos, Neon Reflect",
+        "kw":  "水彩 / 橘貓 / 霓虹 / 舊照片",
+        "story":  "當現代城市的霓虹滲透進復古照片，形成水彩特有的時空衝突美。",
+        "fname":  "Gemini_Generated_Image_uctbsvuctbsvuctb"
+    },
+    {
+        "batch":  "Images_17_32",
+        "num":  25,
+        "prompt":  "Watercolor, Orange Cat with Potted Plants, Golden Hour",
+        "kw":  "水彩 / 橘貓 / 金光 / 綠意",
+        "story":  "清新脫俗的色彩配置，貓與植物在晨光中展現出濕潤的生命力。",
+        "fname":  "Gemini_Generated_Image_mif0dfmif0dfmif0"
+    },
+    {
+        "batch":  "Images_17_32",
+        "num":  26,
+        "prompt":  "Watercolor, Orange Cat with Potted Plants, Overcast",
+        "kw":  "水彩 / 橘貓 / 冷光 / 綠意",
+        "story":  "簡潔清爽的構圖，葉片上的水珠彷彿要滴進貓咪平靜的夢境裡。",
+        "fname":  "Gemini_Generated_Image_qijk4jqijk4jqijk"
+    },
+    {
+        "batch":  "Images_17_32",
+        "num":  27,
+        "prompt":  "Watercolor, Orange Cat with Potted Plants, Warm Lamp",
+        "kw":  "水彩 / 橘貓 / 暖燈 / 綠意",
+        "story":  "溫馨的居家一角，暖水暈賦予了陶瓷盆與貓毛潤澤的質感。",
+        "fname":  "Gemini_Generated_Image_ij8ekwij8ekwij8e"
+    },
+    {
+        "batch":  "Images_17_32",
+        "num":  28,
+        "prompt":  "Watercolor, Orange Cat with Potted Plants, Neon Reflect",
+        "kw":  "水彩 / 橘貓 / 霓虹 / 綠意",
+        "story":  "城市的倒影落在綠葉尖端，展現現代都會與自然的微妙平衡。",
+        "fname":  "Gemini_Generated_Image_iuxdm6iuxdm6iuxd"
+    },
+    {
+        "batch":  "Images_17_32",
+        "num":  29,
+        "prompt":  "Watercolor, Orange Cat with Raindrops, Golden Hour",
+        "kw":  "水彩 / 橘貓 / 金光 / 雨滴",
+        "story":  "陽光穿透玻璃水滴，在橘貓身旁留下了一圈繽紛且通透的光斑。",
+        "fname":  "Gemini_Generated_Image_6twg3a6twg3a6twg"
+    },
+    {
+        "batch":  "Images_17_32",
+        "num":  30,
+        "prompt":  "Watercolor, Orange Cat with Raindrops, Overcast",
+        "kw":  "水彩 / 橘貓 / 冷光 / 雨滴",
+        "story":  "濃郁的水彩水漬感，表現出雨天裡橘貓躲在屋簷下的安靜重量。",
+        "fname":  "Gemini_Generated_Image_doiy8xdoiy8xdoiy"
+    },
+    {
+        "batch":  "Images_17_32",
+        "num":  31,
+        "prompt":  "Watercolor, Orange Cat with Raindrops, Warm Lamp",
+        "kw":  "水彩 / 橘貓 / 暖燈 / 雨滴",
+        "story":  "溫暖的孤獨，杯中的熱氣與窗外的冷雨在水彩畫紙上對話。",
+        "fname":  "Gemini_Generated_Image_1fjcvx1fjcvx1fjc"
+    },
+    {
+        "batch":  "Images_17_32",
+        "num":  32,
+        "prompt":  "Watercolor, Orange Cat with Raindrops, Neon Reflect",
+        "kw":  "水彩 / 橘貓 / 霓虹 / 雨滴",
+        "story":  "抽象的色彩交織，貓影捕捉了城市窗台外流動的五彩波光。",
+        "fname":  "Gemini_Generated_Image_mgfbjgmgfbjgmgfb"
+    },
+    {
+        "batch":  "Images_33_48",
+        "num":  33,
+        "prompt":  "Minimalist, Orange Cat with Soap Bubbles, Golden Hour",
+        "kw":  "極簡 / 橘貓 / 金光 / 肥皂泡",
+        "story":  "幾何色塊構成的橘貓與純圓形的泡泡，在金黃背景中極其俐落。",
+        "fname":  "Gemini_Generated_Image_luvwsvluvwsvluvw"
+    },
+    {
+        "batch":  "Images_33_48",
+        "num":  34,
+        "prompt":  "Minimalist, Orange Cat with Soap Bubbles, Overcast",
+        "kw":  "極簡 / 橘貓 / 冷光 / 肥皂泡",
+        "story":  "灰白背景下，簡約的橘色線條與透明圓點，勾勒出安靜的氛圍。",
+        "fname":  "Gemini_Generated_Image_st3ohlst3ohlst3o"
+    },
+    {
+        "batch":  "Images_33_48",
+        "num":  35,
+        "prompt":  "Minimalist, Orange Cat with Soap Bubbles, Warm Lamp",
+        "kw":  "極簡 / 橘貓 / 暖燈 / 肥皂泡",
+        "story":  "溫暖色塊拼貼的室內，貓與泡泡構成一幅平衡且充滿詩意的插圖。",
+        "fname":  "Gemini_Generated_Image_8p6v3b8p6v3b8p6v"
+    },
+    {
+        "batch":  "Images_33_48",
+        "num":  36,
+        "prompt":  "Minimalist, Orange Cat with Soap Bubbles, Neon Reflect",
+        "kw":  "極簡 / 橘貓 / 霓虹 / 肥皂泡",
+        "story":  "電子感的對比色調，極簡線條勾勒出都會貓咪與發光圓點的幻想。",
+        "fname":  "Gemini_Generated_Image_pnhmhopnhmhopnhm"
+    },
+    {
+        "batch":  "Images_33_48",
+        "num":  37,
+        "prompt":  "Minimalist, Orange Cat with Old Photos, Golden Hour",
+        "kw":  "極簡 / 橘貓 / 金光 / 舊照片",
+        "story":  "幾何構成的桌面與方塊照片，斜切陽光的影子呈現純粹的光影美。",
+        "fname":  "Gemini_Generated_Image_xmgoxcxmgoxcxmgo"
+    },
+    {
+        "batch":  "Images_33_48",
+        "num":  38,
+        "prompt":  "Minimalist, Orange Cat with Old Photos, Overcast",
+        "kw":  "極簡 / 橘貓 / 冷光 / 舊照片",
+        "story":  "高冷的灰色空間，極簡線條凸顯了老照片中孤獨而清晰的輪廓。",
+        "fname":  "Gemini_Generated_Image_clifd1clifd1clif"
+    },
+    {
+        "batch":  "Images_33_48",
+        "num":  39,
+        "prompt":  "Minimalist, Orange Cat with Old Photos, Warm Lamp",
+        "kw":  "極簡 / 橘貓 / 暖燈 / 舊照片",
+        "story":  "暖橘色背景，書本、照片與貓剪影交織，展現極簡主義下的懷舊。",
+        "fname":  "Gemini_Generated_Image_biculibiculibicu"
+    },
+    {
+        "batch":  "Images_33_48",
+        "num":  40,
+        "prompt":  "Minimalist, Orange Cat with Old Photos, Neon Reflect",
+        "kw":  "極簡 / 橘貓 / 霓虹 / 舊照片",
+        "story":  "當數位的亮藍調遇上黑白照，平面設計般的張力讓畫面極其前衛。",
+        "fname":  "Gemini_Generated_Image_pbpq7pbpq7pbpq7p"
+    },
+    {
+        "batch":  "Images_33_48",
+        "num":  41,
+        "prompt":  "Minimalist, Orange Cat with Potted Plants, Golden Hour",
+        "kw":  "極簡 / 橘貓 / 金光 / 綠意",
+        "story":  "簡潔的綠色弧線與垂直構圖，打造出一個充滿設計感的金黃午後。",
+        "fname":  "Gemini_Generated_Image_ugxyd5ugxyd5ugxy"
+    },
+    {
+        "batch":  "Images_33_48",
+        "num":  42,
+        "prompt":  "Minimalist, Orange Cat with Potted Plants, Overcast",
+        "kw":  "極簡 / 橘貓 / 冷光 / 綠意",
+        "story":  "灰綠色的簡約風格，強調了植物葉片與貓咪靜止時的剪影美學。",
+        "fname":  "Gemini_Generated_Image_554keq554keq554k"
+    },
+    {
+        "batch":  "Images_33_48",
+        "num":  43,
+        "prompt":  "Minimalist, Orange Cat with Potted Plants, Warm Lamp",
+        "kw":  "極簡 / 橘貓 / 暖燈 / 綠意",
+        "story":  "黃色暖光區域中，幾何植物與貓構成了一個具備治癒感的閱讀角。",
+        "fname":  "Gemini_Generated_Image_idlkujidlkujidlk"
+    },
+    {
+        "batch":  "Images_33_48",
+        "num":  44,
+        "prompt":  "Minimalist, Orange Cat with Potted Plants, Neon Reflect",
+        "kw":  "極簡 / 橘貓 / 霓虹 / 綠意",
+        "story":  "人造藍綠光影下的植物，在極簡風格中呈現出一種冷冽的都會森林感。",
+        "fname":  "Gemini_Generated_Image_45hdpn45hdpn45hd"
+    },
+    {
+        "batch":  "Images_33_48",
+        "num":  45,
+        "prompt":  "Minimalist, Orange Cat with Raindrops, Golden Hour",
+        "kw":  "極簡 / 橘貓 / 金光 / 雨滴",
+        "story":  "窗戶上規律排列的圓點（雨滴）與斜射陽光的影子，構思巧妙精確。",
+        "fname":  "Gemini_Generated_Image_pl270zpl270zpl27"
+    },
+    {
+        "batch":  "Images_33_48",
+        "num":  46,
+        "prompt":  "Minimalist, Orange Cat with Raindrops, Overcast",
+        "kw":  "極簡 / 橘貓 / 冷光 / 雨滴",
+        "story":  "藍灰色構圖，幾道雨痕在窗戶玻璃上形成了富有韻律的垂直線條美。",
+        "fname":  "Gemini_Generated_Image_a16k8ua16k8ua16k"
+    },
+    {
+        "batch":  "Images_33_48",
+        "num":  47,
+        "prompt":  "Minimalist, Orange Cat with Raindrops, Warm Lamp",
+        "kw":  "極簡 / 橘貓 / 暖燈 / 雨滴",
+        "story":  "圓形的燈火暈影在雨窗上擴散，意境深遠的色塊組合，溫暖且安寧。",
+        "fname":  "Gemini_Generated_Image_h8ibm8h8ibm8h8ib"
+    },
+    {
+        "batch":  "Images_33_48",
+        "num":  48,
+        "prompt":  "Minimalist, Orange Cat with Raindrops, Neon Reflect",
+        "kw":  "極簡 / 橘貓 / 霓虹 / 雨滴",
+        "story":  "玻璃反光與流動雨痕，在極簡筆觸下構成如電路板般的數位日常美。",
+        "fname":  "Gemini_Generated_Image_b51zifb51zifb51z"
+    },
+    {
+        "batch":  "Images_49_64",
+        "num":  49,
+        "prompt":  "Cyberpunk, Orange Cat with Soap Bubbles, Golden Hour",
+        "kw":  "賽博龐克 / 橘貓 / 金光 / 肥皂泡",
+        "story":  "鍍鉻的站牌反射著夕陽，發光的電漿泡泡在機械橘貓身旁優雅飄盪。",
+        "fname":  "Gemini_Generated_Image_zfuks9zfuks9zfuk"
+    },
+    {
+        "batch":  "Images_49_64",
+        "num":  50,
+        "prompt":  "Cyberpunk, Orange Cat with Soap Bubbles, Overcast",
+        "kw":  "賽博龐克 / 橘貓 / 冷光 / 肥皂泡",
+        "story":  "冰冷的鋼鐵廢墟中，神祕的發光球體與橘貓在細雨中進行無聲對話。",
+        "fname":  "Gemini_Generated_Image_9dgfha9dgfha9dgf"
+    },
+    {
+        "batch":  "Images_49_64",
+        "num":  51,
+        "prompt":  "Cyberpunk, Orange Cat with Soap Bubbles, Warm Lamp",
+        "kw":  "賽博龐克 / 橘貓 / 暖燈 / 肥皂泡",
+        "story":  "舊街角自動販賣機的暖黃光，照亮了漂浮在貓咪周圍的電子氣泡。",
+        "fname":  "Gemini_Generated_Image_oab51voab51voab5"
+    },
+    {
+        "batch":  "Images_49_64",
+        "num":  52,
+        "prompt":  "Cyberpunk, Orange Cat with Soap Bubbles, Neon Reflect",
+        "kw":  "賽博龐克 / 橘貓 / 霓虹 / 肥皂泡",
+        "story":  "螢光粉與電光藍在泡泡表面流動，橘貓在繽紛光影中捕捉數位幻象。",
+        "fname":  "Gemini_Generated_Image_fkb76jfkb76jfkb7"
+    },
+    {
+        "batch":  "Images_49_64",
+        "num":  53,
+        "prompt":  "Cyberpunk, Orange Cat with Old Photos, Golden Hour",
+        "kw":  "賽博龐克 / 橘貓 / 金光 / 舊照片",
+        "story":  "全息投影般的泛黃照片與真實的貓，在落日下呈現虛實交錯的美感。",
+        "fname":  "Gemini_Generated_Image_x5d6c4x5d6c4x5d6"
+    },
+    {
+        "batch":  "Images_49_64",
+        "num":  54,
+        "prompt":  "Cyberpunk, Orange Cat with Old Photos, Overcast",
+        "kw":  "賽博龐克 / 橘貓 / 冷光 / 舊照片",
+        "story":  "反烏托邦的冷冽感，雨中的舊照片訴說著被數位世界遺忘的人文歷史。",
+        "fname":  "Gemini_Generated_Image_u444i5u444i5u444"
+    },
+    {
+        "batch":  "Images_49_64",
+        "num":  55,
+        "prompt":  "Cyberpunk, Orange Cat with Old Photos, Warm Lamp",
+        "kw":  "賽博龐克 / 橘貓 / 暖燈 / 舊照片",
+        "story":  "閃爍的鎢絲燈管下，殘破照片在貓咪的守候中顯現出一種廢土溫情。",
+        "fname":  "Gemini_Generated_Image_h2cd3jh2cd3jh2cd"
+    },
+    {
+        "batch":  "Images_49_64",
+        "num":  56,
+        "prompt":  "Cyberpunk, Orange Cat with Old Photos, Neon Reflect",
+        "kw":  "賽博龐克 / 橘貓 / 霓虹 / 舊照片",
+        "story":  "數位廣告看板與古老照片在雨夜中並置，貓影在強烈對比中顯得神祕。",
+        "fname":  "Gemini_Generated_Image_16ncvu16ncvu16nc"
+    },
+    {
+        "batch":  "Images_49_64",
+        "num":  57,
+        "prompt":  "Cyberpunk, Orange Cat with Potted Plants, Golden Hour",
+        "kw":  "賽博龐克 / 橘貓 / 金光 / 綠意",
+        "story":  "高科技建築縫隙中生長的變異植物，在落日餘暉下顯得神聖且頑強。",
+        "fname":  "Gemini_Generated_Image_mnabwumnabwumnab"
+    },
+    {
+        "batch":  "Images_49_64",
+        "num":  58,
+        "prompt":  "Cyberpunk, Orange Cat with Potted Plants, Overcast",
+        "kw":  "賽博龐克 / 橘貓 / 冷光 / 綠意",
+        "story":  "鋼鐵與玻璃森林中的最後一抹綠，在陰雨下展現出一種冷峻的生命力。",
+        "fname":  "Gemini_Generated_Image_yzeussyzeussyzeu"
+    },
+    {
+        "batch":  "Images_49_64",
+        "num":  59,
+        "prompt":  "Cyberpunk, Orange Cat with Potted Plants, Warm Lamp",
+        "kw":  "賽博龐克 / 橘貓 / 暖燈 / 綠意",
+        "story":  "合成光照下的室內溫室，橘貓在盆栽與精密線路間享受片刻寧靜。",
+        "fname":  "Gemini_Generated_Image_c5bjvrc5bjvrc5bj"
+    },
+    {
+        "batch":  "Images_49_64",
+        "num":  60,
+        "prompt":  "Cyberpunk, Orange Cat with Potted Plants, Neon Reflect",
+        "kw":  "賽博龐克 / 橘貓 / 霓虹 / 綠意",
+        "story":  "霓虹光賦予植物螢光色澤，橘貓如同穿梭在未來外星生態的冒險者。",
+        "fname":  "Gemini_Generated_Image_o7uu6ho7uu6ho7uu"
+    },
+    {
+        "batch":  "Images_49_64",
+        "num":  61,
+        "prompt":  "Cyberpunk, Orange Cat with Raindrops, Golden Hour",
+        "kw":  "賽博龐克 / 橘貓 / 金光 / 雨滴",
+        "story":  "雨後夕陽讓金霧瀰漫，玻璃上的雨滴像微小的發光電路佈滿了世界。",
+        "fname":  "Gemini_Generated_Image_99k4y499k4y499k4"
+    },
+    {
+        "batch":  "Images_49_64",
+        "num":  62,
+        "prompt":  "Cyberpunk, Orange Cat with Raindrops, Overcast",
+        "kw":  "賽博龐克 / 橘貓 / 冷光 / 雨滴",
+        "story":  "沉重且陰暗的未來感，雨水沖刷著金屬窗格，橘貓在寒意中冷眼旁觀。",
+        "fname":  "Gemini_Generated_Image_9psmqu9psmqu9psm"
+    },
+    {
+        "batch":  "Images_49_64",
+        "num":  63,
+        "prompt":  "Cyberpunk, Orange Cat with Raindrops, Warm Lamp",
+        "kw":  "賽博龐克 / 橘貓 / 暖燈 / 雨滴",
+        "story":  "避雨的溫度感，橘貓的呼吸熱氣與玻璃上冰冷的雨珠形成迷幻重疊。",
+        "fname":  "Gemini_Generated_Image_puzg0cpuzg0cpuzg"
+    },
+    {
+        "batch":  "Images_49_64",
+        "num":  64,
+        "prompt":  "Cyberpunk, Orange Cat with Raindrops, Neon Reflect",
+        "kw":  "賽博龐克 / 橘貓 / 霓虹 / 雨滴",
+        "story":  "經典賽博美學：雨水流過霓虹地標，橘貓影映在波光粼粼的數位光流。",
+        "fname":  "Gemini_Generated_Image_qkhlbdqkhlbdqkhl"
+    },
+    {
+        "batch":  "Images_65_80",
+        "num":  65,
+        "prompt":  "Impressionist, Coffee Mug with Soap Bubbles, Golden Hour",
+        "kw":  "印象派 / 咖啡杯 / 金光 / 肥皂泡",
+        "story":  "熱氣騰騰的咖啡與飛舞的泡泡在金光下交織，筆觸厚實且充滿午後的慵懶。",
+        "fname":  "Gemini_Generated_Image_xlt7qrxlt7qrxlt7"
+    },
+    {
+        "batch":  "Images_65_80",
+        "num":  66,
+        "prompt":  "Impressionist, Coffee Mug with Soap Bubbles, Overcast",
+        "kw":  "印象派 / 咖啡杯 / 冷光 / 肥皂泡",
+        "story":  "冷色調的筆觸描繪著杯緣，彩色的泡泡在灰暗的陰影中顯得格外跳躍。",
+        "fname":  "Gemini_Generated_Image_exo0o8exo0o8exo0"
+    },
+    {
+        "batch":  "Images_65_80",
+        "num":  67,
+        "prompt":  "Impressionist, Coffee Mug with Soap Bubbles, Warm Lamp",
+        "kw":  "印象派 / 咖啡杯 / 暖燈 / 肥皂泡",
+        "story":  "暖燈下的咖啡杯散發琥珀色光澤，泡泡在燈火映照下呈現濃郁的油彩質感。",
+        "fname":  "Gemini_Generated_Image_4orjua4orjua4orj"
+    },
+    {
+        "batch":  "Images_65_80",
+        "num":  68,
+        "prompt":  "Impressionist, Coffee Mug with Soap Bubbles, Neon Reflect",
+        "kw":  "印象派 / 咖啡杯 / 霓虹 / 肥皂泡",
+        "story":  "城市霓虹滲進窗內，咖啡杯與泡泡被染成迷幻的紫色與靛青色。",
+        "fname":  "Gemini_Generated_Image_mrhc93mrhc93mrhc"
+    },
+    {
+        "batch":  "Images_65_80",
+        "num":  69,
+        "prompt":  "Impressionist, Coffee Mug with Old Photos, Golden Hour",
+        "kw":  "印象派 / 咖啡杯 / 金光 / 舊照片",
+        "story":  "老照片墊在咖啡杯下，微風拂過落日餘暉，勾勒出一抹懷舊的溫度。",
+        "fname":  "Gemini_Generated_Image_geufi5geufi5geuf"
+    },
+    {
+        "batch":  "Images_65_80",
+        "num":  70,
+        "prompt":  "Impressionist, Coffee Mug with Old Photos, Overcast",
+        "kw":  "印象派 / 咖啡杯 / 冷光 / 舊照片",
+        "story":  "在憂慮的藍灰色調中，咖啡杯的熱氣模糊了老照片上模糊的面孔。",
+        "fname":  "Gemini_Generated_Image_3csuca3csuca3csu"
+    },
+    {
+        "batch":  "Images_65_80",
+        "num":  71,
+        "prompt":  "Impressionist, Coffee Mug with Old Photos, Warm Lamp",
+        "kw":  "印象派 / 咖啡杯 / 暖燈 / 舊照片",
+        "story":  "溫馨的燈火包圍著杯與照片，濃厚的筆觸讓這份思念顯得沉穩而安靜。",
+        "fname":  "Gemini_Generated_Image_ggs2nggs2nggs2ng"
+    },
+    {
+        "batch":  "Images_65_80",
+        "num":  72,
+        "prompt":  "Impressionist, Coffee Mug with Old Photos, Neon Reflect",
+        "kw":  "印象派 / 咖啡杯 / 霓虹 / 舊照片",
+        "story":  "窗外閃爍的廣告燈與室內的舊照片交疊，呈現出跨時空的視覺張力。",
+        "fname":  "Gemini_Generated_Image_r6zh5pr6zh5pr6zh"
+    },
+    {
+        "batch":  "Images_65_80",
+        "num":  73,
+        "prompt":  "Impressionist, Coffee Mug with Potted Plants, Golden Hour",
+        "kw":  "印象派 / 咖啡杯 / 金光 / 綠意",
+        "story":  "綠葉與陶瓷杯在強烈陽光下形成鮮明對比，畫面充滿了自然的呼吸感。",
+        "fname":  "Gemini_Generated_Image_21ah1w21ah1w21ah"
+    },
+    {
+        "batch":  "Images_65_80",
+        "num":  74,
+        "prompt":  "Impressionist, Coffee Mug with Potted Plants, Overcast",
+        "kw":  "印象派 / 咖啡杯 / 冷光 / 綠意",
+        "story":  "內斂的灰綠色調，咖啡杯靜靜地待在植物陰影中，顯得沉靜典雅。",
+        "fname":  "Gemini_Generated_Image_k6mczuk6mczuk6mc"
+    },
+    {
+        "batch":  "Images_65_80",
+        "num":  75,
+        "prompt":  "Impressionist, Coffee Mug with Potted Plants, Warm Lamp",
+        "kw":  "印象派 / 咖啡杯 / 暖燈 / 綠意",
+        "story":  "暖光穿透葉片與蒸氣，營造出一種被生活包圍的親切與安全感。",
+        "fname":  "Gemini_Generated_Image_joxi72joxi72joxi"
+    },
+    {
+        "batch":  "Images_65_80",
+        "num":  76,
+        "prompt":  "Impressionist, Coffee Mug with Potted Plants, Neon Reflect",
+        "kw":  "印象派 / 咖啡杯 / 霓虹 / 綠意",
+        "story":  "人造光與自然的結合，咖啡杯在螢光綠影中展現出一種前衛的生命力。",
+        "fname":  "Gemini_Generated_Image_amvqxoamvqxoamvq"
+    },
+    {
+        "batch":  "Images_65_80",
+        "num":  77,
+        "prompt":  "Impressionist, Coffee Mug with Raindrops, Golden Hour",
+        "kw":  "印象派 / 咖啡杯 / 金光 / 雨滴",
+        "story":  "雨後餘暉灑在杯緣與玻璃上，每一顆雨滴都像是在畫布上跳動的亮點。",
+        "fname":  "Gemini_Generated_Image_80y49l80y49l80y4"
+    },
+    {
+        "batch":  "Images_65_80",
+        "num":  78,
+        "prompt":  "Impressionist, Coffee Mug with Raindrops, Overcast",
+        "kw":  "印象派 / 咖啡杯 / 冷光 / 雨滴",
+        "story":  "濕冷的水漬感遍布畫面，咖啡杯的熱氣是這場冷雨中唯一的慰藉。",
+        "fname":  "Gemini_Generated_Image_domlrmdomlrmdoml"
+    },
+    {
+        "batch":  "Images_65_80",
+        "num":  79,
+        "prompt":  "Impressionist, Coffee Mug with Raindrops, Warm Lamp",
+        "kw":  "印象派 / 咖啡杯 / 暖燈 / 雨滴",
+        "story":  "室內溫暖如春，窗上雨滴折射著燈火，與靜謐的杯影構成完美構圖。",
+        "fname":  "Gemini_Generated_Image_8nn2or8nn2or8nn2"
+    },
+    {
+        "batch":  "Images_65_80",
+        "num":  80,
+        "prompt":  "Impressionist, Coffee Mug with Raindrops, Neon Reflect",
+        "kw":  "印象派 / 咖啡杯 / 霓虹 / 雨滴",
+        "story":  "流動的霓虹倒影與水痕結合，讓平凡的咖啡時光充滿了電影感。",
+        "fname":  "Gemini_Generated_Image_7d6cvs7d6cvs7d6c"
+    },
+    {
+        "batch":  "Images_81_96",
+        "num":  81,
+        "prompt":  "Watercolor, Coffee Mug with Soap Bubbles, Golden Hour",
+        "kw":  "水彩 / 咖啡杯 / 金光 / 肥皂泡",
+        "story":  "透明的渲染色彩，熱氣與彩虹泡泡在晨光中徐徐上升，畫面極其輕盈。",
+        "fname":  "Gemini_Generated_Image_oivb4aoivb4aoivb"
+    },
+    {
+        "batch":  "Images_81_96",
+        "num":  82,
+        "prompt":  "Watercolor, Coffee Mug with Soap Bubbles, Overcast",
+        "kw":  "水彩 / 咖啡杯 / 冷光 / 肥皂泡",
+        "story":  "濕潤的紙質紋理，咖啡杯在灰藍色的冷調中吐出一絲帶有色彩的暖意。",
+        "fname":  "Gemini_Generated_Image_xock0xxock0xxock"
+    },
+    {
+        "batch":  "Images_81_96",
+        "num":  83,
+        "prompt":  "Watercolor, Coffee Mug with Soap Bubbles, Warm Lamp",
+        "kw":  "水彩 / 咖啡杯 / 暖燈 / 肥皂泡",
+        "story":  "暖黃色的暈染效果，營造出深夜書房中咖啡、燈火與幻想的交界。",
+        "fname":  "Gemini_Generated_Image_696gtn696gtn696g"
+    },
+    {
+        "batch":  "Images_81_96",
+        "num":  84,
+        "prompt":  "Watercolor, Coffee Mug with Soap Bubbles, Neon Reflect",
+        "kw":  "水彩 / 咖啡杯 / 霓虹 / 肥皂泡",
+        "story":  "迷幻的水彩流動，咖啡杯身映照著街道窗外的五彩霓虹波光。",
+        "fname":  "Gemini_Generated_Image_poko5vpoko5vpoko"
+    },
+    {
+        "batch":  "Images_81_96",
+        "num":  85,
+        "prompt":  "Watercolor, Coffee Mug with Old Photos, Golden Hour",
+        "kw":  "水彩 / 咖啡杯 / 金光 / 舊照片",
+        "story":  "懷舊的淺棕色渲染，每一滴水跡都像是在杯子旁回味過去的照片時光。",
+        "fname":  "Gemini_Generated_Image_ooid57ooid57ooid"
+    },
+    {
+        "batch":  "Images_81_96",
+        "num":  86,
+        "prompt":  "Watercolor, Coffee Mug with Old Photos, Overcast",
+        "kw":  "水彩 / 咖啡杯 / 冷光 / 舊照片",
+        "story":  "內斂且沉靜的冷色調，像是雨天午後一個人在咖啡香裡的記憶旅行。",
+        "fname":  "Gemini_Generated_Image_1xgosf1xgosf1xgo"
+    },
+    {
+        "batch":  "Images_81_96",
+        "num":  87,
+        "prompt":  "Watercolor, Coffee Mug with Old Photos, Warm Lamp",
+        "kw":  "水彩 / 咖啡杯 / 暖燈 / 舊照片",
+        "story":  "柔軟的光影邊緣，咖啡的熱氣蒸氣與泛黃照片中的人影模糊重疊。",
+        "fname":  "Gemini_Generated_Image_bqxbx6bqxbx6bqxb"
+    },
+    {
+        "batch":  "Images_81_96",
+        "num":  88,
+        "prompt":  "Watercolor, Coffee Mug with Old Photos, Neon Reflect",
+        "kw":  "水彩 / 咖啡杯 / 霓虹 / 舊照片",
+        "story":  "當現代城市的霓虹滲透進復古照片，形成水彩紙面上跨時空的衝突美。",
+        "fname":  "Gemini_Generated_Image_9ix2109ix2109ix2"
+    },
+    {
+        "batch":  "Images_81_96",
+        "num":  89,
+        "prompt":  "Watercolor, Coffee Mug with Potted Plants, Golden Hour",
+        "kw":  "水彩 / 咖啡杯 / 金光 / 綠意",
+        "story":  "嫩綠與深褐的鮮明對比，水感渲染出充滿生機與咖啡香氣的早晨。",
+        "fname":  "Gemini_Generated_Image_s8954ds8954ds895"
+    },
+    {
+        "batch":  "Images_81_96",
+        "num":  90,
+        "prompt":  "Watercolor, Coffee Mug with Potted Plants, Overcast",
+        "kw":  "水彩 / 咖啡杯 / 冷光 / 綠意",
+        "story":  "簡潔清爽的構圖，綠葉上的水珠與咖啡杯在水彩畫紙上相映成趣。",
+        "fname":  "Gemini_Generated_Image_1ykcje1ykcje1ykc"
+    },
+    {
+        "batch":  "Images_81_96",
+        "num":  91,
+        "prompt":  "Watercolor, Coffee Mug with Potted Plants, Warm Lamp",
+        "kw":  "水彩 / 咖啡杯 / 暖燈 / 綠意",
+        "story":  "溫馨的居家一角，暖水暈賦予了陶瓷杯與新鮮葉片潤澤的生命質感。",
+        "fname":  "Gemini_Generated_Image_uee0skuee0skuee0"
+    },
+    {
+        "batch":  "Images_81_96",
+        "num":  92,
+        "prompt":  "Watercolor, Coffee Mug with Potted Plants, Neon Reflect",
+        "kw":  "水彩 / 咖啡杯 / 霓虹 / 綠意",
+        "story":  "城市的倒影落在綠葉與杯緣，水彩展現了現代建築與自然植物的平衡。",
+        "fname":  "Gemini_Generated_Image_1vsjr11vsjr11vsj"
+    },
+    {
+        "batch":  "Images_81_96",
+        "num":  93,
+        "prompt":  "Watercolor, Coffee Mug with Raindrops, Golden Hour",
+        "kw":  "水彩 / 咖啡杯 / 金光 / 雨滴",
+        "story":  "陽光穿透玻璃窗的水滴，在咖啡桌面上留下了繽紛且通透的光斑。",
+        "fname":  "Gemini_Generated_Image_jno1xijno1xijno1"
+    },
+    {
+        "batch":  "Images_81_96",
+        "num":  94,
+        "prompt":  "Watercolor, Coffee Mug with Raindrops, Overcast",
+        "kw":  "水彩 / 咖啡杯 / 冷光 / 雨滴",
+        "story":  "濃郁的水漬邊緣，表現出陰雨天裡咖啡杯帶來的視覺心理重量感。",
+        "fname":  "Gemini_Generated_Image_8pwlvg8pwlvg8pwl"
+    },
+    {
+        "batch":  "Images_81_96",
+        "num":  95,
+        "prompt":  "Watercolor, Coffee Mug with Raindrops, Warm Lamp",
+        "kw":  "水彩 / 咖啡杯 / 暖燈 / 雨滴",
+        "story":  "溫暖的孤獨，杯中的熱氣與窗外的冷雨在暖色暈染中形成強烈對比。",
+        "fname":  "Gemini_Generated_Image_ewxiyrewxiyrewxi"
+    },
+    {
+        "batch":  "Images_81_96",
+        "num":  96,
+        "prompt":  "Watercolor, Coffee Mug with Raindrops, Neon Reflect",
+        "kw":  "水彩 / 咖啡杯 / 霓虹 / 雨滴",
+        "story":  "抽象的色彩交織，咖啡杯成了捕捉城市窗外流動霓虹光影的小容器。",
+        "fname":  "Gemini_Generated_Image_3ydtd23ydtd23ydt"
+    },
+    {
+        "batch":  "Images_97_112",
+        "num":  97,
+        "prompt":  "Minimalist, Coffee Mug with Soap Bubbles, Golden Hour",
+        "kw":  "極簡 / 咖啡杯 / 金光 / 肥皂泡",
+        "story":  "俐落的線條與大片留白，金黃色的圓（泡泡）與杯影構成精緻幾何構圖。",
+        "fname":  "Gemini_Generated_Image_fbdzhcfbdzhcfbdz"
+    },
+    {
+        "batch":  "Images_97_112",
+        "num":  98,
+        "prompt":  "Minimalist, Coffee Mug with Soap Bubbles, Overcast",
+        "kw":  "極簡 / 咖啡杯 / 冷光 / 肥皂泡",
+        "story":  "冷調的平面色塊，極簡風格定義了陰天裡一段安靜且純粹的咖啡時光。",
+        "fname":  "Gemini_Generated_Image_gylrulgylrulgylr"
+    },
+    {
+        "batch":  "Images_97_112",
+        "num":  99,
+        "prompt":  "Minimalist, Coffee Mug with Soap Bubbles, Warm Lamp",
+        "kw":  "極簡 / 咖啡杯 / 暖燈 / 肥皂泡",
+        "story":  "簡約的暖橘色背景，陶瓷杯與幾何圓球（泡泡）構成溫馨的詩意平衡。",
+        "fname":  "Gemini_Generated_Image_2bjgay2bjgay2bjg"
+    },
+    {
+        "batch":  "Images_97_112",
+        "num":  100,
+        "prompt":  "Minimalist, Coffee Mug with Soap Bubbles, Neon Reflect",
+        "kw":  "極簡 / 咖啡杯 / 霓虹 / 肥皂泡",
+        "story":  "科技感的極簡配色，霓虹線條勾勒出都會夜色中咖啡杯與發光點的幻想。",
+        "fname":  "Gemini_Generated_Image_q9cyflq9cyflq9cy"
+    },
+    {
+        "batch":  "Images_97_112",
+        "num":  101,
+        "prompt":  "Minimalist, Coffee Mug with Old Photos, Golden Hour",
+        "kw":  "極簡 / 咖啡杯 / 金光 / 舊照片",
+        "story":  "幾何色塊定義了桌面與照片，夕陽斜切過杯身，呈現純粹的平面光影美。",
+        "fname":  "Gemini_Generated_Image_wlg51fwlg51fwlg5"
+    },
+    {
+        "batch":  "Images_97_112",
+        "num":  102,
+        "prompt":  "Minimalist, Coffee Mug with Old Photos, Overcast",
+        "kw":  "極簡 / 咖啡杯 / 冷光 / 舊照片",
+        "story":  "灰度空間中，極簡的線條與長方形色塊凸顯了舊照片沉靜的存在感。",
+        "fname":  "Gemini_Generated_Image_6vreh66vreh66vre"
+    },
+    {
+        "batch":  "Images_97_112",
+        "num":  103,
+        "prompt":  "Minimalist, Coffee Mug with Old Photos, Warm Lamp",
+        "kw":  "極簡 / 咖啡杯 / 暖燈 / 舊照片",
+        "story":  "溫暖的平面設計風格，簡約的杯影與照片剪影構成了一種現代的懷舊。",
+        "fname":  "Gemini_Generated_Image_4nkf864nkf864nkf"
+    },
+    {
+        "batch":  "Images_97_112",
+        "num":  104,
+        "prompt":  "Minimalist, Coffee Mug with Old Photos, Neon Reflect",
+        "kw":  "極簡 / 咖啡杯 / 霓虹 / 舊照片",
+        "story":  "當數位的亮藍色塊遇上黑白色調照片，呈現出強烈且大膽的視覺對比。",
+        "fname":  "Gemini_Generated_Image_citsuhcitsuhcits"
+    },
+    {
+        "batch":  "Images_97_112",
+        "num":  105,
+        "prompt":  "Minimalist, Coffee Mug with Potted Plants, Golden Hour",
+        "kw":  "極簡 / 咖啡杯 / 金光 / 綠意",
+        "story":  "單純的綠色線條與白色陶瓷杯，在暖黃背景下展現出極具設計感的午後。",
+        "fname":  "Gemini_Generated_Image_f939w8f939w8f939"
+    },
+    {
+        "batch":  "Images_97_112",
+        "num":  106,
+        "prompt":  "Minimalist, Coffee Mug with Potted Plants, Overcast",
+        "kw":  "極簡 / 咖啡杯 / 冷光 / 綠意",
+        "story":  "灰綠色的極簡組合，強調了生活靜物在冷光下的輪廓美與平衡感。",
+        "fname":  "Gemini_Generated_Image_xs90raxs90raxs90"
+    },
+    {
+        "batch":  "Images_97_112",
+        "num":  107,
+        "prompt":  "Minimalist, Coffee Mug with Potted Plants, Warm Lamp",
+        "kw":  "極簡 / 咖啡杯 / 暖燈 / 綠意",
+        "story":  "黃色暖光區域中，極簡植物與杯子構成了一個充滿治癒感的居家角落。",
+        "fname":  "Gemini_Generated_Image_xuoqe4xuoqe4xuoq"
+    },
+    {
+        "batch":  "Images_97_112",
+        "num":  108,
+        "prompt":  "Minimalist, Coffee Mug with Potted Plants, Neon Reflect",
+        "kw":  "極簡 / 咖啡杯 / 霓虹 / 綠意",
+        "story":  "人造藍綠光影下，極簡風格的葉片讓咖啡桌展現出一種未來的溫室感。",
+        "fname":  "Gemini_Generated_Image_4e5ahs4e5ahs4e5a"
+    },
+    {
+        "batch":  "Images_97_112",
+        "num":  109,
+        "prompt":  "Minimalist, Coffee Mug with Raindrops, Golden Hour",
+        "kw":  "極簡 / 咖啡杯 / 金光 / 雨滴",
+        "story":  "簡約的玻璃窗線條與幾個雨滴圓點，勾勒出寧靜且具備高級感的視覺感。",
+        "fname":  "Gemini_Generated_Image_snk6lfsnk6lfsnk6"
+    },
+    {
+        "batch":  "Images_97_112",
+        "num":  110,
+        "prompt":  "Minimalist, Coffee Mug with Raindrops, Overcast",
+        "kw":  "極簡 / 咖啡杯 / 冷光 / 雨滴",
+        "story":  "藍灰色的向量構圖，雨痕在玻璃上形成的垂直線條展現了幾何美學。",
+        "fname":  "Gemini_Generated_Image_amtr0wamtr0wamtr"
+    },
+    {
+        "batch":  "Images_97_112",
+        "num":  111,
+        "prompt":  "Minimalist, Coffee Mug with Raindrops, Warm Lamp",
+        "kw":  "極簡 / 咖啡杯 / 暖燈 / 雨滴",
+        "story":  "圓形的燈火暈影與雨滴點綴，在極簡插畫中表現出冷與暖的視覺詩意。",
+        "fname":  "Gemini_Generated_Image_ojxq1mojxq1mojxq"
+    },
+    {
+        "batch":  "Images_97_112",
+        "num":  112,
+        "prompt":  "Minimalist, Coffee Mug with Raindrops, Neon Reflect",
+        "kw":  "極簡 / 咖啡杯 / 霓虹 / 雨滴",
+        "story":  "玻璃上的霓虹反光與雨痕，在簡約筆觸下構成數位化日常的精緻切片。",
+        "fname":  "Gemini_Generated_Image_lnqjsulnqjsulnqj"
+    },
+    {
+        "batch":  "Images_113_128",
+        "num":  113,
+        "prompt":  "Cyberpunk, Coffee Mug with Soap Bubbles, Golden Hour",
+        "kw":  "賽博龐克 / 咖啡杯 / 金光 / 肥皂泡",
+        "story":  "鍍鉻的杯身反射著夕陽與電子看板，發光的電漿泡泡圍繞著數位化的熱氣。",
+        "fname":  "Gemini_Generated_Image_cv86w3cv86w3cv86"
+    },
+    {
+        "batch":  "Images_113_128",
+        "num":  114,
+        "prompt":  "Cyberpunk, Coffee Mug with Soap Bubbles, Overcast",
+        "kw":  "賽博龐克 / 咖啡杯 / 冷光 / 肥皂泡",
+        "story":  "冰冷的金屬桌面與神祕的發光球體，在陰雨午後營造出一種科幻的寂靜感。",
+        "fname":  "Gemini_Generated_Image_7mx3777mx3777mx3"
+    },
+    {
+        "batch":  "Images_113_128",
+        "num":  115,
+        "prompt":  "Cyberpunk, Coffee Mug with Soap Bubbles, Warm Lamp",
+        "kw":  "賽博龐克 / 咖啡杯 / 暖燈 / 肥皂泡",
+        "story":  "自動販賣機的暖黃光，照亮了漂浮在咖啡杯周圍的電子氣泡與冷冽金屬。",
+        "fname":  "Gemini_Generated_Image_dwlnl9dwlnl9dwln"
+    },
+    {
+        "batch":  "Images_113_128",
+        "num":  116,
+        "prompt":  "Cyberpunk, Coffee Mug with Soap Bubbles, Neon Reflect",
+        "kw":  "賽博龐克 / 咖啡杯 / 霓虹 / 肥皂泡",
+        "story":  "螢光粉與電光藍在泡泡表面流動，咖啡杯在華麗的都會光影中捕捉幻象。",
+        "fname":  "Gemini_Generated_Image_x6almux6almux6al"
+    },
+    {
+        "batch":  "Images_113_128",
+        "num":  117,
+        "prompt":  "Cyberpunk, Coffee Mug with Old Photos, Golden Hour",
+        "kw":  "賽博龐克 / 咖啡杯 / 金光 / 舊照片",
+        "story":  "廢棄都市的街道上，一杯合成咖啡與一張真實照片，充滿了末世的故事張力。",
+        "fname":  "Gemini_Generated_Image_lrexylrexylrexyl"
+    },
+    {
+        "batch":  "Images_113_128",
+        "num":  118,
+        "prompt":  "Cyberpunk, Coffee Mug with Old Photos, Overcast",
+        "kw":  "賽博龐克 / 咖啡杯 / 冷光 / 舊照片",
+        "story":  "反烏托邦的沉重感，雨中的咖啡杯與照片訴說著被數位時代遺忘的溫度。",
+        "fname":  "Gemini_Generated_Image_2wg15k2wg15k2wg1"
+    },
+    {
+        "batch":  "Images_113_128",
+        "num":  119,
+        "prompt":  "Cyberpunk, Coffee Mug with Old Photos, Warm Lamp",
+        "kw":  "賽博龐克 / 咖啡杯 / 暖燈 / 舊照片",
+        "story":  "閃爍的鎢絲燈管下，殘破照片在咖啡蒸氣中顯影，展現廢土中的人文溫情。",
+        "fname":  "Gemini_Generated_Image_sd63rosd63rosd63"
+    },
+    {
+        "batch":  "Images_113_128",
+        "num":  120,
+        "prompt":  "Cyberpunk, Coffee Mug with Old Photos, Neon Reflect",
+        "kw":  "賽博龐克 / 咖啡杯 / 霓虹 / 舊照片",
+        "story":  "數位廣告看板與古老紙本照片在雨夜中形成對比，咖啡熱氣在霓虹下迷幻。",
+        "fname":  "Gemini_Generated_Image_oa48proa48proa48"
+    },
+    {
+        "batch":  "Images_113_128",
+        "num":  121,
+        "prompt":  "Cyberpunk, Coffee Mug with Potted Plants, Golden Hour",
+        "kw":  "賽博龐克 / 咖啡杯 / 金光 / 綠意",
+        "story":  "高科技溫室內的咖啡時光，金屬、綠葉與霓虹光影在落日下形成對比。",
+        "fname":  "Gemini_Generated_Image_qh5n07qh5n07qh5n"
+    },
+    {
+        "batch":  "Images_113_128",
+        "num":  122,
+        "prompt":  "Cyberpunk, Coffee Mug with Potted Plants, Overcast",
+        "kw":  "賽博龐克 / 咖啡杯 / 冷光 / 綠意",
+        "story":  "鋼鐵森林中的最後一抹綠，在陰雨與冷冽金屬杯具間展現出頑強生命力。",
+        "fname":  "Gemini_Generated_Image_ontcuwontcuwontc"
+    },
+    {
+        "batch":  "Images_113_128",
+        "num":  123,
+        "prompt":  "Cyberpunk, Coffee Mug with Potted Plants, Warm Lamp",
+        "kw":  "賽博龐克 / 咖啡杯 / 暖燈 / 綠意",
+        "story":  "合成光照下的室內盆栽，與窗外的未來數據流城市形成了一種室內的避難所。",
+        "fname":  "Gemini_Generated_Image_lza68glza68glza6"
+    },
+    {
+        "batch":  "Images_113_128",
+        "num":  124,
+        "prompt":  "Cyberpunk, Coffee Mug with Potted Plants, Neon Reflect",
+        "kw":  "賽博龐克 / 咖啡杯 / 霓虹 / 綠意",
+        "story":  "霓虹賦予植物螢光色澤，咖啡杯在未來生態般的視覺衝擊中顯得沉靜。",
+        "fname":  "Gemini_Generated_Image_n0q0okn0q0okn0q0"
+    },
+    {
+        "batch":  "Images_113_128",
+        "num":  125,
+        "prompt":  "Cyberpunk, Coffee Mug with Raindrops, Golden Hour",
+        "kw":  "賽博龐克 / 咖啡杯 / 金光 / 雨滴",
+        "story":  "雨後金色的水霧瀰漫，玻璃窗上的雨滴像微小的發光電路佈滿了都會視野。",
+        "fname":  "Gemini_Generated_Image_qvpvbjqvpvbjqvpv"
+    },
+    {
+        "batch":  "Images_113_128",
+        "num":  126,
+        "prompt":  "Cyberpunk, Coffee Mug with Raindrops, Overcast",
+        "kw":  "賽博龐克 / 咖啡杯 / 冷光 / 雨滴",
+        "story":  "沉重且陰暗的未來，雨水沖刷著金屬杯具與數位零件，呈現冷峻的工業美。",
+        "fname":  "Gemini_Generated_Image_ldrt6sldrt6sldrt"
+    },
+    {
+        "batch":  "Images_113_128",
+        "num":  127,
+        "prompt":  "Cyberpunk, Coffee Mug with Raindrops, Warm Lamp",
+        "kw":  "賽博龐克 / 咖啡杯 / 暖燈 / 雨滴",
+        "story":  "避雨的溫度感，杯中熱氣與玻璃上冰冷的雨珠在暖燈照射下形成迷幻重疊。",
+        "fname":  "Gemini_Generated_Image_c9eq57c9eq57c9eq"
+    },
+    {
+        "batch":  "Images_113_128",
+        "num":  128,
+        "prompt":  "Cyberpunk, Coffee Mug with Raindrops, Neon Reflect",
+        "kw":  "賽博龐克 / 咖啡杯 / 霓虹 / 雨滴",
+        "story":  "經典賽博美學：雨水流過霓虹窗口，咖啡杯映照著數位看板破碎的華麗。",
+        "fname":  "Gemini_Generated_Image_hzjj5fhzjj5fhzjj"
+    },
+    {
+        "batch":  "Images_129_144",
+        "num":  129,
+        "prompt":  "Impressionist, Bookstore with Soap Bubbles, Golden Hour",
+        "kw":  "印象派 / 舊書店 / 金光 / 肥皂泡",
+        "story":  "厚重的油彩描繪著排列整齊的書脊，金光下的泡泡像是從古老書頁中逃跑出來的精靈。",
+        "fname":  "Gemini_Generated_Image_ia7y8wia7y8wia7y"
+    },
+    {
+        "batch":  "Images_129_144",
+        "num":  130,
+        "prompt":  "Impressionist, Bookstore with Soap Bubbles, Overcast",
+        "kw":  "印象派 / 舊書店 / 冷光 / 肥皂泡",
+        "story":  "冷調的筆觸讓木頭書架顯得沉靜，彩色的泡泡在灰暗的室內顯得格外空靈且具有生命力。",
+        "fname":  "Gemini_Generated_Image_nc6se8nc6se8nc6s"
+    },
+    {
+        "batch":  "Images_129_144",
+        "num":  131,
+        "prompt":  "Impressionist, Bookstore with Soap Bubbles, Warm Lamp",
+        "kw":  "印象派 / 舊書店 / 暖燈 / 肥皂泡",
+        "story":  "溫馨的燈火賦予老書一種暖洋洋的質感，漂浮的泡泡反射出如夢境般迷人的光暈。",
+        "fname":  "Gemini_Generated_Image_v4pf55v4pf55v4pf"
+    },
+    {
+        "batch":  "Images_129_144",
+        "num":  132,
+        "prompt":  "Impressionist, Bookstore with Soap Bubbles, Neon Reflect",
+        "kw":  "印象派 / 舊書店 / 霓虹 / 肥皂泡",
+        "story":  "城市霓虹從窗外滲入，讓古老的木書架披上了一層迷幻且斑斕的電子色彩。",
+        "fname":  "Gemini_Generated_Image_lryyh2lryyh2lryy"
+    },
+    {
+        "batch":  "Images_129_144",
+        "num":  133,
+        "prompt":  "Impressionist, Bookstore with Old Photos, Golden Hour",
+        "kw":  "印象派 / 舊書店 / 金光 / 舊照片",
+        "story":  "夾在書頁間的舊照片被落日染紅，斑駁的筆觸敘述著一段隱藏在文字間的被塵封時光。",
+        "fname":  "Gemini_Generated_Image_v8pxsyv8pxsyv8px"
+    },
+    {
+        "batch":  "Images_129_144",
+        "num":  134,
+        "prompt":  "Impressionist, Bookstore with Old Photos, Overcast",
+        "kw":  "印象派 / 舊書店 / 冷光 / 舊照片",
+        "story":  "在冷清的午後，書店角落堆疊的舊照片與書本，構成一幅充滿憂鬱與懷舊美的畫卷。",
+        "fname":  "Gemini_Generated_Image_biv1mjbiv1mjbiv1"
+    },
+    {
+        "batch":  "Images_129_144",
+        "num":  135,
+        "prompt":  "Impressionist, Bookstore with Old Photos, Warm Lamp",
+        "kw":  "印象派 / 舊書店 / 暖燈 / 舊照片",
+        "story":  "檯燈照亮了照片中的臉龐與書本的厚重質地，畫面散發出濃郁且溫暖的人文氣息。",
+        "fname":  "Gemini_Generated_Image_zf8wdazf8wdazf8w"
+    },
+    {
+        "batch":  "Images_129_144",
+        "num":  136,
+        "prompt":  "Impressionist, Bookstore with Old Photos, Neon Reflect",
+        "kw":  "印象派 / 舊書店 / 霓虹 / 舊照片",
+        "story":  "現代的霓虹光影在舊照片與皮革書脊上流竄，形成一種極具衝突美感的視覺敘事。",
+        "fname":  "Gemini_Generated_Image_iayxcgiayxcgiayx"
+    },
+    {
+        "batch":  "Images_129_144",
+        "num":  137,
+        "prompt":  "Impressionist, Bookstore with Potted Plants, Golden Hour",
+        "kw":  "印象派 / 舊書店 / 金光 / 綠意",
+        "story":  "綠葉在金色的灰塵中微顫，與古老的書卷共同構成了一幅和諧且生機盎然的自然圖景。",
+        "fname":  "Gemini_Generated_Image_t987mjt987mjt987"
+    },
+    {
+        "batch":  "Images_129_144",
+        "num":  138,
+        "prompt":  "Impressionist, Bookstore with Potted Plants, Overcast",
+        "kw":  "印象派 / 舊書店 / 冷光 / 綠意",
+        "story":  "清冷的綠色與沉穩的木頭色澤交織，營造出一種適合靜下心來進行深層閱讀的平靜氛圍。",
+        "fname":  "Gemini_Generated_Image_ld9jfvld9jfvld9j"
+    },
+    {
+        "batch":  "Images_129_144",
+        "num":  139,
+        "prompt":  "Impressionist, Bookstore with Potted Plants, Warm Lamp",
+        "kw":  "印象派 / 舊書店 / 暖燈 / 綠意",
+        "story":  "暖光勾勒出植物的輪廓與書本堆疊的厚度，畫面溫暖而富有豐富且飽和的色彩層次。",
+        "fname":  "Gemini_Generated_Image_uob1upuob1upuob1"
+    },
+    {
+        "batch":  "Images_129_144",
+        "num":  140,
+        "prompt":  "Impressionist, Bookstore with Potted Plants, Neon Reflect",
+        "kw":  "印象派 / 舊書店 / 霓虹 / 綠意",
+        "story":  "螢光綠色的葉片與窗外霓虹燈火相互輝映，賦予了古老書店角落一種奇異的現代生命力。",
+        "fname":  "Gemini_Generated_Image_f4c5s9f4c5s9f4c5"
+    },
+    {
+        "batch":  "Images_129_144",
+        "num":  141,
+        "prompt":  "Impressionist, Bookstore with Raindrops, Golden Hour",
+        "kw":  "印象派 / 舊書店 / 金光 / 雨滴",
+        "story":  "雨後餘暉灑在窗戶的雨珠與書本上，折射出破碎但卻如鑽石般耀眼的希望光點。",
+        "fname":  "Gemini_Generated_Image_tvoqp2tvoqp2tvoq"
+    },
+    {
+        "batch":  "Images_129_144",
+        "num":  142,
+        "prompt":  "Impressionist, Bookstore with Raindrops, Overcast",
+        "kw":  "印象派 / 舊書店 / 冷光 / 雨滴",
+        "story":  "窗外的雨聲與室內的書香透過潮濕的水漬感結合，畫面充滿了孤獨但極致優雅的詩意。",
+        "fname":  "Gemini_Generated_Image_31qcuh31qcuh31qc"
+    },
+    {
+        "batch":  "Images_129_144",
+        "num":  143,
+        "prompt":  "Impressionist, Bookstore with Raindrops, Warm Lamp",
+        "kw":  "印象派 / 舊書店 / 暖燈 / 雨滴",
+        "story":  "檯燈將雨珠的倒影投射在老舊書架上，冷色雨水與暖色燈火的交織讓此刻顯得珍貴。",
+        "fname":  "Gemini_Generated_Image_j0o4wvj0o4wvj0o4"
+    },
+    {
+        "batch":  "Images_129_144",
+        "num":  144,
+        "prompt":  "Impressionist, Bookstore with Raindrops, Neon Reflect",
+        "kw":  "印象派 / 舊書店 / 霓虹 / 雨滴",
+        "story":  "流動的霓虹光在雨窗上劃過，與書店內的靜止與古老形成了一種鮮明的動靜對比。",
+        "fname":  "Gemini_Generated_Image_5ibd5l5ibd5l5ibd"
+    },
+    {
+        "batch":  "Images_145_160",
+        "num":  145,
+        "prompt":  "Watercolor, Bookstore with Soap Bubbles, Golden Hour",
+        "kw":  "水彩 / 舊書店 / 金光 / 肥皂泡",
+        "story":  "通透的水分讓沉重的書架變得輕盈，空氣中彷彿呼吸著金色的肥皂泡。",
+        "fname":  "Gemini_Generated_Image_z9z4uaz9z4uaz9z4"
+    },
+    {
+        "batch":  "Images_145_160",
+        "num":  146,
+        "prompt":  "Watercolor, Bookstore with Soap Bubbles, Overcast",
+        "kw":  "水彩 / 舊書店 / 冷光 / 肥皂泡",
+        "story":  "灰藍色的暈染效果，書店在水色中展現出一種內斂且清冷的超現實感。",
+        "fname":  "Gemini_Generated_Image_lzy3oalzy3oalzy3"
+    },
+    {
+        "batch":  "Images_145_160",
+        "num":  147,
+        "prompt":  "Watercolor, Bookstore with Soap Bubbles, Warm Lamp",
+        "kw":  "水彩 / 舊書店 / 暖燈 / 肥皂泡",
+        "story":  "暖色渲染讓書本與泡泡在紙上溫柔交融，營造出一種屬於深夜的靜謐幻想。",
+        "fname":  "Gemini_Generated_Image_bxoqbhbxoqbhbxoq"
+    },
+    {
+        "batch":  "Images_145_160",
+        "num":  148,
+        "prompt":  "Watercolor, Bookstore with Soap Bubbles, Neon Reflect",
+        "kw":  "水彩 / 舊書店 / 霓虹 / 肥皂泡",
+        "story":  "迷幻的水漬感，書店櫥窗映照著城市霓虹，與室內的彩虹泡泡共同波動。",
+        "fname":  "Gemini_Generated_Image_4st15z4st15z4st1"
+    },
+    {
+        "batch":  "Images_145_160",
+        "num":  149,
+        "prompt":  "Watercolor, Bookstore with Old Photos, Golden Hour",
+        "kw":  "水彩 / 舊書店 / 金光 / 舊照片",
+        "story":  "渲染的褐色調表現出照片的歲月感，水感流動的特質讓回憶顯得濕潤動人。",
+        "fname":  "Gemini_Generated_Image_7r93ye7r93ye7r93"
+    },
+    {
+        "batch":  "Images_145_160",
+        "num":  150,
+        "prompt":  "Watercolor, Bookstore with Old Photos, Overcast",
+        "kw":  "水彩 / 舊書店 / 冷光 / 舊照片",
+        "story":  "內斂且濕潤的筆觸，描繪出雨天書店角落裡那些被淡忘的懷舊情緒。",
+        "fname":  "Gemini_Generated_Image_e42jre42jre42jre"
+    },
+    {
+        "batch":  "Images_145_160",
+        "num":  151,
+        "prompt":  "Watercolor, Bookstore with Old Photos, Warm Lamp",
+        "kw":  "水彩 / 舊書店 / 暖燈 / 舊照片",
+        "story":  "溫暖的水光暈染，老照片中的人影與書架影子在暖黃色調中交疊顯現。",
+        "fname":  "Gemini_Generated_Image_rcvl4mrcvl4mrcvl"
+    },
+    {
+        "batch":  "Images_145_160",
+        "num":  152,
+        "prompt":  "Watercolor, Bookstore with Old Photos, Neon Reflect",
+        "kw":  "水彩 / 舊書店 / 霓虹 / 舊照片",
+        "story":  "數位霓虹色彩滲入透明水彩，展現出老書店中時空交錯且朦朧的視覺美。",
+        "fname":  "Gemini_Generated_Image_djf94djf94djf94d"
+    },
+    {
+        "batch":  "Images_145_160",
+        "num":  153,
+        "prompt":  "Watercolor, Bookstore with Potted Plants, Golden Hour",
+        "kw":  "水彩 / 舊書店 / 金光 / 綠意",
+        "story":  "清新的色塊渲染出一個生機盎然的閱讀角落，色澤明亮且帶有自然的濕潤。",
+        "fname":  "Gemini_Generated_Image_afwgc5afwgc5afwg"
+    },
+    {
+        "batch":  "Images_145_160",
+        "num":  154,
+        "prompt":  "Watercolor, Bookstore with Potted Plants, Overcast",
+        "kw":  "水彩 / 舊書店 / 冷光 / 綠意",
+        "story":  "灰綠墨色的自然擴散，讓古老書卷氣中帶著一抹清新且平靜的植物芬芳。",
+        "fname":  "Gemini_Generated_Image_9toqzm9toqzm9toq"
+    },
+    {
+        "batch":  "Images_145_160",
+        "num":  155,
+        "prompt":  "Watercolor, Bookstore with Potted Plants, Warm Lamp",
+        "kw":  "水彩 / 舊書店 / 暖燈 / 綠意",
+        "story":  "溫馨的水暈效果，暖光賦予了綠葉與舊書脊一種充滿厚度與溫度的質感。",
+        "fname":  "Gemini_Generated_Image_tdgjxxtdgjxxtdgj"
+    },
+    {
+        "batch":  "Images_145_160",
+        "num":  156,
+        "prompt":  "Watercolor, Bookstore with Potted Plants, Neon Reflect",
+        "kw":  "水彩 / 舊書店 / 霓虹 / 綠意",
+        "story":  "人工光與自然渲染的結合，書店裡的盆栽在霓虹下化為奇幻的都會森林。",
+        "fname":  "Gemini_Generated_Image_pgevgxpgevgxpgev"
+    },
+    {
+        "batch":  "Images_145_160",
+        "num":  157,
+        "prompt":  "Watercolor, Bookstore with Raindrops, Golden Hour",
+        "kw":  "水彩 / 舊書店 / 金光 / 雨滴",
+        "story":  "細膩的暈染效果展現了玻璃雨滴的透明度，與書本質地形成濕潤的對比。",
+        "fname":  "Gemini_Generated_Image_f34wxdf34wxdf34w"
+    },
+    {
+        "batch":  "Images_145_160",
+        "num":  158,
+        "prompt":  "Watercolor, Bookstore with Raindrops, Overcast",
+        "kw":  "水彩 / 舊書店 / 冷光 / 雨滴",
+        "story":  "濃郁的水彩重力感，表現出雨中書店沉靜且帶有一絲憂鬱的閱讀重量感。",
+        "fname":  "Gemini_Generated_Image_89or8p89or8p89or"
+    },
+    {
+        "batch":  "Images_145_160",
+        "num":  159,
+        "prompt":  "Watercolor, Bookstore with Raindrops, Warm Lamp",
+        "kw":  "水彩 / 舊書店 / 暖燈 / 雨滴",
+        "story":  "溫暖的渲染筆觸，讓室內的檯燈火與窗外的冷雨在畫紙上進行視覺對語。",
+        "fname":  "Gemini_Generated_Image_kklfjvkklfjvkklf"
+    },
+    {
+        "batch":  "Images_145_160",
+        "num":  160,
+        "prompt":  "Watercolor, Bookstore with Raindrops, Neon Reflect",
+        "kw":  "水彩 / 舊書店 / 霓虹 / 雨滴",
+        "story":  "抽象的流動美感，雨窗上的霓虹碎裂感與書店的寧靜在水彩中完美結合。",
+        "fname":  "Gemini_Generated_Image_vpj64mvpj64mvpj6"
+    },
+    {
+        "batch":  "Images_161_176",
+        "num":  161,
+        "prompt":  "Minimalist, Bookstore with Soap Bubbles, Golden Hour",
+        "kw":  "極簡 / 舊書店 / 金光 / 肥皂泡",
+        "story":  "幾何線條定義了書架與漂浮的圓球，在金黃色調中構成平衡且富有禪意的畫面。",
+        "fname":  "Gemini_Generated_Image_jcjko9jcjko9jcjk"
+    },
+    {
+        "batch":  "Images_161_176",
+        "num":  162,
+        "prompt":  "Minimalist, Bookstore with Soap Bubbles, Overcast",
+        "kw":  "極簡 / 舊書店 / 冷光 / 肥皂泡",
+        "story":  "冷調的平面色塊，極簡風格定義了一個陰天裡寧靜且純粹的閱讀空間。",
+        "fname":  "Gemini_Generated_Image_341me3341me3341m"
+    },
+    {
+        "batch":  "Images_161_176",
+        "num":  163,
+        "prompt":  "Minimalist, Bookstore with Soap Bubbles, Warm Lamp",
+        "kw":  "極簡 / 舊書店 / 暖燈 / 肥皂泡",
+        "story":  "簡約的暖橘色背景，書架與幾何圓點（泡泡）構成一幅溫馨的視覺詩意平衡。",
+        "fname":  "Gemini_Generated_Image_en0goren0goren0g"
+    },
+    {
+        "batch":  "Images_161_176",
+        "num":  164,
+        "prompt":  "Minimalist, Bookstore with Soap Bubbles, Neon Reflect",
+        "kw":  "極簡 / 舊書店 / 霓虹 / 肥皂泡",
+        "story":  "科技感的極簡配色，霓虹線條勾勒出都會夜色中舊書店與發光點的幻想。",
+        "fname":  "Gemini_Generated_Image_2e0tg22e0tg22e0t"
+    },
+    {
+        "batch":  "Images_161_176",
+        "num":  165,
+        "prompt":  "Minimalist, Bookstore with Old Photos, Golden Hour",
+        "kw":  "極簡 / 舊書店 / 金光 / 舊照片",
+        "story":  "幾何色塊構成的桌面與方塊照片，夕陽斜切過書脊呈現純粹的平面美。",
+        "fname":  "Gemini_Generated_Image_7khcjn7khcjn7khc"
+    },
+    {
+        "batch":  "Images_161_176",
+        "num":  166,
+        "prompt":  "Minimalist, Bookstore with Old Photos, Overcast",
+        "kw":  "極簡 / 舊書店 / 冷光 / 舊照片",
+        "story":  "灰度空間中，極簡的線條與長方形色塊凸顯了舊照片中歲月痕跡的存在感。",
+        "fname":  "Gemini_Generated_Image_1kc11v1kc11v1kc1"
+    },
+    {
+        "batch":  "Images_161_176",
+        "num":  167,
+        "prompt":  "Minimalist, Bookstore with Old Photos, Warm Lamp",
+        "kw":  "極簡 / 舊書店 / 暖燈 / 舊照片",
+        "story":  "暖色調的平面設計風格，書本與照片剪影構成了一種現代且乾淨的懷舊感。",
+        "fname":  "Gemini_Generated_Image_19hzim19hzim19hz"
+    },
+    {
+        "batch":  "Images_161_176",
+        "num":  168,
+        "prompt":  "Minimalist, Bookstore with Old Photos, Neon Reflect",
+        "kw":  "極簡 / 舊書店 / 霓虹 / 舊照片",
+        "story":  "當數位的亮藍色塊遇上黑白色調照片，呈現出前衛且大膽的視覺敘事對比。",
+        "fname":  "Gemini_Generated_Image_mp860ymp860ymp86"
+    },
+    {
+        "batch":  "Images_161_176",
+        "num":  169,
+        "prompt":  "Minimalist, Bookstore with Potted Plants, Golden Hour",
+        "kw":  "極簡 / 舊書店 / 金光 / 綠意",
+        "story":  "單純的綠色線條與垂直書架，在暖黃背景下展現出極具設計感的寧靜午後。",
+        "fname":  "Gemini_Generated_Image_f7dyrpf7dyrpf7dy"
+    },
+    {
+        "batch":  "Images_161_176",
+        "num":  170,
+        "prompt":  "Minimalist, Bookstore with Potted Plants, Overcast",
+        "kw":  "極簡 / 舊書店 / 冷光 / 綠意",
+        "story":  "灰綠色的極簡組合，強調了植物與舊書店空間在冷光下的幾何輪廓美。",
+        "fname":  "Gemini_Generated_Image_ll3irall3irall3i"
+    },
+    {
+        "batch":  "Images_161_176",
+        "num":  171,
+        "prompt":  "Minimalist, Bookstore with Potted Plants, Warm Lamp",
+        "kw":  "極簡 / 舊書店 / 暖燈 / 綠意",
+        "story":  "黃色暖光區域中，極簡植物與書脊構成了一個充滿治癒感的知識角落。",
+        "fname":  "Gemini_Generated_Image_amuk0hamuk0hamuk"
+    },
+    {
+        "batch":  "Images_161_176",
+        "num":  172,
+        "prompt":  "Minimalist, Bookstore with Potted Plants, Neon Reflect",
+        "kw":  "極簡 / 舊書店 / 霓虹 / 綠意",
+        "story":  "人造藍綠光影下的植物，在極簡風格中賦予舊書店一種未來的室內溫室感。",
+        "fname":  "Gemini_Generated_Image_o7b87co7b87co7b8"
+    },
+    {
+        "batch":  "Images_161_176",
+        "num":  173,
+        "prompt":  "Minimalist, Bookstore with Raindrops, Golden Hour",
+        "kw":  "極簡 / 舊書店 / 金光 / 雨滴",
+        "story":  "簡約的窗格線條與雨滴圓點，與斜射陽光共同呈現高級的視覺構圖。",
+        "fname":  "Gemini_Generated_Image_8hbp188hbp188hbp"
+    },
+    {
+        "batch":  "Images_161_176",
+        "num":  174,
+        "prompt":  "Minimalist, Bookstore with Raindrops, Overcast",
+        "kw":  "極簡 / 舊書店 / 冷光 / 雨滴",
+        "story":  "藍灰色向量構圖，雨痕在玻璃上形成的垂直線條展現了冷冽的幾何美學。",
+        "fname":  "Gemini_Generated_Image_bs4xcobs4xcobs4x"
+    },
+    {
+        "batch":  "Images_161_176",
+        "num":  175,
+        "prompt":  "Minimalist, Bookstore with Raindrops, Warm Lamp",
+        "kw":  "極簡 / 舊書店 / 暖燈 / 雨滴",
+        "story":  "圓形的燈火暈影與雨滴點綴，在極簡插畫中表現出書房內外的冷暖對語。",
+        "fname":  "Gemini_Generated_Image_ev0mwwev0mwwev0m"
+    },
+    {
+        "batch":  "Images_161_176",
+        "num":  176,
+        "prompt":  "Minimalist, Bookstore with Raindrops, Neon Reflect",
+        "kw":  "極簡 / 舊書店 / 霓虹 / 雨滴",
+        "story":  "窗戶上的霓虹反光與雨痕，在簡約筆觸下構成數位化日常的讀秒切片。",
+        "fname":  "Gemini_Generated_Image_x3dptpx3dptpx3dp"
+    },
+    {
+        "batch":  "Images_177_192",
+        "num":  177,
+        "prompt":  "Cyberpunk, Bookstore with Soap Bubbles, Golden Hour",
+        "kw":  "賽博龐克 / 舊書店 / 金光 / 肥皂泡",
+        "story":  "高科技與古文明的對比，發光的電漿泡泡在數位化的老書堆中跳躍穿梭。",
+        "fname":  "Gemini_Generated_Image_9owjwa9owjwa9owj"
+    },
+    {
+        "batch":  "Images_177_192",
+        "num":  178,
+        "prompt":  "Cyberpunk, Bookstore with Soap Bubbles, Overcast",
+        "kw":  "賽博龐克 / 舊書店 / 冷光 / 肥皂泡",
+        "story":  "冰冷的鋼鐵廢墟，神祕的發光球體照亮了被列為禁書目錄的古老書脊。",
+        "fname":  "Gemini_Generated_Image_dcpfgddcpfgddcpf"
+    },
+    {
+        "batch":  "Images_177_192",
+        "num":  179,
+        "prompt":  "Cyberpunk, Bookstore with Soap Bubbles, Warm Lamp",
+        "kw":  "賽博龐克 / 舊書店 / 暖燈 / 肥皂泡",
+        "story":  "自動販賣機的橘光照耀，電子氣泡圍繞著儲存數據的立方體與紙本書。",
+        "fname":  "Gemini_Generated_Image_fm4by6fm4by6fm4b"
+    },
+    {
+        "batch":  "Images_177_192",
+        "num":  180,
+        "prompt":  "Cyberpunk, Bookstore with Soap Bubbles, Neon Reflect",
+        "kw":  "賽博龐克 / 舊書店 / 霓虹 / 肥皂泡",
+        "story":  "螢光色彩流動，這裡是科幻城市中最後的知識避難所，充滿迷幻的泡泡。",
+        "fname":  "Gemini_Generated_Image_kiwog6kiwog6kiwo"
+    },
+    {
+        "batch":  "Images_177_192",
+        "num":  181,
+        "prompt":  "Cyberpunk, Bookstore with Old Photos, Golden Hour",
+        "kw":  "賽博龐克 / 舊書店 / 金光 / 舊照片",
+        "story":  "霓虹光照射下的實體舊照片，在數據化的冷冽世界裡顯得格外珍貴且脆弱。",
+        "fname":  "Gemini_Generated_Image_qesyqbqesyqbqesy"
+    },
+    {
+        "batch":  "Images_177_192",
+        "num":  182,
+        "prompt":  "Cyberpunk, Bookstore with Old Photos, Overcast",
+        "kw":  "賽博龐克 / 舊書店 / 冷光 / 舊照片",
+        "story":  "反烏托邦的沉重感，雨中書店遺留的照片訴說著一段被電子腦遺忘的歷史。",
+        "fname":  "Gemini_Generated_Image_8ig1v98ig1v98ig1"
+    },
+    {
+        "batch":  "Images_177_192",
+        "num":  183,
+        "prompt":  "Cyberpunk, Bookstore with Old Photos, Warm Lamp",
+        "kw":  "賽博龐克 / 舊書店 / 暖燈 / 舊照片",
+        "story":  "閃爍的鎢絲燈管下，殘破照片在電子霧氣中顯影，帶有一種廢土的人文感。",
+        "fname":  "Gemini_Generated_Image_1fv5821fv5821fv5"
+    },
+    {
+        "batch":  "Images_177_192",
+        "num":  184,
+        "prompt":  "Cyberpunk, Bookstore with Old Photos, Neon Reflect",
+        "kw":  "賽博龐克 / 舊書店 / 霓虹 / 舊照片",
+        "story":  "巨型廣告看板與古老照片在書店窗前並置，呈現雨夜中的資訊衝突美學。",
+        "fname":  "Gemini_Generated_Image_norsi3norsi3nors"
+    },
+    {
+        "batch":  "Images_177_192",
+        "num":  185,
+        "prompt":  "Cyberpunk, Bookstore with Potted Plants, Golden Hour",
+        "kw":  "賽博龐克 / 舊書店 / 金光 / 綠意",
+        "story":  "人工培育的發光植物環繞著舊書架，打造出一種迷幻且神祕的科技溫室。",
+        "fname":  "Gemini_Generated_Image_vzzb42vzzb42vzzb"
+    },
+    {
+        "batch":  "Images_177_192",
+        "num":  186,
+        "prompt":  "Cyberpunk, Bookstore with Potted Plants, Overcast",
+        "kw":  "賽博龐克 / 舊書店 / 冷光 / 綠意",
+        "story":  "鋼鐵森林中的最後一抹綠色植栽，在陰雨與冷金屬間展現頑強的生命力。",
+        "fname":  "Gemini_Generated_Image_8rpcqu8rpcqu8rpc"
+    },
+    {
+        "batch":  "Images_177_192",
+        "num":  187,
+        "prompt":  "Cyberpunk, Bookstore with Potted Plants, Warm Lamp",
+        "kw":  "賽博龐克 / 舊書店 / 暖燈 / 綠意",
+        "story":  "合成光照下的盆栽，與窗外流動的數據信號燈形成了一種室內外的對比。",
+        "fname":  "Gemini_Generated_Image_9n59jz9n59jz9n59"
+    },
+    {
+        "batch":  "Images_177_192",
+        "num":  188,
+        "prompt":  "Cyberpunk, Bookstore with Potted Plants, Neon Reflect",
+        "kw":  "賽博龐克 / 舊書店 / 霓虹 / 綠意",
+        "story":  "霓虹光賦予植物螢光色澤，未來生態視覺與古老書香在此產生奇異共鳴。",
+        "fname":  "Gemini_Generated_Image_6t41ny6t41ny6t41"
+    },
+    {
+        "batch":  "Images_177_192",
+        "num":  189,
+        "prompt":  "Cyberpunk, Bookstore with Raindrops, Golden Hour",
+        "kw":  "賽博龐克 / 舊書店 / 金光 / 雨滴",
+        "story":  "雨後霓虹折射在數位化書櫃上，每一顆雨滴都像是一個微小的儲存元件。",
+        "fname":  "Gemini_Generated_Image_6sgen76sgen76sge"
+    },
+    {
+        "batch":  "Images_177_192",
+        "num":  190,
+        "prompt":  "Cyberpunk, Bookstore with Raindrops, Overcast",
+        "kw":  "賽博龐克 / 舊書店 / 向冷光 / 雨滴",
+        "story":  "沉重的未來感，雨水沖刷著書店外牆的金屬結構與破碎的電子螢幕。",
+        "fname":  "Gemini_Generated_Image_t5vwt5t5vwt5t5vw"
+    },
+    {
+        "batch":  "Images_177_192",
+        "num":  191,
+        "prompt":  "Cyberpunk, Bookstore with Raindrops, Warm Lamp",
+        "kw":  "賽博龐克 / 舊書店 / 暖燈 / 雨滴",
+        "story":  "避雨的溫度感，老書的氣息與玻璃上冰冷的雨珠在暖光下迷幻疊加。",
+        "fname":  "Gemini_Generated_Image_bu6fb1bu6fb1bu6f"
+    },
+    {
+        "batch":  "Images_177_192",
+        "num":  192,
+        "prompt":  "Cyberpunk, Bookstore with Raindrops, Neon Reflect",
+        "kw":  "賽博龐克 / 舊書店 / 霓虹 / 雨滴",
+        "story":  "經典賽博美學：雨水流過霓虹，舊書店映照著城市數位看板的孤寂。",
+        "fname":  "Gemini_Generated_Image_hkvhvhhkvhvhhkvh"
+    },
+    {
+        "batch":  "Images_193_208",
+        "num":  193,
+        "prompt":  "Impressionist, Bus Stop with Soap Bubbles, Golden Hour",
+        "kw":  "印象派 / 公車站 / 金光 / 肥皂泡",
+        "story":  "夕陽將候車亭鍍上一層金邊，五彩的泡泡在歸途的人群間輕輕跳動。",
+        "fname":  "Gemini_Generated_Image_ob3b75ob3b75ob3b"
+    },
+    {
+        "batch":  "Images_193_208",
+        "num":  194,
+        "prompt":  "Impressionist, Bus Stop with Soap Bubbles, Overcast",
+        "kw":  "印象派 / 公車站 / 冷光 / 肥皂泡",
+        "story":  "灰濛濛的街道上，因幾顆閃爍的泡泡而有了如童話般輕盈的色彩筆觸。",
+        "fname":  "Gemini_Generated_Image_jrvmtmjrvmtmjrvm"
+    },
+    {
+        "batch":  "Images_193_208",
+        "num":  195,
+        "prompt":  "Impressionist, Bus Stop with Soap Bubbles, Warm Lamp",
+        "kw":  "印象派 / 公車站 / 暖燈 / 肥皂泡",
+        "story":  "公車站的路燈亮起，暖色塊與泡泡在夜色中交織出濃郁的油彩質感。",
+        "fname":  "Gemini_Generated_Image_1ebqaj1ebqaj1ebq"
+    },
+    {
+        "batch":  "Images_193_208",
+        "num":  196,
+        "prompt":  "Impressionist, Bus Stop with Soap Bubbles, Neon Reflect",
+        "kw":  "印象派 / 公車站 / 霓虹 / 肥皂泡",
+        "story":  "濕滑路面的霓虹倒影與泡泡重疊，捕捉了都會夜色中極致的光影律動。",
+        "fname":  "Gemini_Generated_Image_cg0pwmcg0pwmcg0p"
+    },
+    {
+        "batch":  "Images_193_208",
+        "num":  197,
+        "prompt":  "Impressionist, Bus Stop with Old Photos, Golden Hour",
+        "kw":  "印象派 / 公車站 / 金光 / 舊照片",
+        "story":  "站牌長椅上遺落的照片被落日染紅，斑駁的筆觸記錄下這份無名的思念。",
+        "fname":  "Gemini_Generated_Image_lhjirslhjirslhji"
+    },
+    {
+        "batch":  "Images_193_208",
+        "num":  198,
+        "prompt":  "Impressionist, Bus Stop with Old Photos, Overcast",
+        "kw":  "印象派 / 公車站 / 冷光 / 舊照片",
+        "story":  "在憂鬱的藍灰色調背景中，舊照片讓等待的時光顯得更加漫長而懷舊。",
+        "fname":  "Gemini_Generated_Image_9xk9dl9xk9dl9xk9"
+    },
+    {
+        "batch":  "Images_193_208",
+        "num":  199,
+        "prompt":  "Impressionist, Bus Stop with Old Photos, Warm Lamp",
+        "kw":  "印象派 / 公車站 / 暖燈 / 舊照片",
+        "story":  "昏黃路燈下發黃的照片呈現出沉穩質感，敘述著一段關於離別的往事。",
+        "fname":  "Gemini_Generated_Image_ixve26ixve26ixve"
+    },
+    {
+        "batch":  "Images_193_208",
+        "num":  200,
+        "prompt":  "Impressionist, Bus Stop with Old Photos, Neon Reflect",
+        "kw":  "印象派 / 公車站 / 霓虹 / 舊照片",
+        "story":  "城市霓虹在舊照片上流竄，厚實的油彩筆觸讓復古與現代在雨夜共存。",
+        "fname":  "Gemini_Generated_Image_i4k97ji4k97ji4k9"
+    },
+    {
+        "batch":  "Images_193_208",
+        "num":  201,
+        "prompt":  "Impressionist, Bus Stop with Potted Plants, Golden Hour",
+        "kw":  "印象派 / 公車站 / 金光 / 綠意",
+        "story":  "站亭旁的灌木叢在夕陽下閃爍，為堅硬的城市線條增添了一抹柔和綠意。",
+        "fname":  "Gemini_Generated_Image_54x7zm54x7zm54x7"
+    },
+    {
+        "batch":  "Images_193_208",
+        "num":  202,
+        "prompt":  "Impressionist, Bus Stop with Potted Plants, Overcast",
+        "kw":  "印象派 / 公車站 / 冷光 / 綠意",
+        "story":  "清冷的綠色與冷色調的站牌交融，營造出一個安靜且濕潤的都會角落。",
+        "fname":  "Gemini_Generated_Image_sx4gxxsx4gxxsx4g"
+    },
+    {
+        "batch":  "Images_193_208",
+        "num":  203,
+        "prompt":  "Impressionist, Bus Stop with Potted Plants, Warm Lamp",
+        "kw":  "印象派 / 公車站 / 暖燈 / 綠意",
+        "story":  "燈光穿透葉片輪廓，與等待的人影共同構成一幅層次豐富的夜間寫生。",
+        "fname":  "Gemini_Generated_Image_ro5zxkro5zxkro5z"
+    },
+    {
+        "batch":  "Images_193_208",
+        "num":  204,
+        "prompt":  "Impressionist, Bus Stop with Potted Plants, Neon Reflect",
+        "kw":  "印象派 / 公車站 / 霓虹 / 綠意",
+        "story":  "螢光色彩在綠葉尖端跳動，霓虹倒影讓普通的植栽顯得充滿戲劇張力。",
+        "fname":  "Gemini_Generated_Image_m2t2w1m2t2w1m2t2"
+    },
+    {
+        "batch":  "Images_193_208",
+        "num":  205,
+        "prompt":  "Impressionist, Bus Stop with Raindrops, Golden Hour",
+        "kw":  "印象派 / 公車站 / 金光 / 雨滴",
+        "story":  "雨後餘暉灑在站亭玻璃的雨珠上，折射出破碎但卻如鑽石般的金色光斑。",
+        "fname":  "Gemini_Generated_Image_cst1b5cst1b5cst1"
+    },
+    {
+        "batch":  "Images_193_208",
+        "num":  206,
+        "prompt":  "Impressionist, Bus Stop with Raindrops, Overcast",
+        "kw":  "印象派 / 公車站 / 冷光 / 雨滴",
+        "story":  "窗玻璃上的水痕模糊了遠方車燈，畫面充滿了孤獨且富有節奏的濕潤感。",
+        "fname":  "Gemini_Generated_Image_tc8o4atc8o4atc8o"
+    },
+    {
+        "batch":  "Images_193_208",
+        "num":  207,
+        "prompt":  "Impressionist, Bus Stop with Raindrops, Warm Lamp",
+        "kw":  "印象派 / 公車站 / 暖燈 / 雨滴",
+        "story":  "站內暖光照亮了玻璃上的每一絲雨跡，營造出冷雨中一點溫馨的寄託。",
+        "fname":  "Gemini_Generated_Image_ph8oxpph8oxpph8o"
+    },
+    {
+        "batch":  "Images_193_208",
+        "num":  208,
+        "prompt":  "Impressionist, Bus Stop with Raindrops, Neon Reflect",
+        "kw":  "印象派 / 公車站 / 霓虹 / 雨滴",
+        "story":  "流動的霓虹色彩在雨滴間穿梭，將平凡的公車站化為一場光影的冒險。",
+        "fname":  "Gemini_Generated_Image_weqtamweqtamweqt"
+    },
+    {
+        "batch":  "Images_209_224",
+        "num":  209,
+        "prompt":  "Watercolor, Bus Stop with Soap Bubbles, Golden Hour",
+        "kw":  "水彩 / 公車站 / 金光 / 肥皂泡",
+        "story":  "渲染的色彩勾勒出飄渺的泡泡，公車站的身影在金色的水漬間顯得輕盈。",
+        "fname":  "Gemini_Generated_Image_tqjix9tqjix9tqji"
+    },
+    {
+        "batch":  "Images_209_224",
+        "num":  210,
+        "prompt":  "Watercolor, Bus Stop with Soap Bubbles, Overcast",
+        "kw":  "水彩 / 公車站 / 冷光 / 肥皂泡",
+        "story":  "灰藍色的水彩渲染，表現出雨中等待公車時那份靜謐且純粹的想像。",
+        "fname":  "Gemini_Generated_Image_uynv2buynv2buynv"
+    },
+    {
+        "batch":  "Images_209_224",
+        "num":  211,
+        "prompt":  "Watercolor, Bus Stop with Soap Bubbles, Warm Lamp",
+        "kw":  "水彩 / 公車站 / 暖燈 / 肥皂泡",
+        "story":  "暖橘色的渲染效果，讓站牌下的路燈火與泡泡在紙上溫柔地交織。",
+        "fname":  "Gemini_Generated_Image_melprimelprimelp"
+    },
+    {
+        "batch":  "Images_209_224",
+        "num":  212,
+        "prompt":  "Watercolor, Bus Stop with Soap Bubbles, Neon Reflect",
+        "kw":  "水彩 / 公車站 / 霓虹 / 肥皂泡",
+        "story":  "迷幻的流動水色，公車站映照著街道上濕潤且斑斕的霓虹波光。",
+        "fname":  "Gemini_Generated_Image_6nzdt16nzdt16nzd"
+    },
+    {
+        "batch":  "Images_209_224",
+        "num":  213,
+        "prompt":  "Watercolor, Bus Stop with Old Photos, Golden Hour",
+        "kw":  "水彩 / 公車站 / 金光 / 舊照片",
+        "story":  "渲染的褐色表現出站牌旁照片的歲月感，畫面濕潤且帶有透明的憂傷。",
+        "fname":  "Gemini_Generated_Image_bmw4hrbmw4hrbmw4"
+    },
+    {
+        "batch":  "Images_209_224",
+        "num":  214,
+        "prompt":  "Watercolor, Bus Stop with Old Photos, Overcast",
+        "kw":  "水彩 / 公車站 / 冷光 / 舊照片",
+        "story":  "內斂的水彩筆觸，描繪出雨天候車亭裡一段關於離別的記憶旅行。",
+        "fname":  "Gemini_Generated_Image_3za9fz3za9fz3za9"
+    },
+    {
+        "batch":  "Images_209_224",
+        "num":  215,
+        "prompt":  "Watercolor, Bus Stop with Old Photos, Warm Lamp",
+        "kw":  "水彩 / 公車站 / 暖燈 / 舊照片",
+        "story":  "柔軟的水光暈染，照片中的模糊影象與站亭長椅在暖黃調中交疊。",
+        "fname":  "Gemini_Generated_Image_8gnkov8gnkov8gnk"
+    },
+    {
+        "batch":  "Images_209_224",
+        "num":  216,
+        "prompt":  "Watercolor, Bus Stop with Old Photos, Neon Reflect",
+        "kw":  "水彩 / 公車站 / 霓虹 / 舊照片",
+        "story":  "當數位霓虹色彩滲透進老照片，水彩展現出候車亭特有的時空錯置感。",
+        "fname":  "Gemini_Generated_Image_6xeiw76xeiw76xei"
+    },
+    {
+        "batch":  "Images_209_224",
+        "num":  217,
+        "prompt":  "Watercolor, Bus Stop with Potted Plants, Golden Hour",
+        "kw":  "水彩 / 公車站 / 金光 / 綠意",
+        "story":  "翠綠的色塊與站牌交織，展現出都會角落雨後初晴時清新的生命力。",
+        "fname":  "Gemini_Generated_Image_c1l57yc1l57yc1l5"
+    },
+    {
+        "batch":  "Images_209_224",
+        "num":  218,
+        "prompt":  "Watercolor, Bus Stop with Potted Plants, Overcast",
+        "kw":  "水彩 / 公車站 / 冷光 / 綠意",
+        "story":  "灰綠墨色的自然擴散，讓冰冷的公車站也帶有一抹自然的濕潤芬芳。",
+        "fname":  "Gemini_Generated_Image_4el9734el9734el9"
+    },
+    {
+        "batch":  "Images_209_224",
+        "num":  219,
+        "prompt":  "Watercolor, Bus Stop with Potted Plants, Warm Lamp",
+        "kw":  "水彩 / 公車站 / 暖燈 / 綠意",
+        "story":  "溫馨的水暈效果，站亭外的植物在暖色燈火下展現出豐富的層次質感。",
+        "fname":  "Gemini_Generated_Image_ldfyfbldfyfbldfy"
+    },
+    {
+        "batch":  "Images_209_224",
+        "num":  220,
+        "prompt":  "Watercolor, Bus Stop with Potted Plants, Neon Reflect",
+        "kw":  "水彩 / 公車站 / 霓虹 / 綠意",
+        "story":  "人工霓虹與自然綠意的結合，站亭旁的植栽在夜色中呈現奇幻的水彩美。",
+        "fname":  "Gemini_Generated_Image_up5l9eup5l9eup5l"
+    },
+    {
+        "batch":  "Images_209_224",
+        "num":  221,
+        "prompt":  "Watercolor, Bus Stop with Raindrops, Golden Hour",
+        "kw":  "水彩 / 公車站 / 金光 / 雨滴",
+        "story":  "暈染筆觸精確捕捉了水滴的流動，金色的光斑在濕潤的畫面上緩緩散開。",
+        "fname":  "Gemini_Generated_Image_gsaob9gsaob9gsao"
+    },
+    {
+        "batch":  "Images_209_224",
+        "num":  222,
+        "prompt":  "Watercolor, Bus Stop with Raindrops, Overcast",
+        "kw":  "水彩 / 公車站 / 冷光 / 雨滴",
+        "story":  "濃郁的水感表現出雨中等待的重量，每一道水痕都充滿了節奏與詩意。",
+        "fname":  "Gemini_Generated_Image_vuar7ivuar7ivuar"
+    },
+    {
+        "batch":  "Images_209_224",
+        "num":  223,
+        "prompt":  "Watercolor, Bus Stop with Raindrops, Warm Lamp",
+        "kw":  "水彩 / 公車站 / 暖燈 / 雨滴",
+        "story":  "溫暖的渲染效果，讓公車站內的燈火與玻璃上的冷雨產生視覺對話。",
+        "fname":  "Gemini_Generated_Image_uww6qpuww6qpuww6"
+    },
+    {
+        "batch":  "Images_209_224",
+        "num":  224,
+        "prompt":  "Watercolor, Bus Stop with Raindrops, Neon Reflect",
+        "kw":  "水彩 / 公車站 / 霓虹 / 雨滴",
+        "story":  "抽象的流動色塊，雨後的公車站捕捉了都會中繽紛且碎裂的霓虹魅影。",
+        "fname":  "Gemini_Generated_Image_bd1cm5bd1cm5bd1c"
+    },
+    {
+        "batch":  "Images_225_240",
+        "num":  225,
+        "prompt":  "Minimalist, Bus Stop with Soap Bubbles, Golden Hour",
+        "kw":  "極簡 / 公車站 / 金光 / 肥皂泡",
+        "story":  "簡約的線條與幾何圓點（泡泡），在金色的負空間中構成高級的構圖。",
+        "fname":  "Gemini_Generated_Image_gqiv9dgqiv9dgqiv"
+    },
+    {
+        "batch":  "Images_225_240",
+        "num":  226,
+        "prompt":  "Minimalist, Bus Stop with Soap Bubbles, Overcast",
+        "kw":  "極簡 / 公車站 / 冷光 / 肥皂泡",
+        "story":  "冷調的平面色塊，極簡風格定義了一個陰天裡寧靜且純粹的候車空間。",
+        "fname":  "Gemini_Generated_Image_f8k7v0f8k7v0f8k7"
+    },
+    {
+        "batch":  "Images_225_240",
+        "num":  227,
+        "prompt":  "Minimalist, Bus Stop with Soap Bubbles, Warm Lamp",
+        "kw":  "極簡 / 公車站 / 暖燈 / 肥皂泡",
+        "story":  "簡約的暖橘色背景，站亭與幾何圓球（泡泡）構成一幅視覺的詩意平衡。",
+        "fname":  "Gemini_Generated_Image_yp4khjyp4khjyp4k"
+    },
+    {
+        "batch":  "Images_225_240",
+        "num":  228,
+        "prompt":  "Minimalist, Bus Stop with Soap Bubbles, Neon Reflect",
+        "kw":  "極簡 / 公車站 / 霓虹 / 肥皂泡",
+        "story":  "科技感的極簡配色，霓虹線條勾勒出都會夜色中公車站與發光點的幻想。",
+        "fname":  "Gemini_Generated_Image_asvm7iasvm7iasvm"
+    },
+    {
+        "batch":  "Images_225_240",
+        "num":  229,
+        "prompt":  "Minimalist, Bus Stop with Old Photos, Golden Hour",
+        "kw":  "極簡 / 公車站 / 金光 / 舊照片",
+        "story":  "幾何色塊構成的長椅與方塊照片，夕陽斜切過站牌呈現純粹的平面美。",
+        "fname":  "Gemini_Generated_Image_b9t8x1b9t8x1b9t8"
+    },
+    {
+        "batch":  "Images_225_240",
+        "num":  230,
+        "prompt":  "Minimalist, Bus Stop with Old Photos, Overcast",
+        "kw":  "極簡 / 公車站 / 冷光 / 舊照片",
+        "story":  "灰度空間中，極簡的線條與長方形色塊凸顯了舊照片在雨中的孤獨感。",
+        "fname":  "Gemini_Generated_Image_h746xh746xh746xh"
+    },
+    {
+        "batch":  "Images_225_240",
+        "num":  231,
+        "prompt":  "Minimalist, Bus Stop with Old Photos, Warm Lamp",
+        "kw":  "極簡 / 公車站 / 暖燈 / 舊照片",
+        "story":  "暖色調的平面設計風格，站亭與照片剪影構成了一種現代且乾淨的懷舊感。",
+        "fname":  "Gemini_Generated_Image_1mvbh91mvbh91mvb"
+    },
+    {
+        "batch":  "Images_225_240",
+        "num":  232,
+        "prompt":  "Minimalist, Bus Stop with Old Photos, Neon Reflect",
+        "kw":  "極簡 / 公車站 / 霓虹 / 舊照片",
+        "story":  "當數位的亮藍色塊遇上黑白色調照片，呈現出前衛且大膽的視覺對比美。",
+        "fname":  "Gemini_Generated_Image_dqfs31dqfs31dqfs"
+    },
+    {
+        "batch":  "Images_225_240",
+        "num":  233,
+        "prompt":  "Minimalist, Bus Stop with Potted Plants, Golden Hour",
+        "kw":  "極簡 / 公車站 / 金光 / 綠意",
+        "story":  "單純的綠色線條與垂直站牌，在暖黃背景下展現出設計感的寧靜午後。",
+        "fname":  "Gemini_Generated_Image_52i42k52i42k52i4"
+    },
+    {
+        "batch":  "Images_225_240",
+        "num":  234,
+        "prompt":  "Minimalist, Bus Stop with Potted Plants, Overcast",
+        "kw":  "極簡 / 公車站 / 冷光 / 綠意",
+        "story":  "灰綠色的極簡組合，強調了植物與公車站空間在冷光下的幾何輪廓美。",
+        "fname":  "Gemini_Generated_Image_egzbtcegzbtcegzb"
+    },
+    {
+        "batch":  "Images_225_240",
+        "num":  235,
+        "prompt":  "Minimalist, Bus Stop with Potted Plants, Warm Lamp",
+        "kw":  "極簡 / 公車站 / 暖燈 / 綠意",
+        "story":  "黃色暖光區域中，極簡植物與長椅構成了一個充滿治癒感的都會角落。",
+        "fname":  "Gemini_Generated_Image_sgne17sgne17sgne"
+    },
+    {
+        "batch":  "Images_225_240",
+        "num":  236,
+        "prompt":  "Minimalist, Bus Stop with Potted Plants, Neon Reflect",
+        "kw":  "極簡 / 公車站 / 霓虹 / 綠意",
+        "story":  "人造藍綠光影下的植物，在極簡風格中賦予公車站一種未來的溫室感。",
+        "fname":  "Gemini_Generated_Image_pxwpxepxwpxepxwp"
+    },
+    {
+        "batch":  "Images_225_240",
+        "num":  237,
+        "prompt":  "Minimalist, Bus Stop with Raindrops, Golden Hour",
+        "kw":  "極簡 / 公車站 / 金光 / 雨滴",
+        "story":  "簡約的窗格線條與雨滴圓點，與夕陽共同呈現高級的向量視覺構圖。",
+        "fname":  "Gemini_Generated_Image_31sxmk31sxmk31sx"
+    },
+    {
+        "batch":  "Images_225_240",
+        "num":  238,
+        "prompt":  "Minimalist, Bus Stop with Raindrops, Overcast",
+        "kw":  "極簡 / 公車站 / 冷光 / 雨滴",
+        "story":  "藍灰色向量構圖，雨痕在玻璃上形成的垂直線條展現了冷冽的幾何美學。",
+        "fname":  "Gemini_Generated_Image_ynwppoynwppoynwp"
+    },
+    {
+        "batch":  "Images_225_240",
+        "num":  239,
+        "prompt":  "Minimalist, Bus Stop with Raindrops, Warm Lamp",
+        "kw":  "極簡 / 公車站 / 暖燈 / 雨滴",
+        "story":  "圓形的燈火暈影與雨滴點綴，在極簡插畫中表現出候車亭內的冷暖詩意。",
+        "fname":  "Gemini_Generated_Image_shx01oshx01oshx0"
+    },
+    {
+        "batch":  "Images_225_240",
+        "num":  240,
+        "prompt":  "Minimalist, Bus Stop with Raindrops, Neon Reflect",
+        "kw":  "極簡 / 公車站 / 霓虹 / 雨滴",
+        "story":  "玻璃上的霓虹反光與雨痕，在簡約筆觸下構成數位化日常的精緻切片。",
+        "fname":  "Gemini_Generated_Image_sl6gadsl6gadsl6g"
+    },
+    {
+        "batch":  "Images_241_256",
+        "num":  241,
+        "prompt":  "Cyberpunk, Bus Stop with Soap Bubbles, Golden Hour",
+        "kw":  "賽博龐克 / 公車站 / 金光 / 肥皂泡",
+        "story":  "金屬感十足的車站與發光泡泡，在夕陽與全息投影的交錯中顯得極致迷幻。",
+        "fname":  "Gemini_Generated_Image_42bhlv42bhlv42bh"
+    },
+    {
+        "batch":  "Images_241_256",
+        "num":  242,
+        "prompt":  "Cyberpunk, Bus Stop with Soap Bubbles, Overcast",
+        "kw":  "賽博龐克 / 公車站 / 冷光 / 肥皂泡",
+        "story":  "冰冷的廢墟車站，神祕的發光球體照亮了滿是電子塗鴉的數位地圖。",
+        "fname":  "Gemini_Generated_Image_glpx2qglpx2qglpx"
+    },
+    {
+        "batch":  "Images_241_256",
+        "num":  243,
+        "prompt":  "Cyberpunk, Bus Stop with Soap Bubbles, Warm Lamp",
+        "kw":  "賽博龐克 / 公車站 / 暖燈 / 肥皂泡",
+        "story":  "自動販賣機的暖黃光，照亮了漂浮在候車人影周圍的電子氣泡與金屬架。",
+        "fname":  "Gemini_Generated_Image_65e87d65e87d65e8"
+    },
+    {
+        "batch":  "Images_241_256",
+        "num":  244,
+        "prompt":  "Cyberpunk, Bus Stop with Soap Bubbles, Neon Reflect",
+        "kw":  "賽博龐克 / 公車站 / 霓虹 / 肥皂泡",
+        "story":  "螢光色彩在泡泡表面流淌，公車站成了未來都市中捕捉能量氣泡的實驗場。",
+        "fname":  "Gemini_Generated_Image_si7s96si7s96si7s"
+    },
+    {
+        "batch":  "Images_241_256",
+        "num":  245,
+        "prompt":  "Cyberpunk, Bus Stop with Old Photos, Golden Hour",
+        "kw":  "賽博龐克 / 公車站 / 金光 / 舊照片",
+        "story":  "數據城市的荒涼街角，一張實體舊照片在霓虹與夕陽的交疊中顯得格外醒目。",
+        "fname":  "Gemini_Generated_Image_rag90wrag90wrag9"
+    },
+    {
+        "batch":  "Images_241_256",
+        "num":  246,
+        "prompt":  "Cyberpunk, Bus Stop with Old Photos, Overcast",
+        "kw":  "賽博龐克 / 公車站 / 冷光 / 舊照片",
+        "story":  "反烏托邦的場景下，雨中的公車站遺落的照片訴說著被數位時代遺忘的故事。",
+        "fname":  "Gemini_Generated_Image_9k6uc09k6uc09k6u"
+    },
+    {
+        "batch":  "Images_241_256",
+        "num":  247,
+        "prompt":  "Cyberpunk, Bus Stop with Old Photos, Warm Lamp",
+        "kw":  "賽博龐克 / 公車站 / 暖燈 / 舊照片",
+        "story":  "閃爍的鎢絲燈管下，殘破照片在電子霧氣中顯影，展現廢土中的人文溫情。",
+        "fname":  "Gemini_Generated_Image_8gs0kb8gs0kb8gs0"
+    },
+    {
+        "batch":  "Images_241_256",
+        "num":  248,
+        "prompt":  "Cyberpunk, Bus Stop with Old Photos, Neon Reflect",
+        "kw":  "賽博龐克 / 公車站 / 霓虹 / 舊照片",
+        "story":  "巨型數位看板與老舊照片在雨夜中並置，呈現未來都市中資訊衝突的張力。",
+        "fname":  "Gemini_Generated_Image_il9v7ril9v7ril9v"
+    },
+    {
+        "batch":  "Images_241_256",
+        "num":  249,
+        "prompt":  "Cyberpunk, Bus Stop with Potted Plants, Golden Hour",
+        "kw":  "賽博龐克 / 公車站 / 金光 / 綠意",
+        "story":  "鋼鐵森林中的變異綠植，在暖橘色的合成光影下散發著神祕且堅韌的光芒。",
+        "fname":  "Gemini_Generated_Image_x2daohx2daohx2da"
+    },
+    {
+        "batch":  "Images_241_256",
+        "num":  250,
+        "prompt":  "Cyberpunk, Bus Stop with Potted Plants, Overcast",
+        "kw":  "賽博龐克 / 公車站 / 冷光 / 綠意",
+        "story":  "廢墟車站中最後一抹綠色植栽，在陰雨與冷冽金屬間展現頑強的末世生命力。",
+        "fname":  "Gemini_Generated_Image_8crwsf8crwsf8crw"
+    },
+    {
+        "batch":  "Images_241_256",
+        "num":  251,
+        "prompt":  "Cyberpunk, Bus Stop with Potted Plants, Warm Lamp",
+        "kw":  "賽博龐克 / 公車站 / 暖燈 / 綠意",
+        "story":  "合成光照下的盆栽植物，與窗外流動的都會流光形成了一種極具科幻感的對比。",
+        "fname":  "Gemini_Generated_Image_whc57whc57whc57w"
+    },
+    {
+        "batch":  "Images_241_256",
+        "num":  252,
+        "prompt":  "Cyberpunk, Bus Stop with Potted Plants, Neon Reflect",
+        "kw":  "賽博龐克 / 公車站 / 霓虹 / 綠意",
+        "story":  "霓虹賦予植物螢光色澤，未來公車站的視覺衝擊讓自然與科技在此奇異共存。",
+        "fname":  "Gemini_Generated_Image_471wxz471wxz471w"
+    },
+    {
+        "batch":  "Images_241_256",
+        "num":  253,
+        "prompt":  "Cyberpunk, Bus Stop with Raindrops, Golden Hour",
+        "kw":  "賽博龐克 / 公車站 / 金光 / 雨滴",
+        "story":  "高科技城市雨後的視覺巔峰：雨水、霓虹與金屬反射在金光下產生華麗共鳴。",
+        "fname":  "Gemini_Generated_Image_pd4vexpd4vexpd4v"
+    },
+    {
+        "batch":  "Images_241_256",
+        "num":  254,
+        "prompt":  "Cyberpunk, Bus Stop with Raindrops, Overcast",
+        "kw":  "賽博龐克 / 公車站 / 冷光 / 雨滴",
+        "story":  "沉重且陰暗的未來感，雨水沖刷著公車站的金屬架與破碎的數位螢幕。",
+        "fname":  "Gemini_Generated_Image_wlwukowlwukowlwu"
+    },
+    {
+        "batch":  "Images_241_256",
+        "num":  255,
+        "prompt":  "Cyberpunk, Bus Stop with Raindrops, Warm Lamp",
+        "kw":  "賽博龐克 / 公車站 / 暖燈 / 雨滴",
+        "story":  "避雨的溫度感，金屬車站氣息與玻璃上冰冷的雨珠在暖光下產生迷幻疊加。",
+        "fname":  "Gemini_Generated_Image_n0sa66n0sa66n0sa"
+    },
+    {
+        "batch":  "Images_241_256",
+        "num":  256,
+        "prompt":  "Cyberpunk, Bus Stop with Raindrops, Neon Reflect",
+        "kw":  "賽博龐克 / 公車站 / 霓虹 / 雨滴",
+        "story":  "終極賽博美學：雨水沖刷著霓虹，公車站在迷幻的光流中化為都會的寂寞燈塔。",
+        "fname":  "Gemini_Generated_Image_5c1z2c5c1z2c5c1z"
+    }
+]
