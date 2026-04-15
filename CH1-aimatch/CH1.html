@@ -17,7 +17,7 @@
         }
 
         body {
-            font-family: "Microsoft JhengHei", "微軟正黑體", "Noto Sans TC", "PingFang TC", "蘋方", "Hiragino Sans GB", "Heiti TC", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "微軟正黑體", "Noto Sans", "Noto Sans CJK TC", "PingFang SC", "Hiragino Sans GB", sans-serif;
             background-color: #fcfcfc;
             margin: 0;
             padding: 0;
@@ -218,4 +218,240 @@
             #game-board { flex-direction: column; }
             #cards-area { flex-direction: row; justify-content: space-around; flex-wrap: wrap; min-height: auto; }
             .basket { flex-direction: column; align-items: flex-start; }
-            .basket-title { width: 100%; text-align: left; margin-bottom:
+            .basket-title { width: 100%; text-align: left; margin-bottom: 10px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 5px; }
+            .basket-content { border-left: none; padding-left: 0; width: 100%; }
+            .card { width: 100px; height: 100px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🤖 AI 應用配對遊戲</h1>
+        <div class="stats">
+            關卡: <span id="level-display">1 / 2</span> | 
+            得分: <span id="score-display"></span>
+        </div>
+    </header>
+
+    <main id="game-board">
+        <div id="cards-area"></div>
+        
+        <div id="baskets-area">
+            <div class="basket" data-category="perception">
+                <div class="basket-title">👁️ 感知能力</div>
+                <div class="basket-content"></div>
+            </div>
+            <div class="basket" data-category="recommendation">
+                <div class="basket-title">🧭 建議分析能力</div>
+                <div class="basket-content"></div>
+            </div>
+            <div class="basket" data-category="creation">
+                <div class="basket-title">🎨 創作能力</div>
+                <div class="basket-content"></div>
+            </div>
+        </div>
+    </main>
+
+    <div id="controls-area">
+        <div id="feedback-msg"></div>
+        <button id="next-btn" style="display: none;">過關！進入下一關</button>
+    </div>
+
+    <div id="result-modal">
+        <div class="modal-content">
+            <h2>🎉 恭喜完成所有挑戰！</h2>
+            <p style="font-size: 24px;">總得分：<span id="final-score"></span></p>
+            <div class="notes-box">
+                <h3>💡 知識小筆記</h3>
+                <p><strong>👁️ 感知能力：</strong>看見人臉、聽見話語（如：臉部辨識、智慧音箱）。</p>
+                <p><strong>🧭 建議分析：</strong>分析資料給出好選擇（如：YouTube推薦、地圖導航）。</p>
+                <p><strong>🎨 創作能力：</strong>自己畫畫或寫故事（如：AI繪圖、e度寫作文）。</p>
+            </div>
+            <button onclick="location.reload()">再玩一次</button>
+        </div>
+    </div>
+
+    <script>
+        /* ====== 遊戲資料設定 ====== */
+        const levelsData = [
+            {
+                cards: [
+                    { id: 'c1', name: '臉部辨識', category: 'perception', img: 'https://via.placeholder.com/150/FFB6C1/333?text=圖' },
+                    { id: 'c2', name: '智慧音箱', category: 'perception', img: 'https://via.placeholder.com/150/FFD700/333?text=圖' },
+                    { id: 'c3', name: 'YouTube推薦', category: 'recommendation', img: 'https://via.placeholder.com/150/87CEFA/333?text=圖' }
+                ]
+            },
+            {
+                cards: [
+                    { id: 'c4', name: '地圖導航', category: 'recommendation', img: 'https://via.placeholder.com/150/98FB98/333?text=圖' },
+                    { id: 'c5', name: 'AI繪圖', category: 'creation', img: 'https://via.placeholder.com/150/FFA07A/333?text=圖' },
+                    { id: 'c6', name: 'e度寫作文', category: 'creation', img: 'https://via.placeholder.com/150/DDA0DD/333?text=圖' }
+                ]
+            }
+        ];
+
+        /* ====== 狀態變數 ====== */
+        let currentLevel = 0;
+        let score = 0;
+        let draggedElement = null;
+        let startX = 0, startY = 0;
+
+        /* ====== 初始化遊戲 ====== */
+        function initLevel() {
+            const cardsArea = document.getElementById('cards-area');
+            cardsArea.innerHTML = ''; 
+            
+            // 清空所有籃子裡的卡片
+            document.querySelectorAll('.basket-content').forEach(content => content.innerHTML = '');
+
+            // 隱藏訊息與按鈕
+            document.getElementById('next-btn').style.display = 'none';
+            document.getElementById('feedback-msg').style.display = 'none';
+            document.getElementById('level-display').innerText = `${currentLevel + 1} / ${levelsData.length}`;
+
+            // 生成隨機卡片
+            const currentCards = [...levelsData[currentLevel].cards].sort(() => Math.random() - 0.5);
+
+            currentCards.forEach(cardData => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.dataset.category = cardData.category;
+                card.style.backgroundImage = `url('${cardData.img}')`;
+                
+                const nameTag = document.createElement('div');
+                nameTag.classList.add('card-name');
+                nameTag.innerText = cardData.name;
+                card.appendChild(nameTag);
+
+                // 加入對錯圖示的預留區塊
+                const icon = document.createElement('div');
+                icon.classList.add('result-icon');
+                card.appendChild(icon);
+
+                // 綁定拖曳事件
+                card.addEventListener('pointerdown', onPointerDown);
+                
+                cardsArea.appendChild(card);
+            });
+        }
+
+        function updateScore() {
+            document.getElementById('score-display').innerText = '⭐'.repeat(score);
+        }
+
+        /* ====== 拖曳邏輯 ====== */
+        function onPointerDown(e) {
+            draggedElement = e.target;
+            draggedElement.setPointerCapture(e.pointerId);
+            startX = e.clientX;
+            startY = e.clientY;
+
+            draggedElement.classList.add('dragging');
+            draggedElement.style.transition = 'none';
+
+            draggedElement.addEventListener('pointermove', onPointerMove);
+            draggedElement.addEventListener('pointerup', onPointerUp);
+        }
+
+        function onPointerMove(e) {
+            if (!draggedElement) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            draggedElement.style.transform = `translate(${dx}px, ${dy}px)`;
+        }
+
+        function onPointerUp(e) {
+            if (!draggedElement) return;
+            
+            draggedElement.removeEventListener('pointermove', onPointerMove);
+            draggedElement.removeEventListener('pointerup', onPointerUp);
+            draggedElement.releasePointerCapture(e.pointerId);
+            draggedElement.classList.remove('dragging');
+
+            // 偵測放開時底下的元素
+            draggedElement.style.visibility = 'hidden';
+            const elementBelow = document.elementFromPoint(e.clientX, e.clientY);
+            draggedElement.style.visibility = 'visible';
+            const basketBelow = elementBelow ? elementBelow.closest('.basket') : null;
+
+            // 歸零 transform 以配合 appendChild
+            draggedElement.style.transform = 'none';
+
+            if (basketBelow) {
+                // 放進籃子：固定圖片並取消拖曳能力
+                basketBelow.querySelector('.basket-content').appendChild(draggedElement);
+                draggedElement.classList.add('placed');
+                draggedElement.removeEventListener('pointerdown', onPointerDown); // 移除拖曳事件，使其固定
+            } else {
+                // 放錯位置，彈回左側原始區域
+                document.getElementById('cards-area').appendChild(draggedElement);
+                draggedElement.classList.remove('placed');
+            }
+
+            draggedElement = null;
+
+            // 檢查是否全部放置完畢
+            checkLevelComplete();
+        }
+
+        /* ====== 檢查與結算邏輯 ====== */
+        function checkLevelComplete() {
+            // 計算畫面上「已經放入籃子」的卡片總數
+            const placedCards = document.querySelectorAll('.basket-content .card');
+            
+            if (placedCards.length === levelsData[currentLevel].cards.length) {
+                verifyAnswers(placedCards);
+            }
+        }
+
+        function verifyAnswers(placedCards) {
+            let correctCount = 0;
+
+            placedCards.forEach(card => {
+                const basket = card.closest('.basket');
+                const resultIcon = card.querySelector('.result-icon');
+                resultIcon.style.display = 'block'; // 顯示結果圖示
+
+                // 判斷該卡片的分類是否和所在籃子的分類相同
+                if (card.dataset.category === basket.dataset.category) {
+                    // 答對
+                    card.style.borderColor = '#4CAF50'; // 綠色邊框
+                    resultIcon.innerText = '✅';
+                    correctCount++;
+                    score++; // 總得分增加
+                } else {
+                    // 答錯
+                    card.style.borderColor = '#F44336'; // 紅色邊框
+                    resultIcon.innerText = '❌';
+                }
+            });
+
+            updateScore();
+
+            // 顯示回饋訊息與下一關按鈕
+            const feedback = document.getElementById('feedback-msg');
+            feedback.innerText = `本關完成！你答對了 ${correctCount} 題 🎉`;
+            feedback.style.color = correctCount === 3 ? '#4CAF50' : '#D32F2F';
+            feedback.style.display = 'block';
+            
+            document.getElementById('next-btn').style.display = 'inline-block';
+        }
+
+        /* ====== 按鈕事件 ====== */
+        document.getElementById('next-btn').addEventListener('click', () => {
+            currentLevel++;
+            if (currentLevel < levelsData.length) {
+                initLevel();
+            } else {
+                document.getElementById('final-score').innerText = '⭐'.repeat(score);
+                document.getElementById('result-modal').style.display = 'flex';
+            }
+        });
+
+        // 啟動遊戲
+        initLevel();
+        updateScore();
+    </script>
+</body>
+</html>
