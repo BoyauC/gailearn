@@ -338,11 +338,6 @@
                 card.dataset.category = cardData.category;
                 card.style.backgroundImage = `url('${cardData.img}')`;
                 
-                const nameTag = document.createElement('div');
-                nameTag.classList.add('card-name');
-                nameTag.innerText = cardData.name;
-                card.appendChild(nameTag);
-
                 // 加入對錯圖示的預留區塊
                 const icon = document.createElement('div');
                 icon.classList.add('result-icon');
