@@ -17,7 +17,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "微軟正黑體", "Noto Sans", "Noto Sans CJK TC", "PingFang SC", "Hiragino Sans GB", sans-serif;
+            font-family: 'Comic Sans MS', '微軟正黑體', sans-serif;
             background-color: #fcfcfc;
             margin: 0;
             padding: 0;
@@ -86,7 +86,7 @@
         .card.placed {
             width: 90px;
             height: 90px;
-            cursor: default; /* 取消拖曳游標 */
+            cursor: default;
             box-shadow: none;
             margin: 5px;
         }
@@ -105,7 +105,6 @@
             text-align: center;
         }
 
-        /* 對錯圖示 (預設隱藏) */
         .result-icon {
             position: absolute;
             bottom: -10px;
@@ -143,7 +142,6 @@
             margin-right: 15px;
         }
 
-        /* 用來裝放置後卡片的容器 */
         .basket-content {
             flex: 1;
             display: flex;
@@ -204,16 +202,25 @@
             background: white;
             padding: 30px;
             border-radius: 20px;
-            max-width: 500px;
+            max-width: 600px;
+            width: 90%;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-height: 90vh;
+            overflow-y: auto;
         }
-        .modal-content h2 { color: var(--primary); font-size: 32px; }
+        .modal-content h2 { color: var(--primary); font-size: 32px; margin-top: 0; }
+        
         .notes-box {
-            text-align: left; background: #f4f4f4; padding: 15px; border-radius: 10px; margin: 20px 0; line-height: 1.6;
+            margin: 20px 0;
+        }
+        .notes-box img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
-        /* 響應式：手機與平板轉直向時 */
         @media (max-width: 768px) {
             #game-board { flex-direction: column; }
             #cards-area { flex-direction: row; justify-content: space-around; flex-wrap: wrap; min-height: auto; }
@@ -261,39 +268,40 @@
     <div id="result-modal">
         <div class="modal-content">
             <h2>🎉 恭喜完成所有挑戰！</h2>
-            <p style="font-size: 24px;">總得分：<span id="final-score"></span></p>
+            <p style="font-size: 24px; font-weight: bold;">總得分：<span id="final-score"></span></p>
+            
             <div class="notes-box">
-                <h3>💡 知識小筆記</h3>
-                <p><strong>👁️ 感知能力：</strong>看見人臉、聽見話語（如：臉部辨識、智慧音箱）。</p>
-                <p><strong>🧭 建議分析：</strong>分析資料給出好選擇（如：YouTube推薦、地圖導航）。</p>
-                <p><strong>🎨 創作能力：</strong>自己畫畫或寫故事（如：AI繪圖、e度寫作文）。</p>
+                <img src="Assets/Images/Whatis.png" alt="知識小筆記">
             </div>
+            
             <button onclick="location.reload()">再玩一次</button>
         </div>
     </div>
 
     <script>
-        /* ====== 遊戲資料設定 ====== */
-        const levelsData = [
-            {
-                cards: [
-                    { id: 'c1', name: '臉部辨識', category: 'perception', img: 'https://via.placeholder.com/150/FFB6C1/333?text=圖' },
-                    { id: 'c2', name: '智慧音箱', category: 'perception', img: 'https://via.placeholder.com/150/FFD700/333?text=圖' },
-                    { id: 'c3', name: 'YouTube推薦', category: 'recommendation', img: 'https://via.placeholder.com/150/87CEFA/333?text=圖' }
-                ]
-            },
-            {
-                cards: [
-                    { id: 'c4', name: '地圖導航', category: 'recommendation', img: 'https://via.placeholder.com/150/98FB98/333?text=圖' },
-                    { id: 'c5', name: 'AI繪圖', category: 'creation', img: 'https://via.placeholder.com/150/FFA07A/333?text=圖' },
-                    { id: 'c6', name: 'e度寫作文', category: 'creation', img: 'https://via.placeholder.com/150/DDA0DD/333?text=圖' }
-                ]
-            }
+        /* ====== 遊戲資料設定 (依據 CSV 檔案清單) ====== */
+        // 第一關的題庫 (共 6 張)
+        const level1Pool = [
+            { id: 'c1-1', name: 'AI寫詩', category: 'creation', img: 'Assets/Images/C1-1.png' },
+            { id: 'c1-2', name: 'AI寫故事', category: 'creation', img: 'Assets/Images/C1-2.png' },
+            { id: 'sen1-1', name: '智慧音箱', category: 'perception', img: 'Assets/Images/Sen1-1.png' },
+            { id: 'sen1-2', name: '臉部辨識', category: 'perception', img: 'Assets/Images/Sen1-2.png' },
+            { id: 'sug1-1', name: '健康建議', category: 'recommendation', img: 'Assets/Images/Sug1-1.png' },
+            { id: 'sug1-2', name: '影片建議', category: 'recommendation', img: 'Assets/Images/Sug1-2.png' }
+        ];
+
+        // 第二關的題庫 (固定 3 張)
+        const level2Pool = [
+            { id: 'sen2-1', name: '行車守護', category: 'perception', img: 'Assets/Images/Sen2-1.png' },
+            { id: 'sug2-1', name: '導航建議', category: 'recommendation', img: 'Assets/Images/Sug2-1.png' },
+            { id: 'c2-1', name: 'AI-e度', category: 'creation', img: 'Assets/Images/C2-1.png' }
         ];
 
         /* ====== 狀態變數 ====== */
         let currentLevel = 0;
         let score = 0;
+        let currentActiveCardsCount = 0; // 記錄當前關卡應該要有幾張卡片
+        
         let draggedElement = null;
         let startX = 0, startY = 0;
 
@@ -308,11 +316,22 @@
             // 隱藏訊息與按鈕
             document.getElementById('next-btn').style.display = 'none';
             document.getElementById('feedback-msg').style.display = 'none';
-            document.getElementById('level-display').innerText = `${currentLevel + 1} / ${levelsData.length}`;
+            document.getElementById('level-display').innerText = `${currentLevel + 1} / 2`;
 
-            // 生成隨機卡片
-            const currentCards = [...levelsData[currentLevel].cards].sort(() => Math.random() - 0.5);
+            // 準備當前關卡的卡片
+            let currentCards = [];
+            if (currentLevel === 0) {
+                // 第一關：打亂 6 張後，只取出前 3 張
+                const shuffledPool = [...level1Pool].sort(() => Math.random() - 0.5);
+                currentCards = shuffledPool.slice(0, 3);
+            } else {
+                // 第二關：直接使用 3 張並打亂顯示順序
+                currentCards = [...level2Pool].sort(() => Math.random() - 0.5);
+            }
 
+            currentActiveCardsCount = currentCards.length;
+
+            // 生成隨機卡片至畫面上
             currentCards.forEach(cardData => {
                 const card = document.createElement('div');
                 card.classList.add('card');
@@ -382,7 +401,7 @@
                 // 放進籃子：固定圖片並取消拖曳能力
                 basketBelow.querySelector('.basket-content').appendChild(draggedElement);
                 draggedElement.classList.add('placed');
-                draggedElement.removeEventListener('pointerdown', onPointerDown); // 移除拖曳事件，使其固定
+                draggedElement.removeEventListener('pointerdown', onPointerDown);
             } else {
                 // 放錯位置，彈回左側原始區域
                 document.getElementById('cards-area').appendChild(draggedElement);
@@ -400,7 +419,8 @@
             // 計算畫面上「已經放入籃子」的卡片總數
             const placedCards = document.querySelectorAll('.basket-content .card');
             
-            if (placedCards.length === levelsData[currentLevel].cards.length) {
+            // 只要放入籃子的數量等於當前關卡應該出的題目數 (3張)，就進行結算
+            if (placedCards.length === currentActiveCardsCount) {
                 verifyAnswers(placedCards);
             }
         }
@@ -411,28 +431,24 @@
             placedCards.forEach(card => {
                 const basket = card.closest('.basket');
                 const resultIcon = card.querySelector('.result-icon');
-                resultIcon.style.display = 'block'; // 顯示結果圖示
+                resultIcon.style.display = 'block';
 
-                // 判斷該卡片的分類是否和所在籃子的分類相同
                 if (card.dataset.category === basket.dataset.category) {
-                    // 答對
-                    card.style.borderColor = '#4CAF50'; // 綠色邊框
+                    card.style.borderColor = '#4CAF50'; 
                     resultIcon.innerText = '✅';
                     correctCount++;
-                    score++; // 總得分增加
+                    score++;
                 } else {
-                    // 答錯
-                    card.style.borderColor = '#F44336'; // 紅色邊框
+                    card.style.borderColor = '#F44336';
                     resultIcon.innerText = '❌';
                 }
             });
 
             updateScore();
 
-            // 顯示回饋訊息與下一關按鈕
             const feedback = document.getElementById('feedback-msg');
             feedback.innerText = `本關完成！你答對了 ${correctCount} 題 🎉`;
-            feedback.style.color = correctCount === 3 ? '#4CAF50' : '#D32F2F';
+            feedback.style.color = correctCount === currentActiveCardsCount ? '#4CAF50' : '#D32F2F';
             feedback.style.display = 'block';
             
             document.getElementById('next-btn').style.display = 'inline-block';
@@ -441,9 +457,10 @@
         /* ====== 按鈕事件 ====== */
         document.getElementById('next-btn').addEventListener('click', () => {
             currentLevel++;
-            if (currentLevel < levelsData.length) {
+            if (currentLevel < 2) {
                 initLevel();
             } else {
+                // 顯示知識小筆記與最終分數
                 document.getElementById('final-score').innerText = '⭐'.repeat(score);
                 document.getElementById('result-modal').style.display = 'flex';
             }
