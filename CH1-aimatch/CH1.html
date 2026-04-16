@@ -536,6 +536,8 @@
             draggedElement.style.width    = rect.width  + 'px';
             draggedElement.style.height   = rect.height + 'px';
             draggedElement.style.margin   = '0';
+            // [touch fix] 設置變換原點為左上角，防止 scale 時位置亂跳
+            draggedElement.style.transformOrigin = '0 0';
 
             // [touch support] setPointerCapture 在 appendChild 後呼叫
             draggedElement.setPointerCapture(e.pointerId);
