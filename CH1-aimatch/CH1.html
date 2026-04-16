@@ -96,6 +96,7 @@
             display: flex;
             flex: 1;
             max-width: 960px;
+            min-width: 320px;
             width: 100%;
             margin: 0 auto;
             padding: 10px 15px;
@@ -117,8 +118,8 @@
 
         /* ====== 卡片設計 ====== */
         .card {
-            width: 200px;
-            height: 150px;
+            width: clamp(120px, 24vw, 200px);
+            height: clamp(90px, 18vw, 150px);
             background-color: white;
             border: 4px solid var(--accent);
             border-radius: 15px;
@@ -235,7 +236,7 @@
         #controls-area {
             text-align: center;
             padding: 8px 0 12px;
-            flex-shrink: 0;
+            flex-shrink: 0; /* [flex] 保留空間，不被遊戲區擠壓 */
         }
 
         #feedback-msg {
@@ -283,19 +284,26 @@
             width: 90%;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            max-height: 90dvh;
+            max-height: clamp(200px, 95dvh, 95vh);
             overflow-y: auto;
+            /* [responsive] 確保內容在小螢幕上可捲動 */
+            display: flex;
+            flex-direction: column;
         }
         .modal-content h2 { color: var(--primary); font-size: 28px; margin-top: 0; }
         
         .notes-box {
             margin: 15px 0;
+            flex-shrink: 0;
+            overflow-y: auto;
         }
         .notes-box img {
             max-width: 100%;
             height: auto;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            /* [responsive] 圖片在小平板上的最大寬度限制 */
+            max-height: 60dvh;
         }
 
         /* ====== 響應式：手機直式保留但加強限制 ====== */
@@ -306,7 +314,8 @@
             .basket { flex-direction: column; align-items: flex-start; }
             .basket-title { width: 100%; text-align: left; margin-bottom: 8px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 5px; }
             .basket-content { border-left: none; padding-left: 0; width: 100%; }
-            .card { width: 90px; height: 90px; }
+            /* [responsive] 小螢幕上卡片採用相對單位，確保不會溢出 */
+            .card { width: clamp(70px, 20vw, 120px); height: clamp(53px, 15vw, 90px); }
         }
     </style>
 </head>
@@ -326,7 +335,7 @@
         </div>
     </header>
 
-    <main id="game-board">
+    <main id="game-board" role="region" aria-label="AI 配對遊戲區域">
         <div id="cards-area"></div>
         
         <div id="baskets-area">
@@ -396,11 +405,22 @@
 
         /**
          * 判斷目前裝置是否為「行動裝置或平板」
-         * 若為桌機 PC，不顯示旋轉提示
+         * 優先使用 maxTouchPoints（更可靠），User-Agent 作備援
          */
         function isMobileOrTablet() {
-            return /Mobi|Android|iPad|iPhone|iPod|Tablet/i.test(navigator.userAgent)
-                || (navigator.maxTouchPoints > 1 && window.screen.width < 1400);
+            // 方法1（推薦）：根據觸控點數判斷
+            if (navigator.maxTouchPoints > 2) {
+                return true; // 平板通常支援 5+ 觸控點
+            }
+            
+            // 方法2：視窗寬度判斷
+            if (window.innerWidth < 1024) {
+                return true;
+            }
+            
+            // 方法3（備援）：User-Agent 檢查
+            const userAgent = navigator.userAgent.toLowerCase();
+            return /mobi|android|iphone|ipod|tablet|kindle|silk/i.test(userAgent);
         }
 
         /**
