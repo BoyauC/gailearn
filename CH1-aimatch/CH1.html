@@ -134,13 +134,21 @@
             position: relative;
             background-size: cover;
             background-position: center;
-            transition: width 0.3s, height 0.3s, margin 0.3s;
+            transition: width 0.3s, height 0.3s, margin 0.3s, transform 0.2s ease-out;
+        }
+        
+        /* 懸停時輕微放大 1.2 倍 */
+        .card:hover {
+            transform: scale(1.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
         
         .card.dragging {
             cursor: grabbing;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
             z-index: 1000;
+            /* 拖曳時放大 1.5 倍 */
+            transform: scale(1.5);
         }
 
         /* 放入籃子後的卡片樣式 */
@@ -213,8 +221,10 @@
             flex-wrap: wrap;
             gap: 8px;
             min-height: 60px;
+            max-height: 60px;
             border-left: 2px solid rgba(0,0,0,0.1);
             padding-left: 10px;
+            overflow: hidden;
         }
 
         .basket[data-category="perception"]    { background-color: var(--basket-per); border-color: #9FC17D; }
@@ -526,7 +536,8 @@
             // [z-index fix] transform 在 fixed 元素上同樣有效，維持相對位移邏輯不變
             const dx = e.clientX - startX;
             const dy = e.clientY - startY;
-            draggedElement.style.transform = `translate(${dx}px, ${dy}px)`;
+            // 合併 translate 和 scale，保持拖曳中的放大效果（1.5 倍）
+            draggedElement.style.transform = `translate(${dx}px, ${dy}px) scale(1.5)`;
         }
 
         function onPointerUp(e) {
@@ -551,17 +562,21 @@
             draggedElement.style.width    = '';
             draggedElement.style.height   = '';
             draggedElement.style.margin   = '';
-            draggedElement.style.transform = 'none';
+            // 不重設 transform，讓卡片保持放大狀態
 
             if (basketBelow) {
                 basketBelow.querySelector('.basket-content').appendChild(draggedElement);
                 draggedElement.classList.add('placed');
                 // 放入籃子後移除拖曳能力
                 draggedElement.removeEventListener('pointerdown', onPointerDown);
+                // 放入籃子後才恢復原比例
+                draggedElement.style.transform = 'none';
             } else {
                 // [z-index fix] 歸回原始父元素（cards-area），而非固定寫死
                 dragOriginParent.appendChild(draggedElement);
                 draggedElement.classList.remove('placed');
+                // 放回原處時也恢復原比例
+                draggedElement.style.transform = 'none';
             }
 
             draggedElement = null;
