@@ -632,7 +632,15 @@
             feedback.style.color  = correctCount === currentActiveCardsCount ? '#4CAF50' : '#D32F2F';
             feedback.style.display = 'block';
             
-            document.getElementById('next-btn').style.display = 'inline-block';
+            const nextBtn = document.getElementById('next-btn');
+            nextBtn.style.display = 'inline-block';
+            
+            // 根據關卡設定按鈕文字
+            if (currentLevel === 0) {
+                nextBtn.innerText = '進入下一關';
+            } else if (currentLevel === 1) {
+                nextBtn.innerText = '得分計算';
+            }
         }
 
         /* ====== 按鈕事件 ====== */
