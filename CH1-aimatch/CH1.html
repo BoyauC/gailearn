@@ -378,6 +378,8 @@
         // [touch support] 拖曳狀態（統一給 Pointer Events 使用）
         let draggedElement = null;
         let startX = 0, startY = 0;
+        // [z-index fix] 拖曳開始前記錄卡片的原始父元素，以便取消時歸回
+        let dragOriginParent = null;
 
         /* ====== [orientation check] 直式／橫式偵測邏輯 ====== */
         const overlay = document.getElementById('orientation-overlay');
@@ -488,7 +490,24 @@
             if (overlay.style.display === 'flex') return;
 
             draggedElement = e.currentTarget;
-            // [touch support] 將 pointer 綁定到此元素，確保 move/up 不會遺失
+
+            // [z-index fix] 記錄原始父元素，取消拖曳時可正確歸回
+            dragOriginParent = draggedElement.parentElement;
+
+            // [z-index fix] 取得卡片目前在視口中的絕對位置
+            const rect = draggedElement.getBoundingClientRect();
+
+            // [z-index fix] 將卡片移到 body，脫離原本的 stacking context，
+            // 確保拖曳時永遠渲染在籃子（#baskets-area）之上
+            document.body.appendChild(draggedElement);
+            draggedElement.style.position = 'fixed';
+            draggedElement.style.left     = rect.left + 'px';
+            draggedElement.style.top      = rect.top  + 'px';
+            draggedElement.style.width    = rect.width  + 'px';
+            draggedElement.style.height   = rect.height + 'px';
+            draggedElement.style.margin   = '0';
+
+            // [touch support] setPointerCapture 在 appendChild 後呼叫
             draggedElement.setPointerCapture(e.pointerId);
 
             startX = e.clientX;
@@ -497,16 +516,14 @@
             draggedElement.classList.add('dragging');
             draggedElement.style.transition = 'none';
 
-            // [touch support] pointermove / pointerup 動態綁定，減少不必要的全域監聽
             draggedElement.addEventListener('pointermove', onPointerMove);
             draggedElement.addEventListener('pointerup',   onPointerUp);
-            // [touch support] pointercancel 處理意外中斷（例如來電、通知）
             draggedElement.addEventListener('pointercancel', onPointerCancel);
         }
 
         function onPointerMove(e) {
             if (!draggedElement) return;
-            // [touch support] 以位移量平移，不依賴絕對座標，確保觸控與滑鼠行為一致
+            // [z-index fix] transform 在 fixed 元素上同樣有效，維持相對位移邏輯不變
             const dx = e.clientX - startX;
             const dy = e.clientY - startY;
             draggedElement.style.transform = `translate(${dx}px, ${dy}px)`;
@@ -527,6 +544,13 @@
             draggedElement.style.visibility = 'visible';
             const basketBelow = elementBelow ? elementBelow.closest('.basket') : null;
 
+            // [z-index fix] 歸還 fixed 定位相關樣式，讓卡片回到正常文件流
+            draggedElement.style.position = '';
+            draggedElement.style.left     = '';
+            draggedElement.style.top      = '';
+            draggedElement.style.width    = '';
+            draggedElement.style.height   = '';
+            draggedElement.style.margin   = '';
             draggedElement.style.transform = 'none';
 
             if (basketBelow) {
@@ -535,11 +559,13 @@
                 // 放入籃子後移除拖曳能力
                 draggedElement.removeEventListener('pointerdown', onPointerDown);
             } else {
-                document.getElementById('cards-area').appendChild(draggedElement);
+                // [z-index fix] 歸回原始父元素（cards-area），而非固定寫死
+                dragOriginParent.appendChild(draggedElement);
                 draggedElement.classList.remove('placed');
             }
 
             draggedElement = null;
+            dragOriginParent = null;
             checkLevelComplete();
         }
 
@@ -555,12 +581,21 @@
             draggedElement.removeEventListener('pointercancel', onPointerCancel);
             draggedElement.releasePointerCapture(e.pointerId);
             draggedElement.classList.remove('dragging');
+
+            // [z-index fix] 重設 fixed 定位相關樣式
+            draggedElement.style.position = '';
+            draggedElement.style.left     = '';
+            draggedElement.style.top      = '';
+            draggedElement.style.width    = '';
+            draggedElement.style.height   = '';
+            draggedElement.style.margin   = '';
             draggedElement.style.transform = 'none';
 
-            // 歸回卡片區
-            document.getElementById('cards-area').appendChild(draggedElement);
+            // 歸回原始父元素
+            dragOriginParent.appendChild(draggedElement);
             draggedElement.classList.remove('placed');
             draggedElement = null;
+            dragOriginParent = null;
         }
 
         /* ====== 檢查與結算邏輯 ====== */
