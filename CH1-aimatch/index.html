@@ -321,9 +321,19 @@
             // 準備當前關卡的卡片
             let currentCards = [];
             if (currentLevel === 0) {
-                // 第一關：打亂 6 張後，只取出前 3 張
-                const shuffledPool = [...level1Pool].sort(() => Math.random() - 0.5);
-                currentCards = shuffledPool.slice(0, 3);
+                // 第一關：從每個類別中各抽 1 張
+                const creationCards = level1Pool.filter(card => card.category === 'creation');
+                const perceptionCards = level1Pool.filter(card => card.category === 'perception');
+                const recommendationCards = level1Pool.filter(card => card.category === 'recommendation');
+                
+                const selectedCards = [
+                    creationCards[Math.floor(Math.random() * creationCards.length)],
+                    perceptionCards[Math.floor(Math.random() * perceptionCards.length)],
+                    recommendationCards[Math.floor(Math.random() * recommendationCards.length)]
+                ];
+                
+                // 打亂顯示順序
+                currentCards = selectedCards.sort(() => Math.random() - 0.5);
             } else {
                 // 第二關：直接使用 3 張並打亂顯示順序
                 currentCards = [...level2Pool].sort(() => Math.random() - 0.5);
