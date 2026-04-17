@@ -423,8 +423,8 @@
         
         // [touch support] 拖曳狀態（統一給 Pointer Events 使用）
         let draggedElement = null;
+        let dragClone = null;
         let startX = 0, startY = 0;
-        // [z-index fix] 拖曳開始前記錄卡片的原始父元素，以便取消時歸回
         let dragOriginParent = null;
 
         /* ====== [orientation check] 直式／橫式偵測邏輯 ====== */
@@ -533,145 +533,104 @@
             document.getElementById('score-display').innerText = '⭐'.repeat(score);
         }
 
-        /* ====== [touch support] 拖曳邏輯（Pointer Events 同時支援滑鼠與觸控） ====== */
+        /* ====== [touch support] 拖曳邏輯（幽靈替身方式，解決 iOS 第三張卡跳動問題） ======
+           原始元素留在 DOM 原位並持有 pointer capture；
+           視覺拖曳由 clone 負責，clone 設 pointer-events:none 可直接穿透偵測籃子，
+           避免 DOM re-parent 導致 iOS Safari 使 pointerId 失效。               */
 
-        /**
-         * Pointer Events 說明：
-         * - pointerdown  → 對應 mousedown / touchstart
-         * - pointermove  → 對應 mousemove  / touchmove
-         * - pointerup    → 對應 mouseup    / touchend
-         * setPointerCapture() 確保即使手指/游標移出元素仍能持續接收事件，
-         * 等同於原本 touch 實作中 touchmove 需要在 document 層監聽的效果。
-         */
         function onPointerDown(e) {
-            // [touch support] 若遮罩顯示中（直式）則忽略所有操作
             if (overlay.style.display === 'flex') return;
-
-            // [ios-fix] 防止 iOS Safari 將此觸控解讀為捲動手勢
             e.preventDefault();
 
             draggedElement = e.currentTarget;
 
-            // [z-index fix] 記錄原始父元素，取消拖曳時可正確歸回
-            dragOriginParent = draggedElement.parentElement;
-
-            // [ios-fix] 先清除任何殘留的 transform（例如 hover scale），再取得位置
-            // iOS Safari 的 hover 狀態在觸碰後會「黏住」；若帶著縮放取 rect，
-            // 後續用 fixed 定位時座標會偏移，造成卡片跳到錯誤位置
+            // 清除殘留 hover transform，確保 getBoundingClientRect 取得實際座標
             draggedElement.style.transform = 'none';
             draggedElement.style.transition = 'none';
 
-            // [z-index fix] 取得卡片目前在視口中的絕對位置（此時 transform 已清除）
             const rect = draggedElement.getBoundingClientRect();
 
-            // [ios-fix] 必須在 appendChild（re-parent）之前呼叫 setPointerCapture，
-            // 否則 iOS Safari 在元素移動到新父節點後會使 pointerId 失效，
-            // 導致 pointermove 無法持續接收，拖曳立即中斷（Android 不受影響）
+            // 原始元素留在原地持有 capture，不做 DOM 移動（避免 iOS pointerId 失效）
             draggedElement.setPointerCapture(e.pointerId);
 
-            // [z-index fix] 將卡片移到 body，脫離原本的 stacking context，
-            // 確保拖曳時永遠渲染在籃子（#baskets-area）之上
-            document.body.appendChild(draggedElement);
-            draggedElement.style.position = 'fixed';
-            draggedElement.style.left     = rect.left + 'px';
-            draggedElement.style.top      = rect.top  + 'px';
-            draggedElement.style.width    = rect.width  + 'px';
-            draggedElement.style.height   = rect.height + 'px';
-            draggedElement.style.margin   = '0';
-            // [touch fix] 設置變換原點為左上角，防止 scale 時位置亂跳
-            draggedElement.style.transformOrigin = '0 0';
+            // 建立幽靈替身負責視覺拖曳
+            dragClone = draggedElement.cloneNode(true);
+            dragClone.style.position       = 'fixed';
+            dragClone.style.left           = rect.left + 'px';
+            dragClone.style.top            = rect.top  + 'px';
+            dragClone.style.width          = rect.width  + 'px';
+            dragClone.style.height         = rect.height + 'px';
+            dragClone.style.margin         = '0';
+            dragClone.style.transformOrigin = '0 0';
+            dragClone.style.pointerEvents  = 'none'; // 穿透替身直接偵測籃子
+            dragClone.style.zIndex         = '1000';
+            dragClone.classList.add('dragging');
+            document.body.appendChild(dragClone);
+
+            // 原始元素隱藏（opacity 保留佔位，避免 Flexbox 重新排版）
+            draggedElement.style.opacity = '0';
 
             startX = e.clientX;
             startY = e.clientY;
 
-            draggedElement.classList.add('dragging');
-            draggedElement.style.transition = 'none';
-
-            draggedElement.addEventListener('pointermove', onPointerMove);
-            draggedElement.addEventListener('pointerup',   onPointerUp);
+            draggedElement.addEventListener('pointermove',   onPointerMove);
+            draggedElement.addEventListener('pointerup',     onPointerUp);
             draggedElement.addEventListener('pointercancel', onPointerCancel);
         }
 
         function onPointerMove(e) {
-            if (!draggedElement) return;
-            // [z-index fix] transform 在 fixed 元素上同樣有效，維持相對位移邏輯不變
+            if (!dragClone) return;
             const dx = e.clientX - startX;
             const dy = e.clientY - startY;
-            // 合併 translate 和 scale，保持拖曳中的放大效果（1.5 倍）
-            draggedElement.style.transform = `translate(${dx}px, ${dy}px) scale(1.5)`;
+            dragClone.style.transform = `translate(${dx}px, ${dy}px) scale(1.5)`;
         }
 
         function onPointerUp(e) {
-            if (!draggedElement) return;
-            
+            if (!draggedElement || !dragClone) return;
+
             draggedElement.removeEventListener('pointermove',   onPointerMove);
             draggedElement.removeEventListener('pointerup',     onPointerUp);
             draggedElement.removeEventListener('pointercancel', onPointerCancel);
             draggedElement.releasePointerCapture(e.pointerId);
-            draggedElement.classList.remove('dragging');
 
-            // [touch support] 暫時隱藏被拖曳元素，才能正確偵測其下方的目標元素
-            draggedElement.style.visibility = 'hidden';
+            // 替身有 pointer-events:none，elementFromPoint 直接穿透找到籃子
             const elementBelow = document.elementFromPoint(e.clientX, e.clientY);
-            draggedElement.style.visibility = 'visible';
-            const basketBelow = elementBelow ? elementBelow.closest('.basket') : null;
+            const basketBelow  = elementBelow ? elementBelow.closest('.basket') : null;
 
-            // [z-index fix] 歸還 fixed 定位相關樣式，讓卡片回到正常文件流
-            draggedElement.style.position = '';
-            draggedElement.style.left     = '';
-            draggedElement.style.top      = '';
-            draggedElement.style.width    = '';
-            draggedElement.style.height   = '';
-            draggedElement.style.margin   = '';
-            // 不重設 transform，讓卡片保持放大狀態
+            document.body.removeChild(dragClone);
+            dragClone = null;
+
+            draggedElement.style.opacity    = '1';
+            draggedElement.style.transition = '';
+            draggedElement.classList.remove('dragging');
 
             if (basketBelow) {
                 basketBelow.querySelector('.basket-content').appendChild(draggedElement);
                 draggedElement.classList.add('placed');
-                // 放入籃子後移除拖曳能力
                 draggedElement.removeEventListener('pointerdown', onPointerDown);
-                // 放入籃子後才恢復原比例
-                draggedElement.style.transform = 'none';
-            } else {
-                // [z-index fix] 歸回原始父元素（cards-area），而非固定寫死
-                dragOriginParent.appendChild(draggedElement);
-                draggedElement.classList.remove('placed');
-                // 放回原處時也恢復原比例
-                draggedElement.style.transform = 'none';
             }
 
-            draggedElement = null;
-            dragOriginParent = null;
+            draggedElement    = null;
+            dragOriginParent  = null;
             checkLevelComplete();
         }
 
-        /**
-         * [touch support] 處理 pointercancel（觸控被系統中斷時）
-         * 將卡片歸回原區，避免卡片消失
-         */
         function onPointerCancel(e) {
-            if (!draggedElement) return;
+            if (!draggedElement || !dragClone) return;
 
             draggedElement.removeEventListener('pointermove',   onPointerMove);
             draggedElement.removeEventListener('pointerup',     onPointerUp);
             draggedElement.removeEventListener('pointercancel', onPointerCancel);
             draggedElement.releasePointerCapture(e.pointerId);
+
+            document.body.removeChild(dragClone);
+            dragClone = null;
+
+            draggedElement.style.opacity    = '1';
+            draggedElement.style.transition = '';
             draggedElement.classList.remove('dragging');
-
-            // [z-index fix] 重設 fixed 定位相關樣式
-            draggedElement.style.position = '';
-            draggedElement.style.left     = '';
-            draggedElement.style.top      = '';
-            draggedElement.style.width    = '';
-            draggedElement.style.height   = '';
-            draggedElement.style.margin   = '';
-            draggedElement.style.transform = 'none';
-
-            // 歸回原始父元素
-            dragOriginParent.appendChild(draggedElement);
-            draggedElement.classList.remove('placed');
-            draggedElement = null;
-            dragOriginParent = null;
+            draggedElement    = null;
+            dragOriginParent  = null;
         }
 
         /* ====== 檢查與結算邏輯 ====== */
