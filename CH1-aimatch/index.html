@@ -43,6 +43,8 @@
             color: var(--text-dark);
             /* [single-screen] 禁止整頁拖曳捲動 */
             overscroll-behavior: none;
+            /* [ios-fix] 防止 body 層級的捲動干擾 Pointer Events 拖曳（iPad Safari） */
+            touch-action: none;
             /* [single-screen] 以 flex column 撐滿整個高度 */
             display: flex;
             flex-direction: column;
@@ -529,6 +531,9 @@
             // [touch support] 若遮罩顯示中（直式）則忽略所有操作
             if (overlay.style.display === 'flex') return;
 
+            // [ios-fix] 防止 iOS Safari 將此觸控解讀為捲動手勢
+            e.preventDefault();
+
             draggedElement = e.currentTarget;
 
             // [z-index fix] 記錄原始父元素，取消拖曳時可正確歸回
@@ -536,6 +541,11 @@
 
             // [z-index fix] 取得卡片目前在視口中的絕對位置
             const rect = draggedElement.getBoundingClientRect();
+
+            // [ios-fix] 必須在 appendChild（re-parent）之前呼叫 setPointerCapture，
+            // 否則 iOS Safari 在元素移動到新父節點後會使 pointerId 失效，
+            // 導致 pointermove 無法持續接收，拖曳立即中斷（Android 不受影響）
+            draggedElement.setPointerCapture(e.pointerId);
 
             // [z-index fix] 將卡片移到 body，脫離原本的 stacking context，
             // 確保拖曳時永遠渲染在籃子（#baskets-area）之上
@@ -548,9 +558,6 @@
             draggedElement.style.margin   = '0';
             // [touch fix] 設置變換原點為左上角，防止 scale 時位置亂跳
             draggedElement.style.transformOrigin = '0 0';
-
-            // [touch support] setPointerCapture 在 appendChild 後呼叫
-            draggedElement.setPointerCapture(e.pointerId);
 
             startX = e.clientX;
             startY = e.clientY;
