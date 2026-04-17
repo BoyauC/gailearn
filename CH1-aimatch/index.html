@@ -432,7 +432,8 @@
             
             // 方法3（備援）：User-Agent 檢查
             const userAgent = navigator.userAgent.toLowerCase();
-            return /mobi|android|iphone|ipod|tablet|kindle|silk/i.test(userAgent);
+            // [ios-fix] ipad 在 iOS 13+ 後 UA 偽裝成 Mac，需明確加入比對
+            return /mobi|android|iphone|ipod|ipad|tablet|kindle|silk/i.test(userAgent);
         }
 
         /**
