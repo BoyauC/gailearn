@@ -150,10 +150,14 @@
             transition: width 0.3s, height 0.3s, margin 0.3s, transform 0.2s ease-out;
         }
         
-        /* 懸停時輕微放大 1.2 倍 */
-        .card:hover {
-            transform: scale(1.2);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        /* 懸停時輕微放大 1.2 倍（僅限有真實 hover 的裝置，如滑鼠）
+           [ios-fix] touch 裝置不套用 hover transform，避免 iOS「黏住」hover
+           狀態導致 getBoundingClientRect 取得縮放後座標，拖曳時位置跳動 */
+        @media (hover: hover) {
+            .card:hover {
+                transform: scale(1.2);
+                box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            }
         }
         
         .card.dragging {
@@ -318,7 +322,7 @@
             max-height: 60dvh;
         }
 
-        /* ====== 響應式：手機直式保留但加強限制 ====== */
+        /* ====== 響應式：手機直式（portrait）保留但加強限制 ====== */
         @media (max-width: 768px) {
             /* 手機直式時遮罩由 JS + media query 控制，此處保留原始 layout 邏輯 */
             #game-board { flex-direction: column; }
@@ -328,6 +332,17 @@
             .basket-content { border-left: none; padding-left: 0; width: 100%; }
             /* [responsive] 小螢幕上卡片採用相對單位，確保不會溢出 */
             .card { width: clamp(70px, 20vw, 120px); height: clamp(53px, 15vw, 90px); }
+        }
+
+        /* ====== 手機橫式（landscape）：改回左右並排，讓卡片與籃子同時可見 ======
+           [iphone-fix] max-width:768px 且橫式時（如 iPhone SE/Plus landscape），
+           若維持 column layout，籃子會落在視口外且 overflow:hidden 無法捲動。
+           改為 row 讓左右並排，與平板橫式行為一致，元素縮小以適應低高度螢幕。 */
+        @media (max-width: 768px) and (orientation: landscape) {
+            #game-board { flex-direction: row; gap: 12px; }
+            #cards-area { flex-direction: column; justify-content: center; flex-wrap: nowrap; }
+            .basket { flex-direction: column; align-items: flex-start; }
+            .card { width: clamp(55px, 11vw, 90px); height: clamp(42px, 8vw, 68px); }
         }
     </style>
 </head>
@@ -540,7 +555,13 @@
             // [z-index fix] 記錄原始父元素，取消拖曳時可正確歸回
             dragOriginParent = draggedElement.parentElement;
 
-            // [z-index fix] 取得卡片目前在視口中的絕對位置
+            // [ios-fix] 先清除任何殘留的 transform（例如 hover scale），再取得位置
+            // iOS Safari 的 hover 狀態在觸碰後會「黏住」；若帶著縮放取 rect，
+            // 後續用 fixed 定位時座標會偏移，造成卡片跳到錯誤位置
+            draggedElement.style.transform = 'none';
+            draggedElement.style.transition = 'none';
+
+            // [z-index fix] 取得卡片目前在視口中的絕對位置（此時 transform 已清除）
             const rect = draggedElement.getBoundingClientRect();
 
             // [ios-fix] 必須在 appendChild（re-parent）之前呼叫 setPointerCapture，
