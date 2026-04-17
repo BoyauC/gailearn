@@ -164,8 +164,7 @@
             cursor: grabbing;
             box-shadow: 0 15px 35px rgba(0,0,0,0.4);
             z-index: 1000;
-            /* 拖曳時放大 1.5 倍 */
-            transform: scale(1.5);
+            /* scale 由 JS 依裝置類型決定：PC 放大 1.5 倍，平板/手機不放大 */
         }
 
         /* 放入籃子後的卡片樣式 */
@@ -322,27 +321,66 @@
             max-height: 60dvh;
         }
 
-        /* ====== 響應式：手機直式（portrait）保留但加強限制 ====== */
-        @media (max-width: 768px) {
-            /* 手機直式時遮罩由 JS + media query 控制，此處保留原始 layout 邏輯 */
-            #game-board { flex-direction: column; }
-            #cards-area { flex-direction: row; justify-content: space-around; flex-wrap: wrap; }
-            .basket { flex-direction: column; align-items: flex-start; }
-            .basket-title { width: 100%; text-align: left; margin-bottom: 8px; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 5px; }
-            .basket-content { border-left: none; padding-left: 0; width: 100%; }
-            /* [responsive] 小螢幕上卡片採用相對單位，確保不會溢出 */
-            .card { width: clamp(70px, 20vw, 120px); height: clamp(53px, 15vw, 90px); }
+        /* ====== 手機版（device-phone class 由 JS 寫入 html 元素）====== *
+           手機直式：可捲動版面，卡片與籃子上下排列，不限制在單一畫面
+           手機橫式：JS 顯示遮罩提示旋轉回直式                            */
+
+        /* 手機：解除固定高度，允許垂直捲動 */
+        html.device-phone,
+        html.device-phone body {
+            height: auto;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        html.device-phone body {
+            overscroll-behavior-y: auto;
+            touch-action: auto; /* 覆蓋 body 的 touch-action:none，讓頁面可捲動 */
         }
 
-        /* ====== 手機橫式（landscape）：改回左右並排，讓卡片與籃子同時可見 ======
-           [iphone-fix] max-width:768px 且橫式時（如 iPhone SE/Plus landscape），
-           若維持 column layout，籃子會落在視口外且 overflow:hidden 無法捲動。
-           改為 row 讓左右並排，與平板橫式行為一致，元素縮小以適應低高度螢幕。 */
-        @media (max-width: 768px) and (orientation: landscape) {
-            #game-board { flex-direction: row; gap: 12px; }
-            #cards-area { flex-direction: column; justify-content: center; flex-wrap: nowrap; }
-            .basket { flex-direction: column; align-items: flex-start; }
-            .card { width: clamp(55px, 11vw, 90px); height: clamp(42px, 8vw, 68px); }
+        /* 手機：版面改為上下排列，內容可超出視口高度由 scroll 處理 */
+        html.device-phone #game-board {
+            flex-direction: column;
+            overflow: visible;
+            height: auto;
+            gap: 10px;
+            padding: 10px 15px 24px;
+        }
+        html.device-phone #cards-area {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            overflow: visible;
+            height: auto;
+            gap: 10px;
+            padding: 8px 0;
+        }
+        html.device-phone #baskets-area {
+            overflow: visible;
+            height: auto;
+            flex: none;
+            gap: 10px;
+        }
+        html.device-phone .card {
+            width: clamp(100px, 42vw, 160px);
+            height: clamp(75px, 32vw, 120px);
+            touch-action: none; /* 觸碰卡片時仍阻止 scroll，確保拖曳有效 */
+        }
+        html.device-phone .basket {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        html.device-phone .basket-title {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 8px;
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+            padding-bottom: 5px;
+        }
+        html.device-phone .basket-content {
+            border-left: none;
+            padding-left: 0;
+            width: 100%;
         }
     </style>
 </head>
@@ -416,6 +454,16 @@
             { id: 'c2-1',   name: 'AI-e度',  category: 'creation',       img: 'Assets/Images/C2-1.png' }
         ];
 
+        /* ====== 裝置類型偵測（最優先執行，CSS class 決定版面） ======
+           pc     → 無觸控（滑鼠），單螢幕，hover + 拖曳放大 1.5x
+           tablet → 觸控，短邊 ≥ 600px（iPad 等），單螢幕橫式，拖曳不放大
+           phone  → 觸控，短邊 < 600px（iPhone 等），直式可捲動，拖曳不放大  */
+        const DEVICE = (() => {
+            if (navigator.maxTouchPoints === 0) return 'pc';
+            return Math.min(screen.width, screen.height) >= 600 ? 'tablet' : 'phone';
+        })();
+        document.documentElement.classList.add('device-' + DEVICE);
+
         /* ====== 狀態變數 ====== */
         let currentLevel = 0;
         let score = 0;
@@ -431,45 +479,32 @@
         const overlay = document.getElementById('orientation-overlay');
 
         /**
-         * 判斷目前裝置是否為「行動裝置或平板」
-         * 優先使用 maxTouchPoints（更可靠），User-Agent 作備援
+         * 依裝置類型控制旋轉提示遮罩：
+         *   PC     → 永遠不顯示
+         *   tablet → 直式顯示（要求旋轉為橫式）
+         *   phone  → 橫式顯示（要求旋轉回直式）
          */
-        function isMobileOrTablet() {
-            // 方法1（推薦）：根據觸控點數判斷
-            if (navigator.maxTouchPoints > 2) {
-                return true; // 平板通常支援 5+ 觸控點
-            }
-            
-            // 方法2：視窗寬度判斷
-            if (window.innerWidth < 1024) {
-                return true;
-            }
-            
-            // 方法3（備援）：User-Agent 檢查
-            const userAgent = navigator.userAgent.toLowerCase();
-            // [ios-fix] ipad 在 iOS 13+ 後 UA 偽裝成 Mac，需明確加入比對
-            return /mobi|android|iphone|ipod|ipad|tablet|kindle|silk/i.test(userAgent);
-        }
-
-        /**
-         * 判斷目前方向並控制遮罩
-         * portrait = 直式 → 顯示遮罩
-         * landscape = 橫式 → 隱藏遮罩
-         */
+        const overlayMsg = overlay.querySelector('p');
         function checkOrientation() {
-            if (!isMobileOrTablet()) {
-                // PC 瀏覽器：永遠不顯示遮罩
+            if (DEVICE === 'pc') {
                 overlay.style.display = 'none';
                 return;
             }
-
-            const isPortrait = window.matchMedia('(orientation: portrait)').matches;
-
-            if (isPortrait) {
-                // [orientation check] 直式：顯示遮罩，阻止遊戲操作
+            if (DEVICE === 'phone') {
+                // 手機偏好直式（scrollable 版面）；橫式太矮，提示旋轉回直式
+                if (window.matchMedia('(orientation: landscape)').matches) {
+                    overlayMsg.innerHTML = '請將裝置旋轉為<br>直式（portrait）<br>以開始遊戲 🎮';
+                    overlay.style.display = 'flex';
+                } else {
+                    overlay.style.display = 'none';
+                }
+                return;
+            }
+            // tablet：要求橫式
+            if (window.matchMedia('(orientation: portrait)').matches) {
+                overlayMsg.innerHTML = '請將裝置旋轉為<br>橫式（landscape）<br>以開始遊戲 🎮';
                 overlay.style.display = 'flex';
             } else {
-                // [orientation check] 橫式：隱藏遮罩，恢復正常
                 overlay.style.display = 'none';
             }
         }
@@ -582,7 +617,18 @@
             if (!dragClone) return;
             const dx = e.clientX - startX;
             const dy = e.clientY - startY;
-            dragClone.style.transform = `translate(${dx}px, ${dy}px) scale(1.5)`;
+            // PC 拖曳時放大 1.5 倍；平板/手機維持原尺寸，減少視覺干擾
+            const scaleStr = DEVICE === 'pc' ? ' scale(1.5)' : '';
+            dragClone.style.transform = `translate(${dx}px, ${dy}px)${scaleStr}`;
+
+            // 手機：拖曳到視口邊緣時自動捲動，讓籃子進入視野
+            if (DEVICE === 'phone') {
+                const EDGE = 80;   // 距邊緣多少 px 開始捲
+                const SPEED = 8;   // 每次捲動 px 數
+                const vh = window.innerHeight;
+                if      (e.clientY > vh - EDGE) window.scrollBy(0,  SPEED);
+                else if (e.clientY < EDGE)       window.scrollBy(0, -SPEED);
+            }
         }
 
         function onPointerUp(e) {
