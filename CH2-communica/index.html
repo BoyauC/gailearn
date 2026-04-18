@@ -54,14 +54,17 @@
    RESET & BASE
 ════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
-html { height:100%; overflow:hidden; }
+html { height: 100%; height: -webkit-fill-available; overflow:hidden; }
 body {
   font-family: 'Noto Sans TC','Nunito',sans-serif;
   background: var(--sky);
   color: var(--ink);
-  height: 100%;
+  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 body::before {
   content:'';
@@ -88,7 +91,8 @@ body::before {
 ════════════════════════════════════════ */
 #app {
   position:relative; z-index:1;
-  height:100vh;
+  flex: 1;
+  width: 100%;
   display:flex; flex-direction:column; align-items:center;
   padding:0 12px;
   max-width:960px; margin:0 auto;
@@ -156,6 +160,7 @@ body::before {
   width:100%; max-width:920px; display:none; flex-direction:column; align-items:center;
   flex:1; min-height:0; overflow-y:auto; overflow-x:hidden;
   padding-bottom:8px;
+  -webkit-overflow-scrolling: touch;
 }
 .screen.active { display:flex; }
 
@@ -601,6 +606,13 @@ body::before {
 <div id="feedbackLayer"></div>
 <div class="confetti-wrap" id="confettiWrap"></div>
 
+<!-- Orientation Reminder -->
+<div id="orientationOverlay">
+  <div class="ori-icon">📱</div>
+  <h2>請將裝置轉為橫向</h2>
+  <p style="margin-top:10px; opacity:0.8;">為了獲得最佳的遊戲體驗與文字閱讀視角，建議您開啟自動旋轉並橫式使用。</p>
+</div>
+
 <!-- ══════════════════════════════════════════
      END OVERLAY
 ══════════════════════════════════════════ -->
@@ -921,7 +933,21 @@ function resetState() {
 /* ══════════════════════════════════════════════════════
    ⑤  INIT
 ══════════════════════════════════════════════════════ */
+/* ── Device Detection ── */
+function handleDeviceDetection() {
+  const ua = navigator.userAgent;
+  const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(ua.toLowerCase());
+  const isMobile = /Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua);
+
+  if (isTablet) document.body.classList.add('device-tablet');
+  else if (isMobile) document.body.classList.add('device-mobile');
+  else document.body.classList.add('device-pc');
+
+  console.log('Device detected:', isTablet ? 'Tablet' : isMobile ? 'Mobile' : 'PC');
+}
+
 function initGame() {
+  handleDeviceDetection();
   resetState();
   buildBubbles();
   buildProgress();
@@ -959,7 +985,7 @@ function buildProgress() {
   row.innerHTML = '';
   SCENES.forEach((_,i) => {
     const d = document.createElement('div');
-    d.className = 'prog-pill' + (i===0?' active':'');
+    d.className = 'prog-pill';
     d.id = 'pill-'+i;
     row.appendChild(d);
   });
@@ -1288,7 +1314,7 @@ function showFeedback(type) {
   layer.appendChild(el);
   setTimeout(() => {
     el.classList.add('fade-out');
-    setTimeout(() => layer.innerHTML='', 420);
+    setTimeout(() => el.remove(), 420);
   }, 900);
 }
 
@@ -1355,7 +1381,8 @@ function showScreen(id) {
 }
 function updateHUD() {
   document.getElementById('scoreVal').textContent  = G.totalScore || 0;
-  document.getElementById('sceneCount').textContent= `${(G.sceneIndex||0)+1}/${SCENES.length}`;
+  const current = G.character ? (G.sceneIndex + 1) : 0;
+  document.getElementById('sceneCount').textContent= `${current}/${SCENES.length}`;
 }
 function escHtml(t) {
   return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
