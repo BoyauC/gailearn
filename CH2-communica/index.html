@@ -606,11 +606,6 @@ body::before {
 <div id="feedbackLayer"></div>
 <div class="confetti-wrap" id="confettiWrap"></div>
 
-<!-- Orientation Reminder -->
-<div id="orientationOverlay">
-  <div class="ori-icon">📱</div>
-  <h2>請將裝置轉為橫向</h2>
-</div>
 
 <!-- ══════════════════════════════════════════
      END OVERLAY
@@ -932,21 +927,14 @@ function resetState() {
 /* ══════════════════════════════════════════════════════
    ⑤  INIT
 ══════════════════════════════════════════════════════ */
-/* ── Device Detection ── */
-function handleDeviceDetection() {
-  const ua = navigator.userAgent;
-  const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(ua.toLowerCase());
-  const isMobile = /Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua);
-
-  if (isTablet) document.body.classList.add('device-tablet');
-  else if (isMobile) document.body.classList.add('device-mobile');
-  else document.body.classList.add('device-pc');
-
-  console.log('Device detected:', isTablet ? 'Tablet' : isMobile ? 'Mobile' : 'PC');
-}
+/* ── Device Detection (touch-point based, same as CH1) ── */
+const DEVICE = (() => {
+  if (navigator.maxTouchPoints === 0) return 'pc';
+  return Math.min(screen.width, screen.height) >= 600 ? 'tablet' : 'phone';
+})();
+document.documentElement.classList.add('device-' + DEVICE);
 
 function initGame() {
-  handleDeviceDetection();
   resetState();
   buildBubbles();
   buildProgress();
