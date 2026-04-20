@@ -475,6 +475,28 @@
         let startX = 0, startY = 0;
         let dragOriginParent = null;
 
+        // [android-fix] autoscroll 狀態（rAF 迴圈，避免在 pointermove 內直接呼叫 scrollBy）
+        let autoScrollRAF = null;
+        let autoScrollDir = 0;
+
+        function _tickAutoScroll() {
+            if (autoScrollDir !== 0 && dragClone) {
+                window.scrollBy(0, autoScrollDir * 8);
+                autoScrollRAF = requestAnimationFrame(_tickAutoScroll);
+            } else {
+                autoScrollRAF = null;
+            }
+        }
+        function _startAutoScroll(dir) {
+            if (autoScrollDir === dir) return;
+            autoScrollDir = dir;
+            if (!autoScrollRAF) autoScrollRAF = requestAnimationFrame(_tickAutoScroll);
+        }
+        function _stopAutoScroll() {
+            autoScrollDir = 0;
+            if (autoScrollRAF) { cancelAnimationFrame(autoScrollRAF); autoScrollRAF = null; }
+        }
+
         /* ====== [orientation check] 直式／橫式偵測邏輯 ====== */
         const overlay = document.getElementById('orientation-overlay');
 
@@ -599,8 +621,13 @@
             dragClone.style.transformOrigin = '0 0';
             dragClone.style.pointerEvents  = 'none'; // 穿透替身直接偵測籃子
             dragClone.style.zIndex         = '1000';
+            dragClone.style.willChange     = 'transform'; // [android-fix] GPU 合成層，避免高解析/高刷新率卡頓
             dragClone.classList.add('dragging');
             document.body.appendChild(dragClone);
+
+            // [android-fix] 拖曳期間鎖定 body touch-action，
+            // 防止 Android Chrome 把觸控搶走當成頁面捲動（導致 pointercancel）
+            if (DEVICE === 'phone') document.body.style.touchAction = 'none';
 
             // 原始元素隱藏（opacity 保留佔位，避免 Flexbox 重新排版）
             draggedElement.style.opacity = '0';
@@ -621,18 +648,21 @@
             const scaleStr = DEVICE === 'pc' ? ' scale(1.5)' : '';
             dragClone.style.transform = `translate(${dx}px, ${dy}px)${scaleStr}`;
 
-            // 手機：拖曳到視口邊緣時自動捲動，讓籃子進入視野
+            // [android-fix] 手機：拖曳到視口邊緣時觸發 rAF autoscroll（不直接呼叫 scrollBy）
             if (DEVICE === 'phone') {
-                const EDGE = 80;   // 距邊緣多少 px 開始捲
-                const SPEED = 8;   // 每次捲動 px 數
+                const EDGE = 80;
                 const vh = window.innerHeight;
-                if      (e.clientY > vh - EDGE) window.scrollBy(0,  SPEED);
-                else if (e.clientY < EDGE)       window.scrollBy(0, -SPEED);
+                if      (e.clientY > vh - EDGE) _startAutoScroll(1);
+                else if (e.clientY < EDGE)       _startAutoScroll(-1);
+                else                             _stopAutoScroll();
             }
         }
 
         function onPointerUp(e) {
             if (!draggedElement || !dragClone) return;
+
+            _stopAutoScroll();
+            if (DEVICE === 'phone') document.body.style.touchAction = ''; // 恢復可捲動
 
             draggedElement.removeEventListener('pointermove',   onPointerMove);
             draggedElement.removeEventListener('pointerup',     onPointerUp);
@@ -663,6 +693,9 @@
 
         function onPointerCancel(e) {
             if (!draggedElement || !dragClone) return;
+
+            _stopAutoScroll();
+            if (DEVICE === 'phone') document.body.style.touchAction = ''; // 恢復可捲動
 
             draggedElement.removeEventListener('pointermove',   onPointerMove);
             draggedElement.removeEventListener('pointerup',     onPointerUp);
