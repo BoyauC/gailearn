@@ -10,10 +10,10 @@
   'use strict';
 
   /* ---------- 常數 ---------- */
-  const CSV_PATH = 'data/scenario_bank260421-1.csv';
+  const CSV_PATH = 'data/scenario_bank260423.csv';
   const BASIC_COUNT = 5;
   const ADVANCED_COUNT = 3;
-  const ADVANCED_TIME_LIMIT = 5; // 秒
+  const ADVANCED_TIME_LIMIT = 10; // 秒
   const PASS_THRESHOLD = 4;      // 基礎關答對 4 題以上才能進階
   const VALID_SIGNALS = ['red', 'yellow', 'green'];
 
@@ -291,41 +291,48 @@
     state.score[state.level] += add;
     state.correct[state.level] += 1;
     updateHUD();
-
-    // 綠燈成功的簡短鼓勵（不打擾流程）— 若是第二次才答對，補一句
-    const title = '太棒了！答對了';
-    const msg = state.attempts === 1
-      ? `你獲得 1 分！\n${q.feedback_text || ''}`
-      : `你獲得 0.5 分！下次先停一下再選，會更順手。\n${q.feedback_text || ''}`;
-
     showCorrectRing();
-    showFeedback({
-      title: title,
-      body: msg,
-      showRetry: false,
-      showNext: true,
-      isCorrect: true
-    });
+
+    if (state.attempts === 1) {
+      // 第一次就答對：只播圓圈特效，自動進下一題
+      setTimeout(() => nextQuestion(), 700);
+    } else {
+      // 第二次才答對：顯示 feedback_text
+      showFeedback({
+        title: '答對了！',
+        body: q.feedback_text || '',
+        showRetry: false,
+        showNext: true,
+        isCorrect: true
+      });
+    }
   }
 
   function handleWrong(timedOut) {
-    disableLights(); // 回饋期間停止點選
+    disableLights();
     const q = state.queue[state.index];
     const isFinal = state.attempts >= 2;
 
-    const body = (timedOut ? '時間到了，我們一起看一下這題的提醒：\n' : '') + (q.feedback_text || '');
-    const correctHint = isFinal
-      ? `（這題的正確燈號是：${signalZh(q.signal)}）`
-      : '';
-
-    showFeedback({
-      title: '再想一下下...',
-      body,
-      correctHint,
-      showRetry: !isFinal,
-      showNext: isFinal,
-      isCorrect: false
-    });
+    if (isFinal) {
+      // 第二次答錯：顯示 feedback_text + 正確燈號
+      showFeedback({
+        title: '再想一下下...',
+        body: q.feedback_text || '',
+        correctHint: `（這題的正確燈號是：${signalZh(q.signal)}）`,
+        showRetry: false,
+        showNext: true,
+        isCorrect: false
+      });
+    } else {
+      // 第一次答錯：只顯示「再想一下」，無 feedback_text
+      showFeedback({
+        title: '再想一下',
+        body: timedOut ? '時間到了，再試一次！' : '',
+        showRetry: true,
+        showNext: false,
+        isCorrect: false
+      });
+    }
   }
 
   function signalZh(sig) {
