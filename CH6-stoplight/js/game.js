@@ -56,7 +56,7 @@
     timerRing: $('timer-ring-progress'),
 
     overlay: $('feedback-overlay'),
-    goldenRing: $('golden-ring'),
+    correctRing: $('correct-ring'),
     feedbackTitle: $('feedback-title'),
     feedbackText: $('feedback-text'),
     feedbackCorrect: $('feedback-correct'),
@@ -298,6 +298,7 @@
       ? `你獲得 1 分！\n${q.feedback_text || ''}`
       : `你獲得 0.5 分！下次先停一下再選，會更順手。\n${q.feedback_text || ''}`;
 
+    showCorrectRing();
     showFeedback({
       title: title,
       body: msg,
@@ -331,6 +332,12 @@
     return { red: '紅燈 🔴', yellow: '黃燈 🟡', green: '綠燈 🟢' }[sig] || sig;
   }
 
+  function showCorrectRing() {
+    el.correctRing.classList.remove('is-active');
+    void el.correctRing.offsetWidth; // 強制 reflow 重啟動畫
+    el.correctRing.classList.add('is-active');
+  }
+
   function showFeedback({ title, body, correctHint, showRetry, showNext, isCorrect }) {
     el.feedbackTitle.textContent = title || 'AI 領航員的溫馨提醒';
     el.feedbackText.textContent = body || '';
@@ -338,8 +345,6 @@
     el.btnRetry.classList.toggle('hidden', !showRetry);
     el.btnNext.classList.toggle('hidden', !showNext);
 
-    // 切換黃金圈顯示與標題顏色
-    el.goldenRing.classList.toggle('hidden', !isCorrect);
     el.feedbackTitle.style.color = isCorrect ? '#d4af37' : '';
 
     el.overlay.classList.remove('hidden');

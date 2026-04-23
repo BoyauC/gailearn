@@ -433,25 +433,28 @@ body[data-level="advanced"] .timer-ring__fg { stroke: #FFE066; }
   position: relative;
   animation: dialogPop .35s cubic-bezier(.18,.89,.32,1.28) both;
 }
-/* 黃金圈：放在 badge 後方 */
-.golden-ring {
-  position: absolute;
-  top: -52px;
+/* 答對：畫面中央擴散圈 */
+#correct-ring {
+  position: fixed;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  width: 72px;
-  height: 72px;
-  border: 5px solid #FFD700;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.7), inset 0 0 12px rgba(255, 215, 0, 0.5);
-  z-index: 0;
+  border: 6px solid #FFD700;
   pointer-events: none;
-  animation: pulse-gold 2s infinite ease-in-out;
+  z-index: 300;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.2);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
 }
-@keyframes pulse-gold {
-  0% { transform: translateX(-50%) scale(1); opacity: 0.8; }
-  50% { transform: translateX(-50%) scale(1.15); opacity: 1; box-shadow: 0 0 30px rgba(255, 215, 0, 1); }
-  100% { transform: translateX(-50%) scale(1); opacity: 0.8; }
+#correct-ring.is-active {
+  animation: ringBurst 0.7s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
+}
+@keyframes ringBurst {
+  0%   { opacity: 1;   transform: translate(-50%, -50%) scale(0.2); }
+  60%  { opacity: 0.8; }
+  100% { opacity: 0;   transform: translate(-50%, -50%) scale(4.5); }
 }
 @keyframes dialogPop {
   from { opacity: 0; transform: translateY(16px) scale(0.96); }
