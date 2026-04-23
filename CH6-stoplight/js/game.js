@@ -461,7 +461,7 @@
     el.stars.innerHTML = buildIcons('star', BASIC_COUNT, state.correct.basic);
 
     el.cupsCaption.textContent =
-      state.queue.length > 0 || state.correct.advanced > 0
+      state.level === 'advanced'
         ? `你在進階關答對 ${state.correct.advanced} / ${ADVANCED_COUNT} 題，累積 ${formatScore(state.score.advanced)} 分。`
         : '這次沒有挑戰進階關，下次再試！';
 
