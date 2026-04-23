@@ -12,29 +12,29 @@
     <!-- ① 開始頁 -->
     <section id="screen-start" class="screen screen--active">
       <div class="start-card">
-        <h1 class="title">AI 三色燈<br />判斷小教練</h1>
-        <p class="subtitle">跟著 AI 領航員一起學習<br />「聰明、誠實、安全」地使用 AI！</p>
+        <h1 class="title">AI 三色燈挑戰</h1>
+        <p class="subtitle">跟著 AI 領航員一起學習<br />當個AI時代的好公民 ！</p>
 
         <div class="legend">
           <div class="legend-item">
             <span class="dot dot-red" aria-hidden="true"></span>
             <div>
               <strong>紅燈</strong>
-              <p>停一下！這個做法可能違反誠信、隱私或規則。</p>
+              <p>絕對不能用！整篇代寫、造假新聞、霸凌別人、上傳考題或個資，這個些都違反誠信和規則。</p>
             </div>
           </div>
           <div class="legend-item">
             <span class="dot dot-yellow" aria-hidden="true"></span>
             <div>
               <strong>黃燈</strong>
-              <p>小心用！可以使用，但要查證、標註或請老師確認。</p>
+              <p>可以用但要小心！查資料、生成程式碼或寫作範例。這些時候必須先驗證、再標註 AI 協助，而且要自己甄的理解內容。</p>
             </div>
           </div>
           <div class="legend-item">
             <span class="dot dot-green" aria-hidden="true"></span>
             <div>
               <strong>綠燈</strong>
-              <p>放心用！是有助於學習的好方法。</p>
+              <p>可以用！整理重點、列大綱、改寫自己的句子、語音轉文字、練習題的發想。</p>
             </div>
           </div>
         </div>
@@ -72,15 +72,15 @@
       <section class="traffic-lights" aria-label="三色燈選擇">
         <button type="button" class="light light--red" data-signal="red" aria-label="選擇紅燈">
           <span class="light-orb" aria-hidden="true"></span>
-          <span class="light-label">紅燈<br /><small>停一下</small></span>
+          <span class="light-label">紅燈<br /><small>絕對不能用</small></span>
         </button>
         <button type="button" class="light light--yellow" data-signal="yellow" aria-label="選擇黃燈">
           <span class="light-orb" aria-hidden="true"></span>
-          <span class="light-label">黃燈<br /><small>小心用</small></span>
+          <span class="light-label">黃燈<br /><small>可以用但要小心</small></span>
         </button>
         <button type="button" class="light light--green" data-signal="green" aria-label="選擇綠燈">
           <span class="light-orb" aria-hidden="true"></span>
-          <span class="light-label">綠燈<br /><small>放心用</small></span>
+          <span class="light-label">綠燈<br /><small>可以用</small></span>
         </button>
       </section>
     </section>
@@ -125,6 +125,7 @@
   <!-- 回饋對話框 -->
   <div id="feedback-overlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="feedback-title">
     <div class="dialog">
+      <div id="golden-ring" class="golden-ring hidden" aria-hidden="true"></div>
       <div class="dialog-badge" aria-hidden="true">🧭</div>
       <h3 id="feedback-title">AI 領航員的溫馨提醒</h3>
       <p id="feedback-text" class="dialog-body"></p>

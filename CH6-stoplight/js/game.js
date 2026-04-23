@@ -56,6 +56,7 @@
     timerRing: $('timer-ring-progress'),
 
     overlay: $('feedback-overlay'),
+    goldenRing: $('golden-ring'),
     feedbackTitle: $('feedback-title'),
     feedbackText: $('feedback-text'),
     feedbackCorrect: $('feedback-correct'),
@@ -297,11 +298,13 @@
       ? `你獲得 1 分！\n${q.feedback_text || ''}`
       : `你獲得 0.5 分！下次先停一下再選，會更順手。\n${q.feedback_text || ''}`;
 
-    // 略過彈窗直接前進（避免答對也打斷），但用一個極簡的短暫提示
-    setTimeout(() => {
-      nextQuestion();
-    }, 650);
-    // 若想顯示提示，可改用 showFeedback({title, body: msg, btn:'繼續', final:true})
+    showFeedback({
+      title: title,
+      body: msg,
+      showRetry: false,
+      showNext: true,
+      isCorrect: true
+    });
   }
 
   function handleWrong(timedOut) {
@@ -315,10 +318,12 @@
       : '';
 
     showFeedback({
+      title: '再想一下下...',
       body,
       correctHint,
       showRetry: !isFinal,
-      showNext: isFinal
+      showNext: isFinal,
+      isCorrect: false
     });
   }
 
@@ -326,11 +331,17 @@
     return { red: '紅燈 🔴', yellow: '黃燈 🟡', green: '綠燈 🟢' }[sig] || sig;
   }
 
-  function showFeedback({ body, correctHint, showRetry, showNext }) {
+  function showFeedback({ title, body, correctHint, showRetry, showNext, isCorrect }) {
+    el.feedbackTitle.textContent = title || 'AI 領航員的溫馨提醒';
     el.feedbackText.textContent = body || '';
     el.feedbackCorrect.textContent = correctHint || '';
     el.btnRetry.classList.toggle('hidden', !showRetry);
     el.btnNext.classList.toggle('hidden', !showNext);
+
+    // 切換黃金圈顯示與標題顏色
+    el.goldenRing.classList.toggle('hidden', !isCorrect);
+    el.feedbackTitle.style.color = isCorrect ? '#d4af37' : '';
+
     el.overlay.classList.remove('hidden');
   }
 
