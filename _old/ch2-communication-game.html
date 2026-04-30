@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>提問魔法師｜第二章・怎麼和 AI 溝通？</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+
+/* ════════════════════════════════════════
+   DESIGN TOKENS  (與第一章保持一致)
+════════════════════════════════════════ */
+:root {
+  --sky:        #e8f4fd;
+  --sky-deep:   #c8e6f8;
+  --white:      #ffffff;
+  --ink:        #1e2d4a;
+  --ink-soft:   #4a5f7a;
+  --ink-faint:  #8a9bb5;
+
+  --teal:       #00b8d4;
+  --teal-light: #80deea;
+  --teal-glow:  rgba(0,184,212,0.25);
+
+  --rose:       #e91e8c;
+  --rose-light: #f8bbd0;
+  --rose-glow:  rgba(233,30,140,0.25);
+
+  --amber:      #ff8f00;
+  --amber-light:#ffe0b2;
+  --amber-glow: rgba(255,143,0,0.28);
+
+  --violet:     #7c3aed;
+  --violet-glow:rgba(124,58,237,0.25);
+
+  --green:      #00c853;
+  --green-glow: rgba(0,200,83,0.28);
+
+  --gold:       #ffc107;
+  --gold-deep:  #ff8f00;
+  --gold-glow:  rgba(255,193,7,0.5);
+
+  --card-shadow: 0 8px 32px rgba(30,45,74,0.12);
+  --card-radius: 24px;
+
+  /* star ratings */
+  --star-on:  #ffc107;
+  --star-off: #d0dce8;
+}
+
+/* ════════════════════════════════════════
+   RESET & BASE
+════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans TC','Nunito',sans-serif;
+  background: var(--sky);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 15% 10%, rgba(0,184,212,0.13) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 85% 90%, rgba(124,58,237,0.09) 0%, transparent 60%),
+    linear-gradient(180deg,#dff0fb 0%,#eef7fe 40%,#f8fbff 100%);
+  z-index:0; pointer-events:none;
+}
+
+/* ── Bubbles ── */
+.bubbles { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+.bubble  { position:absolute; bottom:-80px; border-radius:50%; opacity:0;
+  animation: rise var(--rise-t) ease-in infinite var(--rise-d); }
+@keyframes rise {
+  0%  { transform:translateX(0) scale(1);   opacity:.4; bottom:-80px; }
+  80% { opacity:.12; }
+  100%{ transform:translateX(var(--drift)) scale(.6); opacity:0; bottom:110vh; }
+}
+
+/* ════════════════════════════════════════
+   APP SHELL
+════════════════════════════════════════ */
+#app {
+  position:relative; z-index:1;
+  min-height:100vh;
+  display:flex; flex-direction:column; align-items:center;
+  padding:0 16px 80px;
+}
+
+/* ── Top bar ── */
+.top-bar {
+  width:100%; max-width:960px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 0 10px;
+  animation: slideDown .6s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes slideDown { from{opacity:0;transform:translateY(-24px);} to{opacity:1;transform:none;} }
+
+.chapter-tag {
+  display:inline-flex; align-items:center; gap:6px;
+  background:white; border-radius:99px; padding:5px 14px;
+  font-size:.75rem; font-weight:700; color:var(--violet);
+  box-shadow:0 2px 10px var(--violet-glow); letter-spacing:.04em;
+}
+
+.hud-chips { display:flex; gap:10px; }
+.chip {
+  display:flex; align-items:center; gap:5px;
+  background:white; border-radius:99px; padding:5px 14px;
+  font-size:.82rem; font-weight:700;
+  box-shadow:0 2px 10px rgba(30,45,74,.1); color:var(--ink);
+}
+.chip-val { color:var(--rose); font-size:1rem; font-weight:900; }
+
+/* ── Page title ── */
+.page-title {
+  text-align:center; margin-bottom:10px;
+  animation:slideDown .6s .1s cubic-bezier(.22,1,.36,1) both;
+}
+.page-title h1 {
+  font-family:'Nunito','Noto Sans TC',sans-serif;
+  font-size:clamp(1.7rem,5vw,2.6rem); font-weight:900; line-height:1.15;
+  color:var(--ink); letter-spacing:-.02em;
+}
+.page-title h1 em {
+  font-style:normal;
+  background:linear-gradient(120deg,var(--violet),var(--rose));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.page-title p { margin-top:6px; font-size:.9rem; color:var(--ink-faint); font-weight:500; }
+
+/* ── Progress pills ── */
+.progress-row { display:flex; gap:8px; margin-bottom:28px; animation:slideDown .6s .2s cubic-bezier(.22,1,.36,1) both; }
+.prog-pill {
+  width:50px; height:10px; border-radius:99px;
+  background:rgba(30,45,74,.1); transition:background .4s, box-shadow .4s;
+}
+.prog-pill.done   { background:var(--green);  box-shadow:0 0 8px var(--green-glow); }
+.prog-pill.active { background:var(--violet); box-shadow:0 0 8px var(--violet-glow); animation:pillPulse 1.2s ease infinite; }
+@keyframes pillPulse {
+  0%,100%{ box-shadow:0 0 6px var(--violet-glow); }
+  50%    { box-shadow:0 0 16px rgba(124,58,237,.6); }
+}
+
+/* ── Screens ── */
+.screen { width:100%; max-width:920px; display:none; flex-direction:column; align-items:center; }
+.screen.active { display:flex; }
+
+/* ════════════════════════════════════════
+   SCREEN 0 — CHARACTER SELECT
+════════════════════════════════════════ */
+.char-intro { font-size:.95rem; font-weight:700; color:var(--ink-soft); margin-bottom:28px; text-align:center; animation:fadeUp .5s .3s both; }
+.char-intro strong { color:var(--violet); }
+
+.char-grid {
+  display:flex; gap:clamp(12px,2.5vw,22px); flex-wrap:wrap; justify-content:center;
+  margin-bottom:20px;
+}
+.char-card {
+  width:clamp(120px,22vw,155px);
+  background:white; border-radius:22px; border:3px solid rgba(124,58,237,.15);
+  padding:20px 14px; text-align:center; cursor:pointer;
+  box-shadow:var(--card-shadow);
+  transition:transform .2s, border-color .2s, box-shadow .2s;
+  animation:fadeUp .6s var(--cc-d) cubic-bezier(.22,1,.36,1) both;
+}
+.char-card:nth-child(1){--cc-d:.2s;}
+.char-card:nth-child(2){--cc-d:.3s;}
+.char-card:nth-child(3){--cc-d:.4s;}
+.char-card:nth-child(4){--cc-d:.5s;}
+.char-card:hover { transform:translateY(-6px) scale(1.04); border-color:var(--violet); box-shadow:var(--card-shadow),0 0 20px var(--violet-glow); }
+.char-card.selected { border-color:var(--violet); box-shadow:var(--card-shadow),0 0 26px var(--violet-glow); background:linear-gradient(145deg,#f5f0ff,#ede4ff); }
+.char-emoji { font-size:2.8rem; margin-bottom:8px; display:block; }
+.char-name  { font-size:.88rem; font-weight:900; color:var(--ink); }
+.char-trait { font-size:.72rem; color:var(--ink-faint); margin-top:3px; font-weight:500; }
+
+.start-btn {
+  margin-top:10px; padding:14px 52px; border-radius:99px;
+  background:linear-gradient(135deg,var(--violet),#a855f7);
+  color:white; font-family:inherit; font-size:1rem; font-weight:800;
+  border:none; cursor:pointer;
+  box-shadow:0 4px 22px var(--violet-glow);
+  transition:transform .2s, box-shadow .2s, opacity .2s;
+  animation:fadeUp .5s .6s both;
+  opacity:.5; pointer-events:none;
+}
+.start-btn.ready { opacity:1; pointer-events:all; }
+.start-btn.ready:hover { transform:translateY(-3px) scale(1.04); box-shadow:0 8px 30px rgba(124,58,237,.5); }
+
+/* ════════════════════════════════════════
+   SCREEN 1 — SCENE INTRO  (任務卡)
+════════════════════════════════════════ */
+.scene-intro-card {
+  background:white; border-radius:var(--card-radius);
+  box-shadow:var(--card-shadow);
+  padding:clamp(24px,4vw,44px) clamp(22px,4vw,40px);
+  max-width:680px; width:100%;
+  text-align:center; position:relative; overflow:hidden;
+  animation:scaleReveal .55s cubic-bezier(.22,1,.36,1) both;
+  border:2px solid rgba(124,58,237,.15);
+}
+.scene-intro-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:5px;
+  background:linear-gradient(90deg,var(--violet),var(--rose),var(--amber));
+}
+@keyframes scaleReveal {
+  from{opacity:0;transform:scale(.88) translateY(20px);}
+  to  {opacity:1;transform:none;}
+}
+.scene-num-badge {
+  display:inline-block; background:linear-gradient(135deg,var(--violet),#a855f7);
+  color:white; font-size:.72rem; font-weight:800; letter-spacing:.1em;
+  padding:4px 14px; border-radius:99px; margin-bottom:14px;
+}
+.scene-big-icon { font-size:clamp(3rem,7vw,4.5rem); margin-bottom:12px; display:block;
+  animation:iconBounce .8s cubic-bezier(.22,1,.36,1) .2s both; }
+@keyframes iconBounce { from{transform:scale(.4) rotate(-15deg);opacity:0;} to{transform:none;opacity:1;} }
+
+.scene-title { font-size:clamp(1.1rem,3vw,1.35rem); font-weight:900; color:var(--ink); margin-bottom:10px; }
+.scene-mission-label { font-size:.72rem; font-weight:700; letter-spacing:.1em; color:var(--violet); margin-bottom:6px; }
+.scene-mission-text  { font-size:clamp(.88rem,2.2vw,1rem); line-height:1.7; color:var(--ink-soft); font-weight:500; }
+
+.scene-character-says {
+  margin-top:18px; background:linear-gradient(135deg,#f5f0ff,#ede4ff);
+  border-radius:16px; padding:14px 18px;
+  display:flex; align-items:flex-start; gap:12px; text-align:left;
+}
+.says-avatar { font-size:2rem; flex-shrink:0; }
+.says-bubble { font-size:.85rem; line-height:1.65; color:var(--ink-soft); }
+.says-bubble strong { color:var(--violet); font-weight:800; }
+
+.go-btn {
+  margin-top:26px; padding:13px 46px; border-radius:99px;
+  background:linear-gradient(135deg,var(--violet),#a855f7);
+  color:white; font-family:inherit; font-size:.98rem; font-weight:800;
+  border:none; cursor:pointer;
+  box-shadow:0 4px 20px var(--violet-glow);
+  transition:transform .2s, box-shadow .2s;
+}
+.go-btn:hover { transform:translateY(-3px) scale(1.04); box-shadow:0 8px 28px rgba(124,58,237,.5); }
+
+/* ════════════════════════════════════════
+   SCREEN 2 — OPTION SELECTION
+════════════════════════════════════════ */
+.options-scene-header {
+  background:white; border-radius:var(--card-radius);
+  box-shadow:var(--card-shadow); border:2px solid rgba(124,58,237,.12);
+  padding:clamp(16px,3vw,26px) clamp(18px,3.5vw,32px);
+  max-width:800px; width:100%;
+  display:flex; align-items:center; gap:16px;
+  margin-bottom:22px;
+  animation:slideDown .5s cubic-bezier(.22,1,.36,1) both;
+  position:relative; overflow:hidden;
+}
+.options-scene-header::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:5px;
+  background:linear-gradient(180deg,var(--violet),#a855f7);
+  border-radius:5px 0 0 5px;
+}
+.osh-icon { font-size:2.4rem; flex-shrink:0; }
+.osh-text {}
+.osh-label { font-size:.7rem; font-weight:700; letter-spacing:.1em; color:var(--violet); margin-bottom:3px; }
+.osh-mission { font-size:clamp(.85rem,2.2vw,.98rem); font-weight:700; color:var(--ink); line-height:1.45; }
+
+.q-label {
+  font-size:clamp(.85rem,2.2vw,.98rem); font-weight:700;
+  color:var(--ink-soft); margin-bottom:18px; text-align:center;
+  animation:fadeUp .4s .1s both;
+}
+.q-label strong { color:var(--violet); }
+
+/* Option cards */
+.options-col {
+  display:flex; flex-direction:column; gap:clamp(12px,2vw,18px);
+  width:100%; max-width:800px;
+}
+
+.opt-card {
+  background:white; border-radius:20px;
+  border:3px solid rgba(124,58,237,.12);
+  box-shadow:0 4px 18px rgba(30,45,74,.09);
+  padding:0; overflow:hidden; cursor:pointer;
+  transition:transform .2s, border-color .2s, box-shadow .2s;
+  animation:fadeUp .5s var(--oc-d) cubic-bezier(.22,1,.36,1) both;
+  position:relative;
+}
+.opt-card:nth-child(1){--oc-d:.1s;}
+.opt-card:nth-child(2){--oc-d:.2s;}
+.opt-card:nth-child(3){--oc-d:.3s;}
+
+.opt-card:hover:not(.locked) {
+  transform:translateY(-3px);
+  border-color:var(--violet);
+  box-shadow:0 8px 28px var(--violet-glow);
+}
+
+.opt-card-inner {
+  display:flex; align-items:stretch; gap:0;
+}
+
+/* Left accent bar with letter */
+.opt-letter {
+  width:52px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Nunito',sans-serif; font-size:1.5rem; font-weight:900;
+  color:white;
+  background:linear-gradient(180deg,var(--violet),#a855f7);
+  transition:background .2s;
+}
+.opt-card:nth-child(2) .opt-letter { background:linear-gradient(180deg,var(--rose),#f06292); }
+.opt-card:nth-child(3) .opt-letter { background:linear-gradient(180deg,var(--amber),#ffca28); }
+
+/* Chat bubble area */
+.opt-body { flex:1; padding:clamp(14px,2.5vw,20px) clamp(14px,2.5vw,22px); }
+
+.opt-prompt-label { font-size:.68rem; font-weight:700; letter-spacing:.1em; color:var(--ink-faint); margin-bottom:6px; }
+
+/* Simulated chat prompt bubble */
+.opt-bubble {
+  background:linear-gradient(135deg,#f0eaff,#e8e0ff);
+  border-radius:0 14px 14px 14px;
+  padding:12px 16px;
+  font-size:clamp(.82rem,2vw,.94rem); line-height:1.65;
+  color:var(--ink); font-weight:500;
+  border-left:3px solid var(--violet);
+  position:relative;
+}
+.opt-card:nth-child(2) .opt-bubble { background:linear-gradient(135deg,#fff0f7,#ffe4f0); border-left-color:var(--rose); }
+.opt-card:nth-child(3) .opt-bubble { background:linear-gradient(135deg,#fff8e8,#fff0cc); border-left-color:var(--amber); }
+
+/* Selected state */
+.opt-card.selected { transform:none !important; }
+.opt-card.selected.opt-A { border-color:var(--violet); box-shadow:0 0 0 3px rgba(124,58,237,.35),var(--card-shadow); }
+.opt-card.selected.opt-B { border-color:var(--rose);   box-shadow:0 0 0 3px rgba(233,30,140,.3),var(--card-shadow); }
+.opt-card.selected.opt-C { border-color:var(--amber);  box-shadow:0 0 0 3px rgba(255,143,0,.35),var(--card-shadow); }
+
+.opt-card.locked { pointer-events:none; }
+.opt-card.dimmed { opacity:.45; }
+
+/* ════════════════════════════════════════
+   AI RESPONSE PANEL  (回應展示)
+════════════════════════════════════════ */
+.ai-response-wrap {
+  width:100%; max-width:800px;
+  margin-top:16px;
+  animation:slideInUp .45s cubic-bezier(.22,1,.36,1) both;
+  display:none;
+}
+.ai-response-wrap.show { display:block; }
+@keyframes slideInUp { from{opacity:0;transform:translateY(22px);} to{opacity:1;transform:none;} }
+
+.ai-response-box {
+  background:white; border-radius:20px;
+  box-shadow:0 6px 24px rgba(30,45,74,.12);
+  border:2px solid rgba(0,184,212,.2);
+  overflow:hidden;
+}
+.air-header {
+  background:linear-gradient(135deg,rgba(0,184,212,.1),rgba(0,184,212,.04));
+  padding:12px 20px; display:flex; align-items:center; gap:10px;
+  border-bottom:1px solid rgba(0,184,212,.15);
+}
+.air-header-icon { font-size:1.4rem; }
+.air-header-label { font-size:.78rem; font-weight:800; color:var(--teal); letter-spacing:.05em; }
+.air-header-sub   { font-size:.72rem; color:var(--ink-faint); margin-left:auto; }
+
+.air-content { padding:clamp(14px,2.5vw,22px) clamp(16px,3vw,26px); }
+.air-text {
+  font-size:clamp(.82rem,2vw,.94rem); line-height:1.75; color:var(--ink-soft);
+  white-space:pre-wrap;
+}
+.air-text .highlight { color:var(--teal); font-weight:700; }
+
+/* Typing cursor animation */
+.typing-cursor {
+  display:inline-block; width:2px; height:1em;
+  background:var(--teal); margin-left:2px;
+  animation:blink .6s step-end infinite;
+  vertical-align:text-bottom;
+}
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+/* ════════════════════════════════════════
+   SCORE REVEAL  (評分顯示)
+════════════════════════════════════════ */
+.score-reveal {
+  width:100%; max-width:800px;
+  margin-top:14px; display:none;
+  animation:scaleReveal .5s cubic-bezier(.22,1,.36,1) both;
+}
+.score-reveal.show { display:block; }
+
+.score-card {
+  border-radius:20px; padding:clamp(16px,3vw,26px) clamp(18px,3.5vw,28px);
+  display:flex; gap:clamp(14px,3vw,22px); align-items:flex-start;
+  border:3px solid transparent;
+}
+.score-card.best   { background:linear-gradient(135deg,#f0fff4,#e8fff0); border-color:var(--green); box-shadow:0 6px 24px var(--green-glow); }
+.score-card.ok     { background:linear-gradient(135deg,#fffdf0,#fff8e0); border-color:var(--gold);  box-shadow:0 6px 24px var(--gold-glow); }
+.score-card.poor   { background:linear-gradient(135deg,#fff5f0,#ffe8e0); border-color:#ff7043;      box-shadow:0 6px 24px rgba(255,112,67,.25); }
+
+.score-left { flex-shrink:0; text-align:center; }
+.score-medal { font-size:2.4rem; display:block; margin-bottom:4px; }
+.score-stars { display:flex; gap:3px; justify-content:center; }
+.star { font-size:1.1rem; }
+
+.score-right { flex:1; }
+.score-verdict { font-size:clamp(.9rem,2.3vw,1.05rem); font-weight:900; color:var(--ink); margin-bottom:6px; }
+.score-explain { font-size:clamp(.8rem,2vw,.9rem); line-height:1.7; color:var(--ink-soft); }
+.score-explain strong { color:var(--violet); font-weight:800; }
+.score-explain .tip-tag {
+  display:inline-block; background:var(--violet); color:white;
+  font-size:.65rem; font-weight:800; padding:2px 8px; border-radius:99px;
+  margin-right:5px; letter-spacing:.06em; vertical-align:middle;
+}
+
+/* Next scene button */
+.next-scene-btn {
+  margin-top:20px; padding:13px 44px; border-radius:99px;
+  background:linear-gradient(135deg,var(--violet),#a855f7);
+  color:white; font-family:inherit; font-size:.98rem; font-weight:800;
+  border:none; cursor:pointer;
+  box-shadow:0 4px 20px var(--violet-glow);
+  transition:transform .2s, box-shadow .2s;
+  display:none; align-items:center; gap:8px;
+  animation:fadeUp .4s both;
+}
+.next-scene-btn.show { display:inline-flex; }
+.next-scene-btn:hover { transform:translateY(-3px) scale(1.04); box-shadow:0 8px 28px rgba(124,58,237,.5); }
+
+/* ════════════════════════════════════════
+   FEEDBACK LAYER
+════════════════════════════════════════ */
+#feedbackLayer {
+  position:fixed; inset:0; z-index:200;
+  display:flex; align-items:center; justify-content:center;
+  pointer-events:none;
+}
+.fb-circle {
+  border-radius:50%; width:clamp(120px,28vw,180px); height:clamp(120px,28vw,180px);
+  display:flex; align-items:center; justify-content:center; font-size:clamp(2.8rem,8vw,4.2rem);
+  animation:fbPop .55s cubic-bezier(.175,.885,.32,1.275) both;
+}
+.fb-circle.best-hit {
+  background:radial-gradient(circle,#fffde7,var(--gold) 55%,#e65100 100%);
+  box-shadow:0 0 60px var(--gold-glow), 0 0 120px rgba(255,193,7,.35);
+  color:white;
+}
+.fb-circle.ok-hit {
+  background:radial-gradient(circle,#f3e5f5,#ab47bc 55%,#6a1b9a 100%);
+  box-shadow:0 0 50px rgba(171,71,188,.5);
+  color:white;
+}
+.fb-circle.poor-hit {
+  background:radial-gradient(circle,#ffccbc,#ff7043 55%,#bf360c 100%);
+  box-shadow:0 0 50px rgba(255,112,67,.5);
+  color:white;
+}
+@keyframes fbPop {
+  0%  {transform:scale(.25) rotate(-15deg);opacity:0;}
+  65% {transform:scale(1.12) rotate(5deg); opacity:1;}
+  100%{transform:scale(1) rotate(0);       opacity:1;}
+}
+.fb-circle.fade-out { animation:fbFade .4s ease forwards; }
+@keyframes fbFade { to{transform:scale(1.6);opacity:0;} }
+
+/* ════════════════════════════════════════
+   CONFETTI
+════════════════════════════════════════ */
+.confetti-wrap { position:fixed; inset:0; z-index:199; pointer-events:none; overflow:hidden; }
+.conf { position:absolute; top:-20px; border-radius:3px;
+  animation:confFall var(--cf-t) var(--cf-d) ease-in forwards; }
+@keyframes confFall {
+  0%  {transform:translateY(0) rotate(0)   translateX(0);opacity:1;}
+  100%{transform:translateY(110vh) rotate(720deg) translateX(var(--cf-drift));opacity:.2;}
+}
+
+/* ════════════════════════════════════════
+   END OVERLAY
+════════════════════════════════════════ */
+#endOverlay {
+  position:fixed; inset:0; z-index:300;
+  display:none; flex-direction:column; align-items:center; justify-content:flex-end;
+  padding-bottom:6vh;
+}
+.end-blur { position:absolute; inset:0; background:rgba(232,244,253,.7); backdrop-filter:blur(10px); animation:fadeIn .5s both; }
+@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+
+.end-card {
+  position:relative; z-index:1; background:white; border-radius:32px;
+  padding:clamp(28px,5vw,52px) clamp(24px,5vw,54px);
+  max-width:500px; width:92%; text-align:center;
+  box-shadow:0 24px 80px rgba(30,45,74,.22);
+  border:2px solid rgba(124,58,237,.2);
+  animation:endCardUp .65s .2s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes endCardUp { from{opacity:0;transform:translateY(60px);} to{opacity:1;transform:none;} }
+
+.end-trophy { font-size:clamp(3rem,8vw,5rem); display:block; margin-bottom:10px; }
+.end-title {
+  font-family:'Nunito',sans-serif; font-size:clamp(1.4rem,4vw,2rem); font-weight:900;
+  background:linear-gradient(120deg,var(--violet),var(--rose));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  margin-bottom:10px;
+}
+.end-score-big { font-size:clamp(2.2rem,6vw,3.2rem); font-weight:900; color:var(--gold-deep); margin:10px 0; }
+.end-score-big span { font-size:.9rem; font-weight:500; color:var(--ink-faint); }
+
+/* Summary table */
+.end-summary {
+  display:flex; flex-direction:column; gap:8px;
+  margin:16px 0 22px; text-align:left;
+}
+.end-summary-row {
+  display:flex; align-items:center; gap:10px;
+  background:var(--sky); border-radius:12px; padding:10px 14px;
+  font-size:.84rem;
+}
+.esr-scene { flex:1; font-weight:700; color:var(--ink); }
+.esr-choice { font-size:.78rem; color:var(--ink-faint); }
+.esr-stars  { display:flex; gap:2px; flex-shrink:0; }
+
+/* Tips card */
+.tips-card {
+  background:linear-gradient(135deg,#f5f0ff,#ede4ff);
+  border-radius:16px; padding:14px 18px; margin-bottom:22px; text-align:left;
+}
+.tips-title { font-size:.78rem; font-weight:800; letter-spacing:.08em; color:var(--violet); margin-bottom:8px; }
+.tip-item { display:flex; gap:8px; align-items:flex-start; font-size:.82rem; line-height:1.55; color:var(--ink-soft); margin-bottom:5px; }
+.tip-item:last-child { margin-bottom:0; }
+.tip-num { flex-shrink:0; font-weight:900; color:var(--violet); }
+
+.end-msg { font-size:.88rem; line-height:1.7; color:var(--ink-soft); margin-bottom:24px; }
+
+.end-btns { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+.end-btn {
+  flex:1; min-width:130px; max-width:170px;
+  padding:14px 16px; border-radius:16px; border:none; cursor:pointer;
+  font-family:inherit; font-size:.95rem; font-weight:800;
+  display:flex; align-items:center; justify-content:center; gap:7px;
+  transition:transform .2s, box-shadow .2s;
+}
+.end-btn:hover { transform:translateY(-3px); }
+.btn-retry { background:linear-gradient(135deg,var(--violet),#a855f7); color:white; box-shadow:0 5px 20px var(--violet-glow); }
+.btn-retry:hover { box-shadow:0 8px 28px rgba(124,58,237,.55); }
+.btn-exit  { background:var(--sky-deep,#c8e6f8); color:var(--ink-soft); box-shadow:0 4px 14px rgba(30,45,74,.1); }
+
+/* ════════════════════════════════════════
+   FAREWELL
+════════════════════════════════════════ */
+#farewellScreen {
+  display:none; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; gap:18px; min-height:70vh;
+  animation:scaleReveal .6s cubic-bezier(.22,1,.36,1) both;
+}
+#farewellScreen.show { display:flex; }
+#farewellScreen .fw-icon { font-size:5rem; }
+#farewellScreen h2 {
+  font-family:'Nunito',sans-serif; font-size:clamp(1.6rem,5vw,2.2rem); font-weight:900;
+  background:linear-gradient(120deg,var(--violet),var(--rose));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+#farewellScreen p { font-size:.9rem; color:var(--ink-soft); max-width:300px; line-height:1.7; }
+#farewellScreen .close-btn {
+  padding:12px 36px; border-radius:99px;
+  background:linear-gradient(135deg,var(--rose),#c2185b);
+  color:white; font-family:inherit; font-size:.96rem; font-weight:800;
+  border:none; cursor:pointer; box-shadow:0 4px 20px var(--rose-glow);
+  transition:transform .2s;
+}
+#farewellScreen .close-btn:hover { transform:translateY(-2px) scale(1.04); }
+
+/* ════════════════════════════════════════
+   UTILITIES
+════════════════════════════════════════ */
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px);} to{opacity:1;transform:none;} }
+
+@media(max-width:520px){
+  .opt-letter { width:40px; font-size:1.2rem; }
+  .end-card { border-radius:22px; }
+  .char-card { width:calc(50% - 8px); }
+}
+</style>
+</head>
+<body>
+
+<div class="bubbles" id="bubbles"></div>
+<div id="feedbackLayer"></div>
+<div class="confetti-wrap" id="confettiWrap"></div>
+
+<!-- ══════════════════════════════════════════
+     END OVERLAY
+══════════════════════════════════════════ -->
+<div id="endOverlay">
+  <div class="end-blur"></div>
+  <div class="end-card">
+    <span class="end-trophy" id="endTrophy">🏆</span>
+    <div class="end-title" id="endTitle">挑戰完成！</div>
+    <div class="end-score-big" id="endScoreBig">0 <span>/ 9 分</span></div>
+
+    <div class="end-summary" id="endSummary"></div>
+
+    <div class="tips-card">
+      <div class="tips-title">✨ 提問三大秘訣</div>
+      <div class="tip-item"><span class="tip-num">①</span><span>說明你的<strong>身份或年級</strong>，讓 AI 知道要用什麼程度回答</span></div>
+      <div class="tip-item"><span class="tip-num">②</span><span>說清楚你要<strong>什麼格式、字數或目標</strong>，AI 才能精準幫忙</span></div>
+      <div class="tip-item"><span class="tip-num">③</span><span>角色扮演要給<strong>語言規則和回應方式</strong>，AI 才能進入狀況</span></div>
+    </div>
+
+    <div class="end-msg" id="endMsg"></div>
+    <div class="end-btns">
+      <button class="end-btn btn-retry" id="btnRetry">🔄 再來一次</button>
+      <button class="end-btn btn-exit"  id="btnExit">🚪 退出</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MAIN APP
+══════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- Top bar -->
+  <div class="top-bar">
+    <div class="chapter-tag">📗 第二章・怎麼和 AI 溝通？</div>
+    <div class="hud-chips">
+      <div class="chip">⭐ 得分 <span class="chip-val" id="scoreVal">0</span></div>
+      <div class="chip">🎬 <span id="sceneCount">1/3</span></div>
+    </div>
+  </div>
+
+  <!-- Title -->
+  <div class="page-title">
+    <h1>提問<em>魔法師</em> 🪄</h1>
+    <p>選出最能讓 AI 「聽懂」你的提問方式！</p>
+  </div>
+
+  <!-- Progress pills -->
+  <div class="progress-row" id="progressRow"></div>
+
+  <!-- ── SCREEN 0: Character Select ── -->
+  <div class="screen active" id="screenChar">
+    <p class="char-intro">先選一個<strong>學習夥伴</strong>，再開始挑戰！</p>
+    <div class="char-grid" id="charGrid"></div>
+    <button class="start-btn" id="startBtn" onclick="startGame()">出發！ 🚀</button>
+  </div>
+
+  <!-- ── SCREEN 1: Scene Intro ── -->
+  <div class="screen" id="screenIntro">
+    <div class="scene-intro-card" id="introCard">
+      <div class="scene-num-badge" id="introBadge">場景 1／3</div>
+      <span class="scene-big-icon" id="introIcon"></span>
+      <div class="scene-title"     id="introTitle"></div>
+      <div class="scene-mission-label">🎯 你的任務</div>
+      <div class="scene-mission-text" id="introMission"></div>
+      <div class="scene-character-says" id="introCharSays">
+        <span class="says-avatar" id="introAvatar"></span>
+        <div class="says-bubble" id="introSpeech"></div>
+      </div>
+      <button class="go-btn" onclick="goToOptions()">選擇提問方式 →</button>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 2: Options ── -->
+  <div class="screen" id="screenOptions">
+    <div class="options-scene-header" id="optHeader">
+      <span class="osh-icon" id="optIcon"></span>
+      <div class="osh-text">
+        <div class="osh-label" id="optBadge">場景 1／3</div>
+        <div class="osh-mission" id="optMission"></div>
+      </div>
+    </div>
+
+    <p class="q-label">哪一個<strong>提問方式</strong>最能讓 AI 幫到你？</p>
+
+    <div class="options-col" id="optionsCol"></div>
+
+    <div class="ai-response-wrap" id="aiResponseWrap">
+      <div class="ai-response-box">
+        <div class="air-header">
+          <span class="air-header-icon">🤖</span>
+          <span class="air-header-label">GAI 的回應</span>
+          <span class="air-header-sub" id="airHeaderSub">模擬回應</span>
+        </div>
+        <div class="air-content">
+          <div class="air-text" id="airText"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="score-reveal" id="scoreReveal"></div>
+
+    <button class="next-scene-btn" id="nextSceneBtn" onclick="goNextScene()">
+      <span id="nextSceneTxt">下一個場景 →</span>
+    </button>
+  </div>
+
+  <!-- Farewell -->
+  <div id="farewellScreen">
+    <div class="fw-icon">🪄</div>
+    <h2>掰掰！下次見！</h2>
+    <p>謝謝你完成提問魔法師挑戰！<br>記得多練習，你的提問魔法會越來越強！</p>
+    <button class="close-btn" onclick="window.close()">關閉視窗 ✕</button>
+  </div>
+
+</div><!-- /app -->
+
+<script>
+/* ══════════════════════════════════════════════════════
+   ①  CHARACTERS  角色資料
+══════════════════════════════════════════════════════ */
+const CHARACTERS = [
+  { id:'bao',  emoji:'🐭', name:'咬咬', trait:'好奇又勇敢' },
+  { id:'coco', emoji:'🐱', name:'可可', trait:'愛思考的貓咪' },
+  { id:'si',   emoji:'🐰', name:'思思', trait:'細心愛發問' },
+  { id:'oni',  emoji:'🦊', name:'歐匿', trait:'充滿想像力' }
+];
+
+/* ══════════════════════════════════════════════════════
+   ②  SCENES  場景資料 (3 個場景)
+══════════════════════════════════════════════════════ */
+const SCENES = [
+  /* ─────────── 場景 1：學作文 ─────────── */
+  {
+    id: 'scene_1',
+    icon: '✍️',
+    title: '請 AI 幫我學寫作文',
+    mission: '你要在國語課寫一篇 300 字的作文，題目是「我的假期」，但不知道從哪裡開始，想請 AI 給你一些方向。',
+    charSpeech: '我想請 AI 幫我，但要怎麼說它才能真的幫到我呢？<strong>哪個提問方式最好？</strong>',
+    options: [
+      {
+        id: 'A', letter: 'A',
+        prompt: '幫我寫作文。',
+        aiResponse: '（AI 回應）\n請問你要寫什麼主題的作文呢？幾年級？大約幾個字？還有，你希望我直接寫一篇，還是給你一些寫作方向呢？',
+        score: 0,
+        verdict: '太簡短了，AI 一頭霧水！',
+        explain: '這個提問太模糊，AI 根本不知道你要什麼。它只能一直反問你，反而浪費時間！',
+        tip: '缺少：主題、字數、你要什麼幫助'
+      },
+      {
+        id: 'B', letter: 'B',
+        prompt: '幫我寫一篇關於假期的作文。',
+        aiResponse: '（AI 回應）\n\n🌅 我的快樂假期\n\n這個假期，我和家人去了海邊玩耍。早上我們在金色的沙灘上堆沙堡……\n\n（AI 直接幫你寫了一篇，但不是你自己的故事，也不知道是幾年級的程度）',
+        score: 1,
+        verdict: '有說主題，但 AI 幫你全部寫完了！',
+        explain: 'AI 雖然照做了，但寫出來的不是你的故事，也不符合你的年級程度。老師要看的是你自己寫的作文！',
+        tip: '缺少：年級程度、你真正需要的是「方向」不是代寫'
+      },
+      {
+        id: 'C', letter: 'C',
+        prompt: '我是國小四年級學生，要寫一篇 300 字的作文，題目是「我的假期」。請不要幫我寫，而是給我 3 個我可以寫的方向，每個方向說明 1 到 2 句就好。',
+        aiResponse: '（AI 回應）\n\n好的！以下是 3 個你可以寫的方向：\n\n① 🏖️ 特別的地點：寫一個你假期去過的地方，描述看到、聽到或感受到什麼。\n\n② 🎮 印象最深的一件事：挑一件最好玩或最特別的事，說說為什麼難忘。\n\n③ 👨‍👩‍👧 家人的陪伴：描述和家人一起做的活動，寫出你的心情和感受。\n\n選一個你最想寫的方向，再展開來寫就可以囉！',
+        score: 3,
+        verdict: '完美提問！AI 懂你要什麼！',
+        explain: '你說明了年級、字數、主題，還特別說「不要代寫、給方向就好」，AI 就能精準給出對你真正有幫助的回應！',
+        tip: '包含：身份 + 字數 + 主題 + 明確需求'
+      }
+    ],
+    bestOption: 'C'
+  },
+
+  /* ─────────── 場景 2：問問題 ─────────── */
+  {
+    id: 'scene_2',
+    icon: '🔍',
+    title: '請 AI 解釋一個難懂的概念',
+    mission: '自然課老師說到「光合作用」，你聽不太懂，想請 AI 用你能理解的方式解釋給你聽。',
+    charSpeech: '「光合作用」好難懂喔！要怎麼問 AI，才能得到我真的看得懂的解釋呢？',
+    options: [
+      {
+        id: 'A', letter: 'A',
+        prompt: '光合作用是什麼？',
+        aiResponse: '（AI 回應）\n\n光合作用（Photosynthesis）是植物、藻類及某些細菌利用光能，將二氧化碳（CO₂）和水（H₂O）轉換為葡萄糖（C₆H₁₂O₆）和氧氣（O₂）的過程。\n\n化學方程式：\n6CO₂ + 6H₂O + 光能 → C₆H₁₂O₆ + 6O₂\n\n此反應發生於葉綠體中，分為光反應與暗反應兩個階段……',
+        score: 1,
+        verdict: '問到重點，但 AI 不知道你的程度！',
+        explain: 'AI 直接用了很多專有名詞和化學式，這對國小生來說太難了！你有問到重點，但忘了告訴 AI 你是小學生。',
+        tip: '缺少：你的年級 / 要求用簡單方式說明'
+      },
+      {
+        id: 'B', letter: 'B',
+        prompt: '光合作用很難，我聽不懂，怎麼辦？',
+        aiResponse: '（AI 回應）\n\n不用擔心，學習需要時間！你可以試試這些方法：\n\n📚 多讀幾遍課本的說明\n🎬 在 YouTube 上搜尋「光合作用動畫」\n👨‍🏫 請老師再解釋一次\n✏️ 把重點畫成圖表幫助記憶……',
+        score: 0,
+        verdict: 'AI 不知道你要解釋，只給了建議！',
+        explain: '你說「聽不懂怎麼辦」，AI 以為你在問學習方法，所以給的是「如何學習」的建議，而不是解釋光合作用！',
+        tip: '缺少：明確要求「請解釋光合作用給我聽」'
+      },
+      {
+        id: 'C', letter: 'C',
+        prompt: '我是國小四年級學生，請用我能聽懂的方式解釋什麼是光合作用，可以用生活中的比喻或例子嗎？不要用太難的化學式。',
+        aiResponse: '（AI 回應）\n\n當然可以！\n\n想像一下，植物的葉子就像一座小工廠 🏭\n\n這座工廠需要三樣東西才能運作：\n☀️ 陽光（能源）\n💧 水（從根部吸收）\n🌬️ 空氣中的二氧化碳\n\n工廠開始工作之後，就會做出兩樣東西：\n🍬 葡萄糖（植物自己吃的「食物」）\n🌿 氧氣（排出來讓我們呼吸！）\n\n所以，光合作用就是植物「自己做飯」的過程，而且它還順便幫我們製造了新鮮的空氣！是不是很神奇？',
+        score: 3,
+        verdict: '太棒了！提問讓 AI 說得剛剛好！',
+        explain: '你說明了年級，要求用比喻和例子，又說不要化學式，AI 就知道要怎麼調整說明的方式，完美符合你的需求！',
+        tip: '包含：年級程度 + 要求比喻 + 說明限制'
+      }
+    ],
+    bestOption: 'C'
+  },
+
+  /* ─────────── 場景 3：角色扮演 ─────────── */
+  {
+    id: 'scene_3',
+    icon: '🎭',
+    title: '請 AI 扮演角色來練習英文',
+    mission: '英語課要考口說，你想練習在咖啡店點餐的英文對話，希望 AI 扮演咖啡店店員陪你練習。',
+    charSpeech: '我想練習英文點餐！要怎麼請 AI 扮演店員，才能真的幫我練習到呢？',
+    options: [
+      {
+        id: 'A', letter: 'A',
+        prompt: '你會說英文嗎？',
+        aiResponse: '（AI 回應）\n\n是的，我可以說英文！我可以用英文和你對話、翻譯、寫作，或是幫你練習口說。\n\n有什麼我能用英文幫你的嗎？',
+        score: 0,
+        verdict: 'AI 只回答問題，沒有進入角色！',
+        explain: '你問的是 AI 的能力，它就只回答自己的能力。沒有說「想練習什麼」，AI 當然不知道要怎麼配合你！',
+        tip: '缺少：角色設定 + 練習目標'
+      },
+      {
+        id: 'B', letter: 'B',
+        prompt: '請你扮演一個英文咖啡店店員。',
+        aiResponse: '（AI 回應）\n\n好的！我現在是一位咖啡店店員。\n\n請說。',
+        score: 1,
+        verdict: '有角色，但太模糊，AI 不知道怎麼幫你！',
+        explain: 'AI 進入了角色，但你沒說這是要練習英文、要全程用英文，也沒說如果你說錯了要怎麼幫你，所以 AI 只能乾等著。',
+        tip: '缺少：語言要求 + 練習規則 + 錯誤糾正方式'
+      },
+      {
+        id: 'C', letter: 'C',
+        prompt: '我是國小生，想練習英文點餐對話。請你扮演一位友善的英文咖啡店店員，全程只用英文和我說話。如果我說的英文有錯誤，請溫柔地糾正我，並示範正確說法。我們現在開始！',
+        aiResponse: "（AI 回應）\n\n☕ Welcome to Sunny Café! I'm happy to help you today.\n\nWhat can I get for you? We have coffee, tea, and some yummy pastries!\n\n（如果你說：「I want a coffee hot.」\nAI 會說：Good try! We usually say「I'd like a hot coffee, please.」 Now you try!）",
+        score: 3,
+        verdict: '完美！AI 立刻進入角色開始練習！',
+        explain: '你說明了目的（練習英文點餐）、角色設定（友善店員）、語言規則（全程英文）、糾錯方式（溫柔示範），AI 就能完全按照你的需求來幫你練習！',
+        tip: '包含：目的 + 角色 + 語言規則 + 糾錯方式'
+      }
+    ],
+    bestOption: 'C'
+  }
+];
+
+/* ══════════════════════════════════════════════════════
+   ③  MySQL 預留接口
+   ─────────────────────────────────────────────────────
+   啟用方式：
+   1. 將 DB_CONFIG.enabled 改為 true
+   2. 填入 DB_CONFIG.endpoint（後端 REST API 路徑）
+   3. 後端接收 POST JSON，存入 MySQL 資料表
+
+   建表 SQL 參考：
+   ─────────────────────────────────────────────────────
+   CREATE TABLE ch2_communication_log (
+     id                 INT AUTO_INCREMENT PRIMARY KEY,
+     session_id         VARCHAR(36)   NOT NULL COMMENT '每次遊玩唯一識別',
+     played_at          DATETIME      NOT NULL COMMENT '作答時間',
+     character_chosen   VARCHAR(10)   COMMENT '選擇的角色',
+     scene_id           VARCHAR(20)   NOT NULL COMMENT '場景代碼',
+     scene_name         VARCHAR(80)   COMMENT '場景名稱',
+     chosen_option      CHAR(1)       COMMENT '玩家選的選項 A/B/C',
+     chosen_prompt      TEXT          COMMENT '玩家選的提問文字',
+     score_earned       TINYINT       COMMENT '本題得分 0/1/3',
+     is_best            TINYINT(1)    COMMENT '是否選到最佳選項',
+     time_to_answer_sec SMALLINT      COMMENT '顯示選項到作答的秒數',
+     read_ai_response   TINYINT(1)    DEFAULT 0 COMMENT '是否展開查看AI回應',
+     end_action         VARCHAR(10)   COMMENT 'retry / exit / null',
+     total_score        TINYINT       COMMENT '遊戲結束時的總分',
+     total_time_sec     SMALLINT      COMMENT '整場遊玩總秒數',
+     created_at         TIMESTAMP     DEFAULT CURRENT_TIMESTAMP
+   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+     COMMENT='第二章溝通技巧情境選擇遊戲紀錄';
+   ─────────────────────────────────────────────────────
+══════════════════════════════════════════════════════ */
+const DB_CONFIG = {
+  enabled:  false,
+  endpoint: '/api/ch2-communication/log'
+};
+
+async function dbLog(row) {
+  console.table(row);
+  if (!DB_CONFIG.enabled) return;
+  try {
+    const res = await fetch(DB_CONFIG.endpoint, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(row)
+    });
+    if (!res.ok) console.warn('[DB] log failed:', res.status);
+  } catch(e) { console.warn('[DB] error:', e); }
+}
+
+/* ══════════════════════════════════════════════════════
+   ④  GAME STATE
+══════════════════════════════════════════════════════ */
+let G = {};
+function resetState() {
+  G = {
+    sessionId:       crypto.randomUUID?.() || Date.now().toString(36),
+    character:       null,
+    sceneIndex:      0,
+    totalScore:      0,
+    sceneLogs:       [],          // per-scene summary for end screen
+    sceneStartTime:  null,
+    gameStartTime:   Date.now(),
+    currentScene:    null,
+    answered:        false
+  };
+}
+
+/* ══════════════════════════════════════════════════════
+   ⑤  INIT
+══════════════════════════════════════════════════════ */
+function initGame() {
+  resetState();
+  buildBubbles();
+  buildProgress();
+  buildCharGrid();
+  showMain();
+  showScreen('screenChar');
+  updateHUD();
+}
+
+function showMain() {
+  document.getElementById('app').style.display = 'flex';
+  document.getElementById('farewellScreen').classList.remove('show');
+  document.getElementById('endOverlay').style.display = 'none';
+}
+
+/* Bubbles */
+function buildBubbles() {
+  const wrap = document.getElementById('bubbles');
+  wrap.innerHTML = '';
+  const cols = ['rgba(124,58,237,.15)','rgba(233,30,140,.1)','rgba(0,184,212,.13)','rgba(255,193,7,.12)'];
+  for (let i=0;i<18;i++) {
+    const b = document.createElement('div');
+    const sz = 18 + Math.random()*48;
+    b.className = 'bubble';
+    b.style.cssText = `left:${Math.random()*100}%;width:${sz}px;height:${sz}px;
+      background:${cols[i%cols.length]};--rise-t:${8+Math.random()*12}s;
+      --rise-d:${Math.random()*10}s;--drift:${(Math.random()-.5)*120}px;`;
+    wrap.appendChild(b);
+  }
+}
+
+/* Progress pills — 3 pills for 3 scenes */
+function buildProgress() {
+  const row = document.getElementById('progressRow');
+  row.innerHTML = '';
+  SCENES.forEach((_,i) => {
+    const d = document.createElement('div');
+    d.className = 'prog-pill' + (i===0?' active':'');
+    d.id = 'pill-'+i;
+    row.appendChild(d);
+  });
+}
+function updateProgress() {
+  SCENES.forEach((_,i) => {
+    const el = document.getElementById('pill-'+i);
+    if (!el) return;
+    el.className = 'prog-pill';
+    if (i < G.sceneIndex)  el.classList.add('done');
+    else if (i===G.sceneIndex) el.classList.add('active');
+  });
+}
+
+/* Character grid */
+function buildCharGrid() {
+  const grid = document.getElementById('charGrid');
+  grid.innerHTML = '';
+  CHARACTERS.forEach(c => {
+    const el = document.createElement('div');
+    el.className = 'char-card'; el.dataset.id = c.id;
+    el.innerHTML = `<span class="char-emoji">${c.emoji}</span>
+      <div class="char-name">${c.name}</div>
+      <div class="char-trait">${c.trait}</div>`;
+    el.addEventListener('click', () => selectChar(el, c));
+    el.addEventListener('touchend', e => { e.preventDefault(); selectChar(el, c); }, {passive:false});
+    grid.appendChild(el);
+  });
+}
+function selectChar(el, c) {
+  document.querySelectorAll('.char-card').forEach(x => x.classList.remove('selected'));
+  el.classList.add('selected');
+  G.character = c;
+  document.getElementById('startBtn').classList.add('ready');
+}
+
+/* ══════════════════════════════════════════════════════
+   ⑥  GAME FLOW
+══════════════════════════════════════════════════════ */
+function startGame() {
+  if (!G.character) return;
+  G.sceneIndex = 0;
+  G.totalScore = 0;
+  G.sceneLogs  = [];
+  G.gameStartTime = Date.now();
+  updateProgress();
+  loadSceneIntro();
+  showScreen('screenIntro');
+}
+
+function loadSceneIntro() {
+  const sc = SCENES[G.sceneIndex];
+  G.currentScene = sc;
+  G.answered = false;
+  G.sceneStartTime = Date.now();
+
+  const label = `場景 ${G.sceneIndex+1}／${SCENES.length}`;
+  document.getElementById('introBadge').textContent  = label;
+  document.getElementById('introIcon').textContent   = sc.icon;
+  document.getElementById('introTitle').textContent  = sc.title;
+  document.getElementById('introMission').textContent= sc.mission;
+  document.getElementById('introAvatar').textContent = G.character.emoji;
+  document.getElementById('introSpeech').innerHTML   = G.character.name + '說：「' + sc.charSpeech + '」';
+
+  updateHUD();
+  // re-trigger animation
+  const card = document.getElementById('introCard');
+  card.style.animation = 'none';
+  requestAnimationFrame(() => { card.style.animation = ''; });
+}
+
+function goToOptions() {
+  const sc = G.currentScene;
+  const label = `場景 ${G.sceneIndex+1}／${SCENES.length}`;
+
+  document.getElementById('optIcon').textContent    = sc.icon;
+  document.getElementById('optBadge').textContent   = label;
+  document.getElementById('optMission').textContent = sc.mission;
+
+  // Build option cards
+  const col = document.getElementById('optionsCol');
+  col.innerHTML = '';
+  sc.options.forEach((opt,idx) => {
+    const card = document.createElement('div');
+    card.className = `opt-card opt-${opt.id}`;
+    card.dataset.id = opt.id;
+    card.innerHTML = `
+      <div class="opt-card-inner">
+        <div class="opt-letter">${opt.letter}</div>
+        <div class="opt-body">
+          <div class="opt-prompt-label">💬 提問方式</div>
+          <div class="opt-bubble">${escHtml(opt.prompt)}</div>
+        </div>
+      </div>`;
+    card.addEventListener('click', () => handleOptionClick(card, opt));
+    card.addEventListener('touchend', e => { e.preventDefault(); handleOptionClick(card, opt); }, {passive:false});
+    col.appendChild(card);
+  });
+
+  // Reset panels
+  document.getElementById('aiResponseWrap').classList.remove('show');
+  document.getElementById('scoreReveal').classList.remove('show');
+  document.getElementById('scoreReveal').innerHTML = '';
+  document.getElementById('nextSceneBtn').classList.remove('show');
+  document.getElementById('airText').innerHTML = '';
+
+  showScreen('screenOptions');
+  G.sceneStartTime = Date.now(); // restart timer from options screen
+}
+
+/* ══════════════════════════════════════════════════════
+   ⑦  OPTION CLICK  (核心答題邏輯)
+══════════════════════════════════════════════════════ */
+function handleOptionClick(card, opt) {
+  if (G.answered) return;
+  G.answered = true;
+  const elapsed = Math.round((Date.now() - G.sceneStartTime) / 1000);
+  const sc = G.currentScene;
+
+  // Lock all cards
+  document.querySelectorAll('.opt-card').forEach(c => {
+    c.classList.add('locked');
+    if (c !== card) c.classList.add('dimmed');
+  });
+  card.classList.add('selected');
+
+  const isBest = (opt.id === sc.bestOption);
+  const scoreEarned = opt.score;
+  G.totalScore += scoreEarned;
+
+  // Record scene log
+  G.sceneLogs.push({
+    sceneIndex: G.sceneIndex,
+    sceneName:  sc.title,
+    chosenId:   opt.id,
+    chosenPrompt: opt.prompt,
+    score:      scoreEarned,
+    isBest,
+    elapsed
+  });
+
+  // DB log (per answer)
+  dbLog({
+    session_id:         G.sessionId,
+    played_at:          new Date().toISOString(),
+    character_chosen:   G.character.name,
+    scene_id:           sc.id,
+    scene_name:         sc.title,
+    chosen_option:      opt.id,
+    chosen_prompt:      opt.prompt,
+    score_earned:       scoreEarned,
+    is_best:            isBest ? 1 : 0,
+    time_to_answer_sec: elapsed,
+    read_ai_response:   0,           // updated later if user expands
+    end_action:         null,
+    total_score:        null,
+    total_time_sec:     null
+  });
+
+  // Visual feedback
+  const fbType = scoreEarned === 3 ? 'best-hit' : scoreEarned === 1 ? 'ok-hit' : 'poor-hit';
+  showFeedback(fbType);
+  if (isBest) { spawnConfetti(); playSound('correct'); }
+  else if (scoreEarned === 1) playSound('ok');
+  else playSound('wrong');
+
+  updateHUD();
+
+  // Show AI response with typewriter effect
+  setTimeout(() => {
+    const wrap = document.getElementById('aiResponseWrap');
+    wrap.classList.add('show');
+    document.getElementById('airHeaderSub').textContent = `選項 ${opt.id} 的模擬回應`;
+    typeWrite(document.getElementById('airText'), opt.aiResponse, 18, () => {
+      // After typing, show score reveal
+      setTimeout(() => showScoreReveal(opt, isBest), 300);
+    });
+  }, 900);
+}
+
+/* ── Typewriter ── */
+function typeWrite(el, text, speed, onDone) {
+  el.innerHTML = '';
+  const cursor = document.createElement('span');
+  cursor.className = 'typing-cursor';
+  el.appendChild(cursor);
+
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i < text.length) {
+      cursor.insertAdjacentText('beforebegin', text[i]);
+      i++;
+    } else {
+      clearInterval(interval);
+      cursor.remove();
+      if (onDone) onDone();
+    }
+  }, speed);
+}
+
+/* ── Score reveal ── */
+function showScoreReveal(opt, isBest) {
+  const stars = renderStars(opt.score);
+  const cls   = opt.score === 3 ? 'best' : opt.score === 1 ? 'ok' : 'poor';
+  const medal = opt.score === 3 ? '🏆' : opt.score === 1 ? '⭐' : '💪';
+
+  const html = `
+    <div class="score-card ${cls}">
+      <div class="score-left">
+        <span class="score-medal">${medal}</span>
+        <div class="score-stars">${stars}</div>
+      </div>
+      <div class="score-right">
+        <div class="score-verdict">${opt.verdict}</div>
+        <div class="score-explain">
+          ${opt.explain}<br>
+          <span class="tip-tag">提示</span>${opt.tip}
+        </div>
+      </div>
+    </div>`;
+
+  const el = document.getElementById('scoreReveal');
+  el.innerHTML = html;
+  el.classList.add('show');
+
+  // Show next button
+  const isLast = G.sceneIndex >= SCENES.length - 1;
+  const nb = document.getElementById('nextSceneBtn');
+  document.getElementById('nextSceneTxt').textContent = isLast ? '查看總結 🎉' : '下一個場景 →';
+  nb.classList.add('show');
+}
+
+function renderStars(score) {
+  const filled = score === 3 ? 3 : score === 1 ? 2 : 1;
+  let s = '';
+  for (let i=0;i<3;i++) s += `<span class="star" style="color:${i<filled?'var(--star-on)':'var(--star-off)'}">★</span>`;
+  return s;
+}
+
+/* ══════════════════════════════════════════════════════
+   ⑧  NEXT SCENE
+══════════════════════════════════════════════════════ */
+function goNextScene() {
+  G.sceneIndex++;
+  updateProgress();
+  if (G.sceneIndex >= SCENES.length) { showEndScreen(); return; }
+  loadSceneIntro();
+  showScreen('screenIntro');
+}
+
+/* ══════════════════════════════════════════════════════
+   ⑨  END SCREEN
+══════════════════════════════════════════════════════ */
+function showEndScreen() {
+  const maxScore = SCENES.length * 3;   // 9
+  const pct = G.totalScore / maxScore;
+  const totalSec = Math.round((Date.now() - G.gameStartTime) / 1000);
+
+  let trophy, title, msg;
+  if (pct === 1)   { trophy='🏆'; title='提問魔法師！'; msg=`哇！全部 ${SCENES.length} 個場景都選到最佳提問！你完全掌握了和 AI 溝通的秘訣，超級厲害！`; }
+  else if (pct>=.56){ trophy='⭐'; title='提問小達人！'; msg=`得了 ${G.totalScore} 分，表現很棒！再練習幾次，你一定能在每個場景都找到最佳提問！`; }
+  else              { trophy='💪'; title='繼續練習！';   msg=`得了 ${G.totalScore} 分。提問的技巧需要多練習，看看每個場景的「提示」，你會越來越強！`; }
+
+  document.getElementById('endTrophy').textContent           = trophy;
+  document.getElementById('endTitle').textContent            = title;
+  document.getElementById('endScoreBig').innerHTML           = `${G.totalScore} <span>/ ${maxScore} 分</span>`;
+  document.getElementById('endMsg').textContent              = msg;
+
+  // Summary rows
+  const sumEl = document.getElementById('endSummary');
+  sumEl.innerHTML = G.sceneLogs.map(log => {
+    const stars = renderStars(log.score);
+    return `<div class="end-summary-row">
+      <span class="esr-scene">${SCENES[log.sceneIndex].icon} ${log.sceneName}</span>
+      <span class="esr-choice">選了 ${log.chosenId}</span>
+      <div class="esr-stars">${stars}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('endOverlay').style.display = 'flex';
+
+  // DB log final record
+  dbLog({
+    session_id:       G.sessionId,
+    played_at:        new Date().toISOString(),
+    character_chosen: G.character?.name,
+    scene_id:         'END',
+    scene_name:       '遊戲結束',
+    chosen_option:    null,
+    chosen_prompt:    null,
+    score_earned:     null,
+    is_best:          null,
+    time_to_answer_sec: null,
+    read_ai_response: null,
+    end_action:       null,
+    total_score:      G.totalScore,
+    total_time_sec:   totalSec
+  });
+}
+
+document.getElementById('btnRetry').addEventListener('click', () => {
+  dbLog({ session_id:G.sessionId, played_at:new Date().toISOString(),
+    scene_id:'END', end_action:'retry', total_score:G.totalScore,
+    total_time_sec:Math.round((Date.now()-G.gameStartTime)/1000) });
+  document.getElementById('endOverlay').style.display = 'none';
+  initGame();
+});
+
+document.getElementById('btnExit').addEventListener('click', () => {
+  dbLog({ session_id:G.sessionId, played_at:new Date().toISOString(),
+    scene_id:'END', end_action:'exit', total_score:G.totalScore,
+    total_time_sec:Math.round((Date.now()-G.gameStartTime)/1000) });
+  document.getElementById('endOverlay').style.display = 'none';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('farewellScreen').classList.add('show');
+});
+
+/* ══════════════════════════════════════════════════════
+   ⑩  FEEDBACK ANIMATIONS
+══════════════════════════════════════════════════════ */
+function showFeedback(type) {
+  const layer = document.getElementById('feedbackLayer');
+  const el = document.createElement('div');
+  el.className = `fb-circle ${type}`;
+  el.textContent = type==='best-hit'?'✓' : type==='ok-hit'?'△' : '✗';
+  layer.appendChild(el);
+  setTimeout(() => {
+    el.classList.add('fade-out');
+    setTimeout(() => layer.innerHTML='', 420);
+  }, 900);
+}
+
+function spawnConfetti() {
+  const wrap = document.getElementById('confettiWrap');
+  const cols = ['#ffd700','#7c3aed','#e91e8c','#00c853','#00b8d4','#ff8f00'];
+  for (let i=0;i<55;i++) {
+    const c = document.createElement('div');
+    c.className = 'conf';
+    const sz = 7+Math.random()*9;
+    c.style.cssText = `left:${Math.random()*100}%;width:${sz}px;height:${sz*(.4+Math.random()*.6)}px;
+      background:${cols[i%cols.length]};transform:rotate(${Math.random()*360}deg);
+      --cf-t:${1.4+Math.random()*.8}s;--cf-d:${Math.random()*.5}s;
+      --cf-drift:${(Math.random()-.5)*160}px;`;
+    wrap.appendChild(c);
+  }
+  setTimeout(() => wrap.innerHTML='', 2600);
+}
+
+/* ══════════════════════════════════════════════════════
+   ⑪  SOUNDS
+══════════════════════════════════════════════════════ */
+function playSound(type) {
+  try {
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    if (type==='correct') {
+      [[523.25,0],[659.25,.1],[783.99,.2],[1046.5,.32]].forEach(([f,d]) => {
+        const o=ctx.createOscillator(),g=ctx.createGain();
+        o.connect(g);g.connect(ctx.destination);
+        o.type='sine';o.frequency.value=f;
+        g.gain.setValueAtTime(0,ctx.currentTime+d);
+        g.gain.linearRampToValueAtTime(.28,ctx.currentTime+d+.04);
+        g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+d+.45);
+        o.start(ctx.currentTime+d);o.stop(ctx.currentTime+d+.5);
+      });
+    } else if (type==='ok') {
+      [[523.25,0],[659.25,.12]].forEach(([f,d]) => {
+        const o=ctx.createOscillator(),g=ctx.createGain();
+        o.connect(g);g.connect(ctx.destination);
+        o.type='sine';o.frequency.value=f;
+        g.gain.setValueAtTime(0,ctx.currentTime+d);
+        g.gain.linearRampToValueAtTime(.2,ctx.currentTime+d+.04);
+        g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+d+.4);
+        o.start(ctx.currentTime+d);o.stop(ctx.currentTime+d+.45);
+      });
+    } else {
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);
+      o.type='sawtooth';
+      o.frequency.setValueAtTime(200,ctx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(90,ctx.currentTime+.35);
+      g.gain.setValueAtTime(.22,ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.38);
+      o.start(ctx.currentTime);o.stop(ctx.currentTime+.4);
+    }
+  } catch(e) {}
+}
+
+/* ══════════════════════════════════════════════════════
+   ⑫  HELPERS
+══════════════════════════════════════════════════════ */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id===id));
+}
+function updateHUD() {
+  document.getElementById('scoreVal').textContent  = G.totalScore || 0;
+  document.getElementById('sceneCount').textContent= `${(G.sceneIndex||0)+1}/${SCENES.length}`;
+}
+function escHtml(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ══════════════════════════════════════════════════════
+   BOOT
+══════════════════════════════════════════════════════ */
+initGame();
+</script>
+</body>
+</html>

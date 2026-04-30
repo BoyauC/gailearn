@@ -1,0 +1,26 @@
+{
+  "range": "193-208",
+  "imagesFolder": "Images_193_208/images",
+  "metaFile": "Images_193_208/meta/Meta_Images_193_208.xlsx",
+  "imageCount": 16,
+  "imageFiles": [
+    "Gemini_Generated_Image_1ebqaj1ebqaj1ebq.png",
+    "Gemini_Generated_Image_54x7zm54x7zm54x7.png",
+    "Gemini_Generated_Image_9xk9dl9xk9dl9xk9.png",
+    "Gemini_Generated_Image_cg0pwmcg0pwmcg0p.png",
+    "Gemini_Generated_Image_cst1b5cst1b5cst1.png",
+    "Gemini_Generated_Image_i4k97ji4k97ji4k9.png",
+    "Gemini_Generated_Image_ixve26ixve26ixve.png",
+    "Gemini_Generated_Image_jrvmtmjrvmtmjrvm.png",
+    "Gemini_Generated_Image_lhjirslhjirslhji.png",
+    "Gemini_Generated_Image_m2t2w1m2t2w1m2t2.png",
+    "Gemini_Generated_Image_ob3b75ob3b75ob3b.png",
+    "Gemini_Generated_Image_ph8oxpph8oxpph8o.png",
+    "Gemini_Generated_Image_ro5zxkro5zxkro5z.png",
+    "Gemini_Generated_Image_sx4gxxsx4gxxsx4g.png",
+    "Gemini_Generated_Image_tc8o4atc8o4atc8o.png",
+    "Gemini_Generated_Image_weqtamweqtamweqt.png"
+  ],
+  "indexSource": "FolderScan",
+  "generatedAt": "2026-04-01T16:26:18"
+}
