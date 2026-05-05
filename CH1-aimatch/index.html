@@ -382,9 +382,184 @@
             padding-left: 0;
             width: 100%;
         }
+
+        /* ====== 遊戲說明頁（開始畫面） ======
+           點擊「開始」前覆蓋整個畫面。z-index 低於 orientation-overlay，
+           所以裝置方向錯誤時仍會優先顯示旋轉提示。                     */
+        #screen-start {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #FFDAC1 0%, #FFB7B2 60%, #FF9AA2 100%);
+            z-index: 5000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            box-sizing: border-box;
+            animation: fadeInStart 0.35s ease both;
+        }
+        #screen-start.hidden { display: none; }
+
+        @keyframes fadeInStart {
+            from { opacity: 0; transform: scale(0.98); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+
+        .start-card {
+            background: white;
+            border-radius: 24px;
+            padding: clamp(20px, 3vw, 32px) clamp(18px, 3vw, 30px);
+            max-width: 560px;
+            width: 100%;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .start-title {
+            color: var(--primary);
+            font-size: clamp(22px, 4.5vw, 30px);
+            margin: 0 0 6px;
+            text-shadow: 2px 2px 0 rgba(255,154,162,0.25);
+            font-weight: 800;
+        }
+
+        .start-subtitle {
+            color: var(--text-dark);
+            font-size: clamp(13px, 2.2vw, 16px);
+            margin: 0 0 18px;
+            font-weight: 600;
+        }
+
+        .start-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .start-legend-item {
+            display: grid;
+            grid-template-columns: 56px 1fr;
+            gap: 12px;
+            align-items: center;
+            text-align: left;
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 3px dashed #ccc;
+        }
+
+        .start-legend-item[data-cat="perception"]    { background-color: var(--basket-per); border-color: #9FC17D; }
+        .start-legend-item[data-cat="recommendation"]{ background-color: var(--basket-rec); border-color: #69C9A1; }
+        .start-legend-item[data-cat="creation"]      { background-color: var(--basket-cre); border-color: #8C99D2; }
+
+        .start-legend-icon {
+            font-size: 32px;
+            text-align: center;
+            line-height: 1;
+        }
+        .start-legend-item strong {
+            display: block;
+            font-size: 15px;
+            color: var(--text-dark);
+            margin-bottom: 2px;
+        }
+        .start-legend-item p {
+            margin: 0;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.55;
+        }
+
+        .start-note {
+            background: #FFF6E6;
+            border-left: 4px solid var(--primary);
+            border-radius: 0 12px 12px 0;
+            padding: 10px 12px;
+            font-size: 13px;
+            color: #666;
+            margin: 0 0 18px;
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        #start-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 48px;
+            font-size: clamp(20px, 3.2vw, 26px);
+            letter-spacing: 0.4em;
+            text-indent: 0.4em;
+            border-radius: 32px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #D67A81;
+            font-weight: bold;
+            font-family: inherit;
+            touch-action: auto;
+            min-width: 60%;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        #start-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #D67A81;
+        }
+
+        /* 手機版：說明頁從頂部開始捲動，避免內容被裁切 */
+        html.device-phone #screen-start {
+            align-items: flex-start;
+            padding: 14px;
+        }
+        html.device-phone .start-legend-item {
+            grid-template-columns: 48px 1fr;
+        }
+        html.device-phone .start-legend-icon {
+            font-size: 26px;
+        }
     </style>
 </head>
 <body>
+
+    <!-- ① 遊戲說明頁（仿 CH6 三色燈遊戲開始頁設計）：點選「開始」後才進入遊戲 -->
+    <section id="screen-start" aria-labelledby="start-title">
+        <div class="start-card">
+            <h1 id="start-title" class="start-title">🤖 認識 AI 的不同類型</h1>
+            <p class="start-subtitle">將圖片卡拖曳到對應的籃子裡，挑戰兩個關卡！</p>
+
+            <div class="start-legend">
+                <div class="start-legend-item" data-cat="perception">
+                    <span class="start-legend-icon" aria-hidden="true">👁️</span>
+                    <div>
+                        <strong>感知型</strong>
+                        <p>用視覺、聽覺等感官接收並理解資訊，例如智慧音箱、臉部辨識。</p>
+                    </div>
+                </div>
+                <div class="start-legend-item" data-cat="recommendation">
+                    <span class="start-legend-icon" aria-hidden="true">🧐</span>
+                    <div>
+                        <strong>建議分析型</strong>
+                        <p>分析資料後給出建議或預測，例如健康建議、影片推薦、導航建議。</p>
+                    </div>
+                </div>
+                <div class="start-legend-item" data-cat="creation">
+                    <span class="start-legend-icon" aria-hidden="true">🎨</span>
+                    <div>
+                        <strong>創作型</strong>
+                        <p>產生全新的內容，例如 AI 寫詩、寫故事、產生圖像。</p>
+                    </div>
+                </div>
+            </div>
+
+            <p class="start-note">
+                📌 玩法：把每張卡片拖到正確的籃子，全部放完會自動評分。<br>
+                答錯也沒關係 — 錯誤是學習的一部分哦！
+            </p>
+
+            <button type="button" id="start-btn">開 始</button>
+        </div>
+    </section>
 
     <!-- [orientation check] 直式時顯示的提示遮罩，橫式時自動隱藏 -->
     <div id="orientation-overlay">
@@ -409,7 +584,7 @@
                 <div class="basket-content"></div>
             </div>
             <div class="basket" data-category="recommendation">
-                <div class="basket-title">🧭 建議分析型</div>
+                <div class="basket-title">🧐 建議分析型</div>
                 <div class="basket-content"></div>
             </div>
             <div class="basket" data-category="creation">
@@ -773,9 +948,24 @@
             }
         });
 
-        // 啟動遊戲
-        initLevel();
-        updateScore();
+        // 啟動遊戲：等使用者按下「開始」鈕後才執行 initLevel()，
+        // 在此之前由 #screen-start 說明頁覆蓋整個畫面。遊戲邏輯本身未變動。
+        (function setupStartScreen() {
+            const startScreen = document.getElementById('screen-start');
+            const startBtn = document.getElementById('start-btn');
+            if (!startScreen || !startBtn) {
+                // 萬一說明頁元素缺失，仍照舊啟動遊戲
+                initLevel();
+                updateScore();
+                return;
+            }
+            const beginGame = () => {
+                startScreen.classList.add('hidden');
+                initLevel();
+                updateScore();
+            };
+            startBtn.addEventListener('click', beginGame, { once: true });
+        })();
     </script>
 </body>
 </html>
