@@ -1,0 +1,16 @@
+scenario_id,message_order,text,image,is_fake,suspicion_note
+s2,1,氣象署：明日玉山溫度 6-10°C，非常寒冷，陰短暫陣雨或雷雨。,assets/images/scenarios/s2/s2_msg1.webp,false,正式來源、平實用詞
+s2,2,東北季風增強降溫，中南部日夜溫差大。,assets/images/scenarios/s2/s2_msg2.webp,false,專業播報、適度警示
+s2,3,快訊！超級颱風來襲！教育部已決定全臺停課三天！,assets/images/scenarios/s2/s2_msg3.webp,true,用詞「超級颱風」太誇大、「全臺停課三天」太絕對、缺乏官方來源
+s2,4,校長公告：明日因天氣因素，本校決定停課一天,assets/images/scenarios/s2/s2_msg4.webp,true,沒有學校徽章、排版不正規、來源不明
+s2,5,氣象署發布大雨特報，易有短延時強降雨。,assets/images/scenarios/s2/s2_msg5.webp,false,正式警報、清楚來源
+s4,1,紅十字會募款救助受災家庭,assets/images/scenarios/s4/s4_msg1.webp,false,知名機構、清楚說明用途
+s4,2,某企業捐贈 100 臺平板給偏鄉小學！詳情點此,assets/images/scenarios/s4/s4_msg2.webp,true,企業名稱模糊、有「點此」陷阱、故事過於完美
+s4,3,家扶基金會：歡迎民眾參與認養計畫,assets/images/scenarios/s4/s4_msg3.webp,false,知名公益、有正式管道
+s4,4,愛心企業招募『愛心大使』推廣捐款，填表即可領禮物！,assets/images/scenarios/s4/s4_msg4.webp,true,用「禮物」誘餌、要填個資，是常見詐騙手法
+s4,5,學校感謝家長對校務的參與,assets/images/scenarios/s4/s4_msg5.webp,false,合理的學校事件
+s5,1,文具店：開學季購書享 8 折優惠,assets/images/scenarios/s5/s5_msg1.webp,false,合理的折扣、有實體店面
+s5,2,恭喜！您獲得免費 iPhone 15！點選連結領取！,assets/images/scenarios/s5/s5_msg2.webp,true,免費 + 點連結 = 詐騙標配
+s5,3,學校宣布：本週舉辦書展，學生憑學生證入場,assets/images/scenarios/s5/s5_msg3.webp,false,學校官方活動
+s5,4,豪華禮物等你領！只要按讚分享，免費送！,assets/images/scenarios/s5/s5_msg4.webp,true,要求按讚分享、誘餌詐騙
+s5,5,家扶基金會：歡迎民眾贈送舊文具給弱勢學童,assets/images/scenarios/s5/s5_msg5.webp,false,公益機構、合理的請求
