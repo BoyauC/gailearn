@@ -42,7 +42,7 @@
         ↓
 [5] 第一關：停（5 秒倒數、雙按鈕）
         ↓
-[6] 第二關：查（90 秒、3 個破綻）
+[6] 第二關：查（60 秒、3 個破綻）
         ↓
 [7] 第三關：問（3 角色選 1）
         ↓
@@ -120,7 +120,7 @@
 **邏輯**：
 ```javascript
 const completed = JSON.parse(localStorage.getItem('aitruth_completed_scenarios') || '[]');
-const allScenarios = ['s2', 's4', 's5'];
+const allScenarios = ['s1', 's2', 's3'];
 const remaining = allScenarios.filter(id => !completed.includes(id));
 const pool = remaining.length > 0 ? remaining : allScenarios;
 const chosen = pool[Math.floor(Math.random() * pool.length)];

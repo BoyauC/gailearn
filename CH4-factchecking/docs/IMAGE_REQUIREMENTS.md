@@ -152,7 +152,7 @@ transparent background, 3:4 vertical portrait, hand drawn storybook style
 
 ---
 
-### 2-1. s2_main — 颱風停課假新聞
+### 2-1. s1_main — 颱風停課假新聞
 
 **Midjourney**：
 ```
@@ -165,13 +165,13 @@ quality intentional design flaws, photorealistic web screen --ar 16:9 --v 6
 ```
 
 破綻位置（百分比）：
-- B2-01 沒有官方標誌：左上 (12%, 15%)，容錯半徑 8%
-- B2-02 文字排版不規則：中央 (50%, 50%)，容錯半徑 10%
-- B2-03 時間戳記可疑：右下 (85%, 80%)，容錯半徑 8%
+- B1-01 沒有官方標誌：左上 (12%, 15%)，容錯半徑 8%
+- B1-02 文字排版不規則：中央 (50%, 50%)，容錯半徑 10%
+- B1-03 時間戳記可疑：右下 (85%, 80%)，容錯半徑 8%
 
 ---
 
-### 2-2. s4_main — 偽溫馨捐贈新聞
+### 2-2. s2_main — 偽溫馨捐贈新聞
 
 **Midjourney**：
 ```
@@ -184,13 +184,13 @@ photorealistic but suspicious detail flaws --ar 16:9 --v 6
 ```
 
 破綻位置（百分比）：
-- B4-01 企業 LOGO 不對勁：右上背景看板 (75%, 20%)，容錯 8%
-- B4-02 手部細節異常：學生的手 (40%, 60%)，容錯 7%
-- B4-03 背景融合痕跡：教室背景 (20%, 50%)，容錯 10%
+- B2-01 企業 LOGO 不對勁：右上背景看板 (75%, 20%)，容錯 8%
+- B2-02 手部細節異常：學生的手 (40%, 60%)，容錯 7%
+- B2-03 背景融合痕跡：教室背景 (20%, 50%)，容錯 10%
 
 ---
 
-### 2-3. s5_main — 免費 iPhone 詐騙廣告
+### 2-3. s3_main — 免費 iPhone 詐騙廣告
 
 **Midjourney**：
 ```
@@ -203,9 +203,9 @@ with red flag indicators of scam, photorealistic but unsettling --ar 16:9 --v 6
 ```
 
 破綻位置（百分比）：
-- B5-01 禮物盒太完美了：中央 (50%, 45%)，容錯 10%
-- B5-02 iPhone 螢幕怪怪的：上方 (50%, 30%)，容錯 8%
-- B5-03 物體像漂在空中：下方 (50%, 80%)，容錯 12%
+- B3-01 禮物盒太完美了：中央 (50%, 45%)，容錯 10%
+- B3-02 iPhone 螢幕怪怪的：上方 (50%, 30%)，容錯 8%
+- B3-03 物體像漂在空中：下方 (50%, 80%)，容錯 12%
 
 ---
 
@@ -213,7 +213,7 @@ with red flag indicators of scam, photorealistic but unsettling --ar 16:9 --v 6
 
 **規格**：800×600 px（4:3）PNG / JPG
 
-每情境 5 張，共 15 張。詳見 `data/image_prompts.csv`，asset_id 為 `s2_msg1` ~ `s5_msg5`。
+每情境 5 張，共 15 張。詳見 `data/image_prompts.csv`，asset_id 為 `s1_msg1` ~ `s3_msg5`。
 
 **簡化版**：
 - 真訊息（msg1、3、5）：模仿真實新聞 App、政府機構公告、學校公告
@@ -232,9 +232,9 @@ with red flag indicators of scam, photorealistic but unsettling --ar 16:9 --v 6
 
 | 情境 | 正確角色 | 錯誤角色 1 | 錯誤角色 2 |
 |---|---|---|---|
-| s2 颱風 | 王老師（班導） | 小明（LINE 同學） | 神秘網友 |
-| s4 捐款 | 李主任（學務） | 小華（同學） | 假帳號企業 |
-| s5 免費 | 張警官（社區警察） | 阿傑（同學） | ???（網路評論） |
+| s1 颱風 | 王老師（班導） | 小明（LINE 同學） | 神秘網友 |
+| s2 捐款 | 李主任（學務） | 小華（同學） | 假帳號企業 |
+| s3 免費 | 張警官（社區警察） | 阿傑（同學） | ???（網路評論） |
 
 詳細提示詞見 `image_prompts.csv`。
 
@@ -251,7 +251,7 @@ with red flag indicators of scam, photorealistic but unsettling --ar 16:9 --v 6
 2. 裁切出 hotspot 區域（約 400×400 px）
 3. 適度放大、增強對比
 4. 加紅色邊框或箭頭標示具體問題點
-5. 命名 `zoom_B2-01.png` 等
+5. 命名 `zoom_B1-01.png` 等
 
 不需要 AI 重新生成，是用主圖二次加工。
 
@@ -277,9 +277,9 @@ with red flag indicators of scam, photorealistic but unsettling --ar 16:9 --v 6
 4. jiji_cheer
 
 **第 2 批（做完可玩第一關）**
-5. s2_main + s2_msg1~5
-6. s4_main + s4_msg1~5
-7. s5_main + s5_msg1~5
+5. s1_main + s1_msg1~5
+6. s2_main + s2_msg1~5
+7. s3_main + s3_msg1~5
 
 **第 3 批（做完可玩第二關 + 第三關）**
 8. 9 個角色立繪

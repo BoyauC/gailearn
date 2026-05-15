@@ -16,7 +16,7 @@
   const SCREEN_TRANSITION_MS = 300;    // 場景切換動畫時間
   const REVEAL_SCREEN_MS = 2500;       // 情境揭幕停留時間
 
-  const SCENARIO_IDS = ['s2', 's4', 's5'];
+  const SCENARIO_IDS = ['s1', 's2', 's3'];
 
   const LS_KEYS = {
     PLAYER_NAME: 'aitruth_player_name',

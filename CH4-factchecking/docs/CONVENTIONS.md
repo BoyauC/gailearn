@@ -38,9 +38,9 @@ CH4-factchecking/
     ├── assets/
     │   ├── images/
     │   │   ├── scenarios/
+    │   │   │   ├── s1/
     │   │   │   ├── s2/
-    │   │   │   ├── s4/
-    │   │   │   └── s5/
+    │   │   │   └── s3/
     │   │   ├── characters/
     │   │   ├── narrator/         吱吱立繪
     │   │   ├── ui/
@@ -58,19 +58,19 @@ CH4-factchecking/
 
 ## 2. ID 命名規則
 
-**情境 ID**：`s2`、`s4`、`s5`（與原規格書編號一致；如果之後新增第 4 個情境，用 `s7` 等下一個編號，方便和教材其他章節對齊）
+**情境 ID**：`s1`、`s2`、`s3`（與原規格書編號一致；如果之後新增第 4 個情境，用 `s7` 等下一個編號，方便和教材其他章節對齊）
 
 **訊息 ID**：以 `(scenario_id, message_order)` 複合鍵唯一識別，不需要單獨欄位。
 
-**破綻 ID**：`B2-01`、`B4-02`、`B5-03`，**Bx-NN**（情境號 + 兩位數流水號）
+**破綻 ID**：`B1-01`、`B2-02`、`B3-03`，**Bx-NN**（情境號 + 兩位數流水號）
 
 **角色 ID**：英文小寫單字，如 `teacher`、`classmate`、`netizen`、`director`、`fake_company`、`officer`。每個情境的 character_id 各自獨立、不必跨情境唯一。
 
 **圖片資源 ID**（image_prompts.csv 的 asset_id）：
 - 吱吱立繪：`jiji_<情緒>`，例如 `jiji_stop`、`jiji_check`
-- 情境主圖：`s2_main`、`s4_main`、`s5_main`
-- 訊息配圖：`s2_msg1` ~ `s2_msg5`
-- 角色立繪：`s2_teacher`、`s4_director`、`s5_officer`…
+- 情境主圖：`s1_main`、`s2_main`、`s3_main`
+- 訊息配圖：`s1_msg1` ~ `s1_msg5`
+- 角色立繪：`s1_teacher`、`s2_director`、`s3_officer`…
 
 **旁白 ID**（narrator_lines.csv 的 line_id）：snake_case，描述用途，如 `intro_01`、`clear_s2`、`cheer_correct_fake`
 
@@ -93,11 +93,11 @@ CH4-factchecking/
 
 範例：
 ```
-assets/images/scenarios/s2/main.png
-assets/images/scenarios/s2/zoom_B2-01.png      ← 破綻放大圖
-assets/images/characters/s2_teacher.png
+assets/images/scenarios/s1/main.png
+assets/images/scenarios/s1/zoom_B1-01.png      ← 破綻放大圖
+assets/images/characters/s1_teacher.png
 assets/images/narrator/jiji_stop.webp
-assets/audio/voices/s2_correct.mp3
+assets/audio/voices/s1_correct.mp3
 assets/audio/voices/narrator/intro_01.mp3
 assets/audio/sfx/button_click.mp3
 assets/audio/sfx/celebration_fake.mp3        ← 假訊息答對的強烈慶祝音
