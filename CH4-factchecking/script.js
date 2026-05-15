@@ -1020,8 +1020,13 @@
 
     const card = document.createElement('div');
     card.className = 'breakpoint-card';
+    const zoomImage = bp.zoom_image ? String(bp.zoom_image).trim() : '';
+    const imageHtml = zoomImage
+      ? `<img class="breakpoint-card__image" src="${escapeHtml(zoomImage)}" alt="${escapeHtml(bp.title || 'Breakpoint image')}" onerror="this.style.display='none'">`
+      : '';
     card.innerHTML = `
-      <div class="breakpoint-card__title">🔍 ${escapeHtml(bp.title)}</div>
+      ${imageHtml}
+      <div class="breakpoint-card__title">?? ${escapeHtml(bp.title)}</div>
       <div class="breakpoint-card__desc">${escapeHtml(unescapeText(bp.description))}</div>
     `;
     card.addEventListener('click', () => card.remove());

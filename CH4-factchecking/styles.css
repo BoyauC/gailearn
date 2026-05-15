@@ -776,6 +776,15 @@ img { display: block; max-width: 100%; height: auto; }
   margin: 0 0 var(--space-sm);
   font-size: var(--font-size-lg);
 }
+.breakpoint-card__image {
+  display: block;
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  margin: 0 0 var(--space-sm);
+}
 .breakpoint-card__desc {
   margin: 0;
   white-space: pre-line;
