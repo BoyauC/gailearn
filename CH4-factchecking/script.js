@@ -816,9 +816,28 @@
   // ===========================================================
 
   let level2Bound = false;
-  const LEVEL2_CARD_DURATION_MS = 5000;   // 破綻說明卡自動消失時間
+  const LEVEL2_CARD_DURATION_MS = 3000;   // 破綻說明卡自動消失時間
   const LEVEL2_URGENT_THRESHOLD_SEC = 10;  // 倒數最後幾秒進入緊張狀態
   const LEVEL2_HINT_DURATION_MS = 2500;    // 提示閃爍持續時間
+
+  function showLevel2MagnifierHint() {
+    const wrap = document.querySelector('#level2-stage .level2__image-wrap');
+    if (!wrap) return;
+    let hint = wrap.querySelector('.level2-magnifier-hint');
+    if (!hint) {
+      hint = document.createElement('div');
+      hint.className = 'level2-magnifier-hint';
+      hint.setAttribute('aria-hidden', 'true');
+      hint.textContent = '🔍';
+      wrap.appendChild(hint);
+    }
+    hint.hidden = false;
+  }
+
+  function hideLevel2MagnifierHint() {
+    const hint = document.querySelector('#level2-stage .level2-magnifier-hint');
+    if (hint) hint.hidden = true;
+  }
 
   function startLevel2() {
     const sc = gameState.currentScenario;
@@ -860,6 +879,7 @@
 
     // 清掉舊的 hotspot 標記
     $('#level2-stage').querySelectorAll('.hotspot-marker').forEach(el => el.remove());
+    showLevel2MagnifierHint();
     // 清掉殘留的說明卡
     document.querySelectorAll('.breakpoint-card').forEach(el => el.remove());
 
@@ -936,6 +956,10 @@
   function handleLevel2Click(event) {
     const L2 = gameState.level2;
     if (!L2 || L2.finished) return;
+    hideLevel2MagnifierHint();
+
+    // 玩家有任何點擊操作時，先關閉說明卡
+    document.querySelectorAll('.breakpoint-card').forEach(el => el.remove());
 
     const img = $('#level2-main-image');
     // 只有點到圖片本身才判定（點空白處不處理）
@@ -1015,7 +1039,7 @@
    * 顯示破綻說明卡（底部彈出，點擊或自動消失）
    */
   function showBreakpointCard(bp) {
-    // 清掉舊卡片
+    // ???????
     document.querySelectorAll('.breakpoint-card').forEach(el => el.remove());
 
     const card = document.createElement('div');
@@ -1029,12 +1053,23 @@
       <div class="breakpoint-card__title">?? ${escapeHtml(bp.title)}</div>
       <div class="breakpoint-card__desc">${escapeHtml(unescapeText(bp.description))}</div>
     `;
-    card.addEventListener('click', () => card.remove());
+
+    let autoCloseId = null;
+    let closed = false;
+    const closeCard = () => {
+      if (closed) return;
+      closed = true;
+      if (autoCloseId) clearTimeout(autoCloseId);
+      document.removeEventListener('click', onAnyClickClose, true);
+      card.remove();
+    };
+    const onAnyClickClose = () => closeCard();
+
+    // ???? 3 ??????????????????
+    document.addEventListener('click', onAnyClickClose, true);
     document.body.appendChild(card);
 
-    setTimeout(() => {
-      if (card.parentNode) card.remove();
-    }, LEVEL2_CARD_DURATION_MS);
+    autoCloseId = setTimeout(closeCard, LEVEL2_CARD_DURATION_MS);
   }
 
   /**
@@ -1069,6 +1104,7 @@
       L2.breakpoints.filter(b => L2.foundIds.includes(b.breakpoint_id));
     gameState.level3.missedBreakpoints =
       L2.breakpoints.filter(b => !L2.foundIds.includes(b.breakpoint_id));
+    gameState.level3.sourceMessageOrder = L2.sourceMessageOrder;
 
     if (passed || L2.foundIds.length === L2.breakpoints.length) {
       showToast(`${t('level2_pass_title')}　${t('level2_pass_desc')}`, 'success', 2800);
@@ -1087,6 +1123,16 @@
   // ===========================================================
 
   const LEVEL3_AUTO_ADVANCE_MS = 5500;  // 選對後到結算頁的延遲
+
+  function getBranchCopy(scenarioId, sourceMessageOrder) {
+    const order = Number(sourceMessageOrder);
+    if (!scenarioId || !Number.isFinite(order)) return null;
+    const keyBase = `branch_${scenarioId}_${order}`;
+    const label = t(`${keyBase}_label`);
+    const hint = t(`${keyBase}_hint`);
+    if (label === `${keyBase}_label` || hint === `${keyBase}_hint`) return null;
+    return { label, hint };
+  }
 
   function startLevel3() {
     const sc = gameState.currentScenario;
@@ -1226,7 +1272,15 @@
     wrap.classList.remove('level3__response--correct', 'level3__response--wrong');
     wrap.classList.add(isCorrect ? 'level3__response--correct' : 'level3__response--wrong');
 
-    const responseText = unescapeText(character.response_text);
+    const sc = gameState.currentScenario;
+    const branch = getBranchCopy(sc?.scenario_id, gameState.level3?.sourceMessageOrder);
+    let responseText = unescapeText(character.response_text);
+    if (branch) {
+      const extra = character.is_correct
+        ? `\n\n【本輪線索：${branch.label}】\n${branch.hint}`
+        : `\n\n（補充：你這輪看到的是「${branch.label}」，記得從來源與細節再確認一次。）`;
+      responseText += extra;
+    }
     wrap.innerHTML = `
       <div class="level3__response-header">
         ${escapeHtml(character.display_name)}：
@@ -1290,6 +1344,7 @@
     const found = (L3?.foundBreakpoints || []);
     const missed = (L3?.missedBreakpoints || []);
     const totalBreakpoints = found.length + missed.length;
+    const branch = getBranchCopy(sc.scenario_id, L3?.sourceMessageOrder);
     const step2 = document.createElement('div');
     step2.className = 'result__step';
     const bpListItems = found.map(bp => `<li>🔍 ${escapeHtml(bp.title)}</li>`).join('');
@@ -1297,6 +1352,7 @@
       <div class="result__step-title">${escapeHtml(t('result_step2_title'))}</div>
       <div class="result__step-content">
         ${escapeHtml(t('result_step2_found'))} <strong>${found.length} / ${totalBreakpoints}</strong> 個破綻：
+        ${branch ? `<p>本輪主圖分支：<strong>${escapeHtml(branch.label)}</strong></p>` : ''}
         <ul class="result__step-list">${bpListItems || `<li class="result__step-empty">${escapeHtml(t('result_step2_empty'))}</li>`}</ul>
       </div>
     `;
@@ -1310,6 +1366,7 @@
       <div class="result__step-title">${escapeHtml(t('result_step3_title'))}</div>
       <div class="result__step-content">
         ${escapeHtml(t('result_step3_asked'))}：<strong>${escapeHtml(correctChar?.display_name || '—')}</strong>，${escapeHtml(t('result_step3_revealed'))}
+        ${branch ? `<p>本輪重點：${escapeHtml(branch.hint)}</p>` : ''}
       </div>
     `;
     tree.appendChild(step3);

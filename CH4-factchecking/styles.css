@@ -691,10 +691,31 @@ img { display: block; max-width: 100%; height: auto; }
   height: auto;
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
-  cursor: crosshair;
+  cursor: url("assets/images/ui/magnifier-cursor.svg") 8 8, zoom-in;
   user-select: none;
   -webkit-user-drag: none;
   display: block;
+}
+.level2-magnifier-hint {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(31, 111, 235, 0.15);
+  border: 2px solid rgba(31, 111, 235, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  pointer-events: none;
+  animation: magnifierPulse 1.2s ease-in-out infinite;
+}
+@keyframes magnifierPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.95; }
+  50% { transform: translate(-50%, -50%) scale(1.08); opacity: 0.65; }
 }
 
 /* ===========================================================
