@@ -1097,15 +1097,61 @@ img { display: block; max-width: 100%; height: auto; }
 /* ===========================================================
    ?踵?撘?撟單嚗偌撟喉? & ??
    =========================================================== */
-@media (max-width: 768px) {
-  :root { --font-size-base: 16px; --font-size-lg: 20px; --font-size-xl: 28px; --font-size-xxl: 36px; }
+/* ===========================================================
+   響應式斷點（Tablet-first 設計策略）
+   - 預設樣式 = 平板（768-1365px，iPad Air 橫向為主要目標）
+   - 手機（≤ 767px）：縮小元素、單欄堆疊
+   - 桌機（≥ 1366px）：放大關鍵互動區、避免過度空曠
+   =========================================================== */
+
+/* === 手機（次要）=========================================== */
+@media (max-width: 767px) {
+  :root {
+    --font-size-base: 16px;
+    --font-size-lg: 20px;
+    --font-size-xl: 28px;
+    --font-size-xxl: 36px;
+  }
   .screen { padding: var(--space-md); }
   .btn--judge { min-width: 140px; padding: 16px 24px; }
   .btn--hero { padding: 16px 40px; font-size: var(--font-size-lg); min-height: 60px; }
   .start-card { padding: var(--space-lg) var(--space-md); }
   .flow-grid { grid-template-columns: 1fr; }
   .intro__slide { max-height: 50vh; }
+  .phone-frame { width: 100%; max-width: 92vw; }
   .character-card { width: 140px; }
   .character-card__avatar { width: 80px; height: 80px; }
+  .level2__main-image { max-height: 55vh; }
+}
+
+/* === 桌機（次要）=========================================== */
+/* 1366px 以上：適度放大遊戲核心元素，避免畫面太空 */
+@media (min-width: 1366px) {
+  .phone-frame { width: 720px; }
+  .start-card { max-width: 1080px; }
+  .intro__slideshow { max-width: 1280px; }
+  .character-card { width: 220px; }
+  .character-card__avatar { width: 130px; height: 130px; }
+  .level2__main-image { max-height: 78vh; }
+  .breakpoint-card { max-width: 560px; }
+}
+
+/* === 大桌機（4K / 24"+ 外接螢幕）============================ */
+@media (min-width: 1920px) {
+  .phone-frame { width: 800px; }
+  .start-card { max-width: 1200px; }
+  .intro__slideshow { max-width: 1440px; }
+}
+
+/* === 無障礙：尊重「減少動畫」偏好（順手修） ================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
