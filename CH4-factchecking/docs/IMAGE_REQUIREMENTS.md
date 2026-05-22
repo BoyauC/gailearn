@@ -10,12 +10,13 @@
 
 | 類別 | 數量 | 規格 | 用途 |
 |---|---|---|---|
-| 吱吱立繪 | 4（核心）+ 3（建議） | 800×1000 PNG 透明 | 說明頁、前導、各場景 |
-| 情境主圖 | 3 | 1600×900 PNG/JPG | 第二關主圖 |
-| 訊息配圖 | 15（每情境 5） | 800×600 PNG/JPG | 第一關訊息 |
-| 角色立繪 | 9（每情境 3） | 800×1000 PNG 透明 | 第三關 |
-| 破綻放大圖 | 9（每情境 3） | 400×400 PNG | 第二關說明卡 |
-| **總計** | **約 40 張** | | |
+| 吱吱立繪 | 4（核心）+ 3（建議）+ 1 placeholder | 800×1000 WebP 透明 | 說明頁、前導、各場景 |
+| 開場 flipbook | 18 | 1600×900 WebP | 前導動畫 |
+| 訊息配圖 | 14（s1×5 + s2×5 + s3×4，s3_msg3 純文字無圖） | 800×600 WebP | 第一關訊息（兩張假圖在第二關當主圖） |
+| 角色立繪 | 9（每情境 3） | 800×1000 WebP 透明 | 第三關 |
+| 破綻放大圖 | 18（每情境 6 ＝ 2 張假圖 × 3 破綻） | 400×400 WebP | 第二關說明卡 |
+| UI 徽章 | 1 | image_logo.webp | 圖片右下浮層 |
+| **總計** | **72 張** | | 全部已完成 |
 
 ---
 
@@ -140,85 +141,56 @@ transparent background, 3:4 vertical portrait, hand drawn storybook style
 
 ---
 
-## 2. 情境主圖（第二關用）
+## 2. 第二關主圖（用第一關的兩張假訊息圖）
 
-**規格**：1600×900 px PNG 或 JPG，**橫式 16:9**
+> v3 之後不再單獨生 `sX_main`，第二關主圖直接從該情境的兩張假訊息圖（msg2、msg4）隨機抽 1 張當主圖；每張假圖各有 3 個破綻，因此每情境一共 6 個破綻位置。
 
-**關鍵**：每張主圖必須在預定位置內含 3 個「破綻」。生成後請：
-1. 用 Photoshop / Figma 開啟圖片
-2. 找到 3 個破綻的中心位置
-3. 對照 `breakpoints.csv` 的 `center_x_pct / center_y_pct`（百分比）
-4. 如果破綻位置與 CSV 對不上，**改 CSV 比改圖容易**（直接量出實際百分比填入即可）
+### 2-1. s1 颱風停課事件
 
----
+| Source | ID | 標題 | 位置 (x%, y%) | 容錯 |
+|---|---|---|---|---|
+| s1_msg3 | B1-01 | 沒有官方標誌 | (5, 20) | 4.5 |
+| s1_msg3 | B1-02 | 文字排版不規則 | (38, 86) | 6.5 |
+| s1_msg3 | B1-03 | 時間戳記可疑 | (90, 95) | 3.5 |
+| s1_msg4 | B1-04 | 來源頭像非官方 | (10, 30) | 6.0 |
+| s1_msg4 | B1-05 | 公告排版不正規 | (39, 53) | 7.5 |
+| s1_msg4 | B1-06 | 日期時間前後矛盾 | (44, 81) | 3.5 |
 
-### 2-1. s1_main — 颱風停課假新聞
+### 2-2. s2 校園好消息新聞
 
-**Midjourney**：
-```
-A fake news web article screenshot showing emergency typhoon school closure
-announcement, red warning colors, exaggerated alert text in Traditional
-Chinese "超級颱風來襲！教育部已決定全臺停課三天！", poor typography with
-inconsistent fonts, missing official logos in top-left, suspicious timestamp
-showing "2025/13/45" in bottom-right, news website interface style, amateur
-quality intentional design flaws, photorealistic web screen --ar 16:9 --v 6
-```
+| Source | ID | 標題 | 位置 (x%, y%) | 容錯 |
+|---|---|---|---|---|
+| s2_msg2 | B2-01 | 企業 LOGO 不對勁 | (82.49, 9.99) | 9.85 |
+| s2_msg2 | B2-02 | 手部細節異常 | (38.23, 65.79) | 5.32 |
+| s2_msg2 | B2-03 | 背景融合痕跡不正常 | (7.46, 46.87) | 7.49 |
+| s2_msg4 | B2-04 | 不合理索取敏感個資 | (45.27, 68.78) | 21.62 |
+| s2_msg4 | B2-05 | 主辦單位名稱不明 | (85.91, 5.02) | 4.88 |
+| s2_msg4 | B2-06 | 沒有隱私權政策說明 | (15.68, 90.38) | 9.58 |
 
-破綻位置（百分比）：
-- B1-01 沒有官方標誌：左上 (12%, 15%)，容錯半徑 8%
-- B1-02 文字排版不規則：中央 (50%, 50%)，容錯半徑 10%
-- B1-03 時間戳記可疑：右下 (85%, 80%)，容錯半徑 8%
+### 2-3. s3 免費 iPhone 廣告
 
----
+| Source | ID | 標題 | 位置 (x%, y%) | 容錯 |
+|---|---|---|---|---|
+| s3_msg2 | B3-01 | 活動限時時間緊迫 | (38.79, 21.09) | 10.5 |
+| s3_msg2 | B3-02 | 不需支付費用 | (65.29, 20.93) | 14.5 |
+| s3_msg2 | B3-03 | 沒有品牌或廠商標示，只有 QR Code | (84.04, 81.08) | 13.2 |
+| s3_msg4 | B3-04 | 『按讚分享免費送』典型話術 | (50.00, 14.00) | 20.0 |
+| s3_msg4 | B3-05 | 數量有限營造限量 | (87.42, 73.83) | 12.25 |
+| s3_msg4 | B3-06 | 完全免費不合邏輯 | (88.62, 25.39) | 11.29 |
 
-### 2-2. s2_main — 偽溫馨捐贈新聞
-
-**Midjourney**：
-```
-Heartwarming fake news photo showing schoolchildren receiving tablets from
-a fake corporate donation event, Asian elementary students smiling holding
-iPads, classroom setting, corporate banner in background with distorted logo,
-AI-generated hand imperfections (extra fingers on some students), slight
-background blending artifacts, warm lighting, subtle uncanny valley effects,
-photorealistic but suspicious detail flaws --ar 16:9 --v 6
-```
-
-破綻位置（百分比）：
-- B2-01 企業 LOGO 不對勁：右上背景看板 (75%, 20%)，容錯 8%
-- B2-02 手部細節異常：學生的手 (40%, 60%)，容錯 7%
-- B2-03 背景融合痕跡：教室背景 (20%, 50%)，容錯 10%
-
----
-
-### 2-3. s3_main — 免費 iPhone 詐騙廣告
-
-**Midjourney**：
-```
-Scam advertisement showing a giant gift box with an iPhone 15 floating
-above it, intentionally unrealistic gift wrapping perfect ribbon, glossy
-unnatural materials, AI-generated imperfections on phone screen (distorted
-apps), objects appearing to float without natural shadows, bright unnatural
-colors, "FREE iPhone 15" text overlay in suspicious style, ad creative
-with red flag indicators of scam, photorealistic but unsettling --ar 16:9 --v 6
-```
-
-破綻位置（百分比）：
-- B3-01 禮物盒太完美了：中央 (50%, 45%)，容錯 10%
-- B3-02 iPhone 螢幕怪怪的：上方 (50%, 30%)，容錯 8%
-- B3-03 物體像漂在空中：下方 (50%, 80%)，容錯 12%
+→ s3 破綻座標來自 `assets/images/scenarios/s3/marked/s3_msg{2,4}-marked.webp` 用綠色圈標示後以 PIL + scipy 自動偵測得出。
 
 ---
 
 ## 3. 訊息配圖（第一關用）
 
-**規格**：800×600 px（4:3）PNG / JPG
+**規格**：800×600 px（4:3）WebP
 
-每情境 5 張，共 15 張。詳見 `data/image_prompts.csv`，asset_id 為 `s1_msg1` ~ `s3_msg5`。
+s1 / s2 各 5 張，s3 共 4 張（s3_msg3「免費補助臼齒窩溝封填！」為純文字無圖），合計 14 張。詳見 `data/prompts/02_level1_message_prompts.csv`，asset_id 為 `s1_msg1` ~ `s3_msg5`。
 
 **簡化版**：
 - 真訊息（msg1、3、5）：模仿真實新聞 App、政府機構公告、學校公告
-- 假訊息（msg2、4）：誇張紅色 / 可疑連結 / 不對的徽章
-- 訊息 3 通常 = 主圖縮小版（同一情境的可疑主題）
+- 假訊息（msg2、4）：誇張紅色 / 可疑連結 / 不對的徽章 — 同時當第二關主圖
 
 ⚠️ 訊息配圖會放在「假手機外框」插畫裡顯示，所以本身比例可以是 4:3、外框用 CSS 加。
 
@@ -242,18 +214,18 @@ with red flag indicators of scam, photorealistic but unsettling --ar 16:9 --v 6
 
 ## 5. 破綻放大圖（第二關說明卡用）
 
-**規格**：400×400 px PNG，**正方形**
+**規格**：400×400 px WebP，**正方形**
 
-每情境 3 張，共 9 張。每張是主圖中對應破綻區域的「裁切放大」，幫助玩家看清楚問題在哪。
+每情境 6 張（2 張假圖 × 3 破綻），共 **18 張**。每張是主圖中對應破綻區域的「裁切放大」，幫助玩家看清楚問題在哪。
 
-**生成方式（最簡單）**：
-1. 用 Photoshop 開主圖
-2. 裁切出 hotspot 區域（約 400×400 px）
-3. 適度放大、增強對比
-4. 加紅色邊框或箭頭標示具體問題點
-5. 命名 `zoom_B1-01.png` 等
+**生成方式（已使用 PIL 自動化）**：
+1. 從 `breakpoints.csv` 讀取 `center_x_pct / center_y_pct / tolerance_pct`
+2. 在原始假圖上以 hotspot 為中心、tolerance×1.6 為邊長進行 crop（避免邊緣切到）
+3. 強制正方形並 resize 到 400×400
+4. 覆蓋紅色橢圓 outline 標記具體位置
+5. 輸出 `s{N}_zoom_B{N}-{ID}.webp`
 
-不需要 AI 重新生成，是用主圖二次加工。
+可重複執行；s3 的 6 張即由 `assets/images/scenarios/s3/marked/s3_msg{2,4}-marked.webp` 的綠色圈座標重新生成。
 
 ---
 
