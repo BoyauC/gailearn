@@ -550,10 +550,10 @@
     const sc = gameState.currentScenario;
     if (!sc) return;
 
-    // 從 messages 取出本情境的 5 則訊息，依 order 排
+    // 從 messages 取出本情境的 5 則訊息，隨機排序
     const messages = gameState.data.messages
       .filter(m => m.scenario_id === sc.scenario_id)
-      .sort((a, b) => a.message_order - b.message_order);
+      .sort(() => Math.random() - 0.5);
 
     const requiredFakes = messages.filter(m => m.is_fake).length;
 
