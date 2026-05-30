@@ -1,11 +1,11 @@
-﻿/* ===========================================================
-   AI ?憭扳?????styles.css
-   閮剛???嚗?撟喋祕敹憛??園敶晞祕擃????鼓?祈扛??
-   ?踹?嚗?????餌??撓撅扎??寡
+/* ===========================================================
+   AI 事實查核遊戲 - styles.css
+   設計系統：顏色、排版、間距、動畫
+   製作團隊：國科會人文社會科學研究中心
    =========================================================== */
 
 :root {
-  /* 銝餉嚗??嗡蝙?剁? */
+  /* 色彩系統 */
   --color-primary: #2E5C8A;
   --color-primary-dark: #234668;
   --color-accent: #FF8C42;
@@ -16,21 +16,21 @@
   --color-danger-dark: #B73A2C;
   --color-warning: #F39C12;
 
-  /* 銝剜扯 */
+  /* 背景色 */
   --color-bg: #F5F7FA;
   --color-surface: #FFFFFF;
   --color-text: #2C3E50;
   --color-text-muted: #7F8C8D;
   --color-border: #E0E6ED;
 
-  /* 摮? */
+  /* 字體 */
   --font-main: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Heiti TC", sans-serif;
   --font-size-base: 18px;
   --font-size-lg: 24px;
   --font-size-xl: 32px;
   --font-size-xxl: 48px;
 
-  /* ?? / ?? / ?啣蔣 */
+  /* 間距、圓角、陰影 */
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 16px;
@@ -44,12 +44,12 @@
   --shadow-md: 0 2px 6px rgba(0,0,0,0.08);
   --shadow-lg: 0 4px 12px rgba(0,0,0,0.1);
 
-  /* 閫豢?格??撠偕撖?*/
+  /* 觸控目標最小尺寸 */
   --tap-target-min: 48px;
 }
 
 /* ===========================================================
-   ?蔭 / ?箏?
+   重置、基礎樣式
    =========================================================== */
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
@@ -65,7 +65,7 @@ body {
   color: var(--color-text);
   line-height: 1.6;
   min-height: 100vh;
-  /* 撟單閫豢??甇ａ摮?*/
+  /* 移除預設點擊高亮 */
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -74,7 +74,8 @@ img { display: block; max-width: 100%; height: auto; }
 [hidden] { display: none !important; }
 
 /* ===========================================================
-   銝餃捆?剁??游??脣?憛?   =========================================================== */
+   遊戲容器：全螢幕包覆層
+   =========================================================== */
 .game-container {
   width: 100%;
   min-height: 100vh;
@@ -83,7 +84,7 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 /* ===========================================================
-   Screen ??蝟餌絞嚗???.screen ?身?梯?嚗? --active ?＊蝷綽?
+   Screen 畫面管理：每個.screen 代表一個場景，--active 類別啟用
    =========================================================== */
 .screen {
   display: none;
@@ -100,7 +101,8 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 /* ===========================================================
-   ??辣嚗???   =========================================================== */
+   按鈕：多樣式系統
+   =========================================================== */
 .btn {
   font-family: var(--font-main);
   font-size: var(--font-size-base);
@@ -145,7 +147,7 @@ img { display: block; max-width: 100%; height: auto; }
 .btn--ghost:active { transform: translateY(2px); }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; filter: none; }
 
-/* 蝚砌??憭批?瑟???*/
+/* 判題按鈕：特殊樣式 */
 .btn--judge {
   font-size: var(--font-size-xl);
   padding: 24px 48px;
@@ -160,7 +162,8 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 /* ===========================================================
-   ?閮??剁??耦嚗?   =========================================================== */
+   倒計時：圓形進度環
+   =========================================================== */
 .timer {
   width: 80px; height: 80px;
   position: relative;
@@ -196,7 +199,7 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 /* ===========================================================
-   Toast ?內
+   Toast 提示訊息
    =========================================================== */
 .toast-container {
   position: fixed;
@@ -227,7 +230,7 @@ img { display: block; max-width: 100%; height: auto; }
 .toast--info { background: var(--color-primary); }
 .toast--warning { background: var(--color-warning); }
 
-/* 頛?航炊璈怠?嚗扔撠孛?潘?雿?CSV 頛憭望??＊蝷綽? */
+/* 載入失敗提示：遮蓋整個頁面，提示 CSV 讀取錯誤 */
 .load-error-banner {
   position: fixed; inset: 0;
   display: flex; align-items: center; justify-content: center;
@@ -254,7 +257,8 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 /* ===========================================================
-   ?恍 1嚗????/隤芣???   =========================================================== */
+   畫面 1：開始、情景說明
+   =========================================================== */
 #screen-start {
   align-items: center;
   justify-content: flex-start;
@@ -295,7 +299,7 @@ img { display: block; max-width: 100%; height: auto; }
   padding-left: var(--space-md);
 }
 
-/* 3 甇仿? flow grid */
+/* 3 欄流程圖表 */
 .flow-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -339,7 +343,7 @@ img { display: block; max-width: 100%; height: auto; }
   white-space: pre-line;
 }
 
-/* 撠???銵?*/
+/* 遊戲規則 */
 .rules-list {
   display: flex;
   flex-direction: column;
@@ -362,7 +366,7 @@ img { display: block; max-width: 100%; height: auto; }
   flex-shrink: 0;
 }
 
-/* 憭批? Hero ???? */
+/* 大型主按鈕 */
 .btn--hero {
   padding: 20px 64px;
   font-size: var(--font-size-xl);
@@ -372,7 +376,7 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 /* ===========================================================
-   ?恍 3嚗?撠??恬?18 撘萄? flipbook + ??璈??踝?
+   畫面 3：介紹、情景說明 18 張翻頁 flipbook + 旁白泡泡
    =========================================================== */
 #screen-intro {
   align-items: center;
@@ -380,17 +384,17 @@ img { display: block; max-width: 100%; height: auto; }
   background: var(--color-bg);
   padding: var(--space-md);
 }
-/* slideshow 摰孵撘瑕 16:9 瘥?嚗?? object-fit: contain 銝?敶?*/
+/* slideshow 寬高比 16:9 格式，用 object-fit: contain 維持 */
 .intro__slideshow {
   position: relative;
   width: 100%;
   max-width: 1100px;
   aspect-ratio: 16 / 9;
-  max-height: 56vh;     /* ??摨?蝛粹?蝯?CTA + 撠店獢洵 3 銵?銝辣隡?*/
+  max-height: 56vh;     /* 預留下方 CTA + 旁白泡泡 3 層高度 */
   background: var(--color-border);
-  /* overflow visible 霈?閰望??臭誑??撱嗡撓頞 slideshow ?? */
+  /* overflow visible 展示泡泡不被 slideshow 容器裁切 */
   overflow: visible;
-  margin-bottom: var(--space-xl);   /* 撠店獢辣隡豢?銝?? CTA */
+  margin-bottom: var(--space-xl);   /* 預留下方互動 CTA 空間 */
 }
 .intro__slide {
   width: 100%;
@@ -400,18 +404,18 @@ img { display: block; max-width: 100%; height: auto; }
   background: var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
-  /* ???凝瘛∪嚗?′??*/
+  /* 淡入淡出效果，快速 */
   animation: introFrameFade 0.18s ease-out;
 }
 @keyframes introFrameFade {
   from { opacity: 0.75; }
   to { opacity: 1; }
 }
-/* 撠店獢筑??slideshow 銝惜嚗?頝?擃漲???憓?摮?敺銝辣隡?*/
+/* 旁白泡泡：slideshow 下方，垂直置中，預留 CTA 空間，水平置中 */
 .intro__bubble {
   position: absolute;
   left: 50%;
-  /* top ?典?嚗?摮???敺銝辣隡賂?撌脫???銝?頝喳?嚗?*/
+  /* top 值調整，旁白應在下方，避免擋住圖片，水平置中 */
   top: 72%;
   transform: translateX(-50%);
   width: calc(100% - 40px);
@@ -423,20 +427,20 @@ img { display: block; max-width: 100%; height: auto; }
   box-shadow: var(--shadow-lg);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
-  /* ???瑕漲霈??像??皜?*/
+  /* 動態調整位置的轉場效果 */
   transition: top 0.2s ease;
 }
 .intro__text {
   margin: 0;
   font-size: var(--font-size-lg);
   line-height: 1.8;
-  min-height: 1.8em;       /* 韏瑕?靽? 1 銵?嚗?征????0 */
+  min-height: 1.8em;       /* 確保至少 1 行高度，避免游標 0 寬 */
   white-space: pre-wrap;
   word-break: keep-all;
   color: var(--color-text);
 }
 .intro__text::after {
-  content: '??;
+  content: '│';
   margin-left: 2px;
   color: var(--color-accent);
   animation: cursorBlink 0.6s steps(1) infinite;
@@ -448,7 +452,7 @@ img { display: block; max-width: 100%; height: auto; }
   50% { opacity: 0; }
 }
 
-/* ?蝯?敺? CTA ???嚗???slideshow 銝嚗?*/
+/* 下方互動 CTA 區塊，在 slideshow 下方 */
 .intro__cta {
   width: 100%;
   max-width: 1100px;
@@ -472,7 +476,8 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 /* ===========================================================
-   ?恍 4嚗?憓撟?   =========================================================== */
+   畫面 4：情景公開
+   =========================================================== */
 #screen-scenario-reveal {
   align-items: center;
   justify-content: center;
@@ -505,7 +510,8 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 /* ===========================================================
-   ?恍 5嚗洵銝????   =========================================================== */
+   畫面 5：第一關：看圖判斷
+   =========================================================== */
 #screen-level1 {
   background: var(--color-bg);
 }
@@ -553,7 +559,7 @@ img { display: block; max-width: 100%; height: auto; }
 .phone-frame__image-wrap {
   position: relative;
   width: 100%;
-  line-height: 0;          /* ?踹? inline ???寧?蝛粹? */
+  line-height: 0;          /* 移除 inline 元素的默認下邊距 */
 }
 .phone-frame__image {
   width: 100%;
@@ -577,7 +583,7 @@ img { display: block; max-width: 100%; height: auto; }
   flex-wrap: wrap;
 }
 
-/* 蝚砌??蟡??怨??惜 */
+/* 慶祝動畫：成功、失敗標記 */
 .celebrate {
   position: fixed; inset: 0;
   display: flex; align-items: center; justify-content: center;
@@ -654,7 +660,8 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 /* ===========================================================
-   ?恍 6嚗洵鈭????   =========================================================== */
+   畫面 6：第二關：找亮點
+   =========================================================== */
 #screen-level2 {
   background: var(--color-bg);
 }
@@ -719,7 +726,9 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 /* ===========================================================
-   ???喃?閫噬蝡筑撅歹?Level 1 & Level 2 ?梁嚗?   撠箏站 ????撖砍漲 1/10嚗?????pointer-events: none嚗?   =========================================================== */
+   品牌 LOGO 覆蓋層：Level 1 & Level 2 右下角位置
+   約占圖片寬度 1/10，加上 pointer-events: none
+   =========================================================== */
 .image-logo {
   position: absolute;
   pointer-events: none;
@@ -819,7 +828,8 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 /* ===========================================================
-   ?恍 7嚗洵銝?????   =========================================================== */
+   畫面 7：第三關：判人物
+   =========================================================== */
 #screen-level3 {
   background: var(--color-bg);
 }
@@ -934,7 +944,7 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 /* ===========================================================
-   ?恍 8嚗?蝞?
+   畫面 8：結算
    =========================================================== */
 #screen-result {
   background: var(--color-bg);
@@ -990,7 +1000,7 @@ img { display: block; max-width: 100%; height: auto; }
 .result__footer { padding: var(--space-xl) 0; }
 
 /* ===========================================================
-   ?恍 9嚗??賊?
+   畫面 9：完成證書
    =========================================================== */
 #screen-certificate {
   background: var(--color-bg);
@@ -1056,7 +1066,7 @@ img { display: block; max-width: 100%; height: auto; }
   padding: var(--space-md) 0;
 }
 
-/* 霅???撓?亙? */
+/* 使用者輸入名字 */
 .cert-name-row {
   width: 100%;
   max-width: 560px;
@@ -1095,7 +1105,7 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 /* ===========================================================
-   ?踵?撘?撟單嚗偌撟喉? & ??
+   響應式：屬性、變數、單位
    =========================================================== */
 /* ===========================================================
    響應式斷點（Tablet-first 設計策略）
@@ -1143,7 +1153,7 @@ img { display: block; max-width: 100%; height: auto; }
   .intro__slideshow { max-width: 1440px; }
 }
 
-/* === 無障礙：尊重「減少動畫」偏好（順手修） ================== */
+/* === 無障礙：尊重「減少動畫」偏好 ================== */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -1154,4 +1164,3 @@ img { display: block; max-width: 100%; height: auto; }
     scroll-behavior: auto !important;
   }
 }
-

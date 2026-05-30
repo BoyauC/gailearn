@@ -37,7 +37,8 @@
       scenarios: [],     // 全部 3 個情境
       messages: [],      // 全部訊息題庫
       breakpoints: [],   // 全部 hotspot
-      characters: [],    // 全部第三關角色
+      characters: [],          // 全部第三關角色
+      characterResponses: [],  // 依分支的角色回應（character_responses.csv）
       ui: {},            // key -> value 的字典
       narrator: {},      // line_id -> {text, voice} 的字典
       instructions: [],  // 說明頁 3 步驟
@@ -45,6 +46,8 @@
     // 玩家狀態
     playerName: '',
     completedScenarios: [],
+    // 本局星數（各關 0 / 0.5 / 1）
+    stars: { level1: 0, level2: 0, level3: 0 },
     muted: false,
     // 當前進行中的情境
     currentScenario: null,
@@ -224,11 +227,12 @@
   // ===========================================================
 
   async function loadAllData() {
-    const [scenarios, messages, breakpoints, characters, ui, narrator, instructions] = await Promise.all([
+    const [scenarios, messages, breakpoints, characters, characterResponses, ui, narrator, instructions] = await Promise.all([
       loadCSV('data/scenarios.csv'),
       loadCSV('data/messages.csv'),
       loadCSV('data/breakpoints.csv'),
       loadCSV('data/characters.csv'),
+      loadCSV('data/character_responses.csv'),
       loadCSV('data/ui_strings.csv'),
       loadCSV('data/narrator_lines.csv'),
       loadCSV('data/instructions.csv'),
@@ -251,6 +255,10 @@
     gameState.data.characters = characters.map(c => ({
       ...c,
       is_correct: String(c.is_correct).toLowerCase() === 'true',
+    }));
+    gameState.data.characterResponses = characterResponses.map(r => ({
+      ...r,
+      source_message_order: parseInt(r.source_message_order, 10),
     }));
 
     // ui_strings 轉成 key -> value 字典
@@ -778,24 +786,35 @@
   function finishLevel1() {
     $('#level1-timer').hidden = true;
     const L1 = gameState.level1;
-    const passed = L1.correctFakes >= L1.requiredFakes;
 
-    if (passed) {
-      showToast(`${t('level1_pass_title')}　${t('level1_pass_desc')}`, 'success', 2500);
-      setTimeout(() => {
-        startLevel2();
-      }, 2500);
-    } else {
-      const miss = L1.requiredFakes - L1.correctFakes;
+    // 計算第一關星數
+    const half = Math.ceil(L1.requiredFakes / 2);
+    let star1 = 0;
+    if (L1.correctFakes >= L1.requiredFakes) star1 = 1;
+    else if (L1.correctFakes >= half) star1 = 0.5;
+    gameState.stars.level1 = star1;
+
+    if (star1 === 0) {
       showToast(
-        `差一點！還有 ${miss} 則假訊息漏抓了。我們換一個事件再挑戰！`,
+        `差一點！假訊息沒抓到。換個事件再挑戰！`,
         'warning',
         3500
       );
       setTimeout(() => {
-        // 重玩流程：跳過前導動畫，直接重抽情境（優先未玩過的）
         retryWithNewScenario();
       }, 3500);
+    } else if (star1 === 1) {
+      showToast(`${t('level1_pass_title')}　${t('level1_pass_desc')}`, 'success', 2500);
+      setTimeout(() => startLevel2(), 2500);
+    } else {
+      // 0.5 星：部分答對，進入第二關
+      const caught = L1.correctFakes;
+      showToast(
+        `抓到 ${caught} / ${L1.requiredFakes} 則假訊息，繼續往下查！`,
+        'warning',
+        2800
+      );
+      setTimeout(() => startLevel2(), 2800);
     }
   }
 
@@ -808,6 +827,7 @@
     gameState.level2 = null;
     gameState.level3 = null;
     gameState.currentScenario = null;
+    gameState.stars = { level1: 0, level2: 0, level3: 0 };
     goToScenarioReveal();
   }
 
@@ -843,11 +863,21 @@
     const sc = gameState.currentScenario;
     if (!sc) return;
 
-    const fakeMessages = (gameState.level1?.messages || [])
-      .filter(m => m.is_fake);
-    const pickedFake = fakeMessages.length > 0
-      ? fakeMessages[Math.floor(Math.random() * fakeMessages.length)]
-      : null;
+    const fakeMessages = (gameState.level1?.messages || []).filter(m => m.is_fake);
+    const caughtFakeOrders = new Set(
+      (gameState.level1?.answers || [])
+        .filter(a => a.isFake && a.correct)
+        .map(a => a.messageOrder)
+    );
+    // 0.5星：只用答對的那張假訊息；1星：隨機選一張
+    let pickedFake = null;
+    if (gameState.stars.level1 === 0.5) {
+      pickedFake = fakeMessages.find(m => caughtFakeOrders.has(m.message_order)) || null;
+    } else {
+      pickedFake = fakeMessages.length > 0
+        ? fakeMessages[Math.floor(Math.random() * fakeMessages.length)]
+        : null;
+    }
     const sourceMessageOrder = pickedFake ? pickedFake.message_order : null;
     const sourceImage = pickedFake ? pickedFake.image : sc.main_image;
 
@@ -1098,6 +1128,16 @@
     L2.finished = true;
     stopLevel2Countdown();
 
+    // 計算第二關星數
+    const total2 = L2.breakpoints.length;
+    const found2 = L2.foundIds.length;
+    let star2 = 0;
+    if (total2 > 0) {
+      if (found2 >= total2) star2 = 1;
+      else if (found2 >= Math.ceil(total2 / 2)) star2 = 0.5;
+    }
+    gameState.stars.level2 = star2;
+
     // 把找到的破綻 / 沒找到的破綻記到 level3 狀態，第三關會用到
     gameState.level3 = gameState.level3 || {};
     gameState.level3.foundBreakpoints =
@@ -1122,7 +1162,7 @@
   // 7.3 第三關：問（破綻摘要、角色卡、選對判定）
   // ===========================================================
 
-  const LEVEL3_AUTO_ADVANCE_MS = 5500;  // 選對後到結算頁的延遲
+  const LEVEL3_AUTO_ADVANCE_MS = 8000;  // 選對後到結算頁的延遲
 
   function getBranchCopy(scenarioId, sourceMessageOrder) {
     const order = Number(sourceMessageOrder);
@@ -1245,6 +1285,9 @@
       L3.cleared = true;
       L3.selectedCorrectId = character.character_id;
 
+      // 計算第三關星數（依答對時的嘗試次數）
+      gameState.stars.level3 = L3.attempts === 1 ? 1 : L3.attempts === 2 ? 0.5 : 0;
+
       // 標出正確角色（其餘淡化）
       $$('.character-card').forEach(c => {
         if (c.dataset.charId !== character.character_id) {
@@ -1273,14 +1316,16 @@
     wrap.classList.add(isCorrect ? 'level3__response--correct' : 'level3__response--wrong');
 
     const sc = gameState.currentScenario;
-    const branch = getBranchCopy(sc?.scenario_id, gameState.level3?.sourceMessageOrder);
-    let responseText = unescapeText(character.response_text);
-    if (branch) {
-      const extra = character.is_correct
-        ? `\n\n【本輪線索：${branch.label}】\n${branch.hint}`
-        : `\n\n（補充：你這輪看到的是「${branch.label}」，記得從來源與細節再確認一次。）`;
-      responseText += extra;
-    }
+    const sourceOrder = gameState.level3?.sourceMessageOrder;
+
+    // 優先查 character_responses.csv 的分支回應；查不到就 fallback 至 characters.csv
+    const branchResp = (gameState.data.characterResponses || []).find(r =>
+      r.scenario_id === sc?.scenario_id &&
+      r.character_id === character.character_id &&
+      r.source_message_order === sourceOrder
+    );
+    const responseText = unescapeText(branchResp?.response_text || character.response_text);
+
     wrap.innerHTML = `
       <div class="level3__response-header">
         ${escapeHtml(character.display_name)}：
@@ -1381,7 +1426,54 @@
   }
 
   // ===========================================================
-  // 7.6 證書頁：依完成情境數顯示 1/2/3 星
+  // 7.5b SVG 星星渲染（支援半顆星）
+  // ===========================================================
+
+  /**
+   * 產生 N 顆 SVG 星星的 HTML 字串（支援全顆 / 半顆 / 空顆）
+   * @param {number} score  0~3，可有 0.5 增量
+   * @param {number} max    最大星數（預設 3）
+   */
+  function renderStarsSVG(score, max = 3) {
+    const STAR_SIZE = 40;
+    const GAP = 6;
+    const W = max * (STAR_SIZE + GAP) - GAP;
+    const H = STAR_SIZE;
+    // 五角星路徑（以 20,20 為中心，外圓 r=18，內圓 r=7）
+    const starPath = 'M20,2 L24.9,14.5 L38.5,14.5 L27.8,22.5 L31.8,35 L20,27.5 L8.2,35 L12.2,22.5 L1.5,14.5 L15.1,14.5 Z';
+
+    let defs = '';
+    let shapes = '';
+
+    for (let i = 0; i < max; i++) {
+      const remaining = score - i;
+      const x = i * (STAR_SIZE + GAP);
+      const id = `hclip_${i}`;
+
+      if (remaining >= 1) {
+        // 全顆：直接填金色
+        shapes += `<path d="${starPath}" transform="translate(${x},0)" fill="#FFD700" stroke="#E6B800" stroke-width="0.5"/>`;
+      } else if (remaining >= 0.5) {
+        // 半顆：左半金色，右半灰色
+        defs += `<clipPath id="${id}"><rect x="0" y="0" width="20" height="${STAR_SIZE}"/></clipPath>`;
+        // 灰色底（完整星形）
+        shapes += `<path d="${starPath}" transform="translate(${x},0)" fill="#D0D0D0" stroke="#BBBBBB" stroke-width="0.5"/>`;
+        // 金色左半
+        shapes += `<path d="${starPath}" transform="translate(${x},0)" fill="#FFD700" stroke="#E6B800" stroke-width="0.5" clip-path="url(#${id})"/>`;
+      } else {
+        // 空顆：灰色
+        shapes += `<path d="${starPath}" transform="translate(${x},0)" fill="#D0D0D0" stroke="#BBBBBB" stroke-width="0.5"/>`;
+      }
+    }
+
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-label="${score} 顆星">
+      <defs>${defs}</defs>
+      ${shapes}
+    </svg>`;
+  }
+
+  // ===========================================================
+  // 7.6 證書頁：依各關星數顯示 SVG 星星
   // ===========================================================
 
   let certificateBound = false;
@@ -1390,9 +1482,18 @@
     const completedCount = gameState.completedScenarios.length;
     const sc = gameState.currentScenario;
 
-    // 新規則：完成 1 個情境即得三星偵探（最高榮譽）
-    $('#cert-stars').textContent = '⭐⭐⭐';
-    $('#cert-rank').textContent = t('certificate_3star');
+    // 依各關實際星數計算總分並顯示 SVG 星星
+    const s = gameState.stars;
+    const totalStars = (s.level1 || 0) + (s.level2 || 0) + (s.level3 || 0);
+
+    $('#cert-stars').innerHTML = renderStarsSVG(totalStars, 3);
+
+    const rank =
+      totalStars >= 3   ? t('certificate_3star') :
+      totalStars >= 2   ? t('certificate_2star') :
+      totalStars >= 1   ? t('certificate_1star') :
+                          t('certificate_0star');
+    $('#cert-rank').textContent = rank;
     $('#cert-scenario').textContent = sc ? sc.name : '—';
     $('#cert-date').textContent = formatDate(new Date());
 
@@ -1494,6 +1595,7 @@
     gameState.level2 = null;
     gameState.level3 = null;
     gameState.currentScenario = null;
+    gameState.stars = { level1: 0, level2: 0, level3: 0 };
     saveLocalStorage();
     showScreen('screen-start');
   }
