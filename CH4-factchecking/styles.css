@@ -1153,6 +1153,171 @@ img { display: block; max-width: 100%; height: auto; }
   .intro__slideshow { max-width: 1440px; }
 }
 
+/* === 平板橫式（主要目標）================================
+   目標裝置：iPad Air / Pro landscape ≈ 1024–1366 × 768–834px
+   策略：縮小開始頁元件密度，讓所有畫面在 100vh 內完整顯示
+   ========================================================= */
+@media (orientation: landscape) and (max-height: 900px) and (min-width: 768px) {
+
+  /* ---- 開始頁：讓全頁內容免捲動 ---- */
+  #screen-start {
+    justify-content: center;
+    padding: var(--space-sm) var(--space-md);
+  }
+  .start-card {
+    padding: var(--space-md) var(--space-lg);
+    margin: 0 auto;
+  }
+  .start-card__title {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-xs);
+  }
+  .start-card__subtitle {
+    font-size: var(--font-size-base);
+    margin-bottom: var(--space-sm);
+  }
+  .start-card__section-title {
+    margin-top: var(--space-sm);
+    margin-bottom: var(--space-sm);
+  }
+  .flow-grid {
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
+  }
+  .flow-step {
+    padding: var(--space-sm);
+  }
+  .flow-step__num {
+    width: 32px;
+    height: 32px;
+    font-size: 15px;
+    margin-bottom: var(--space-xs);
+  }
+  .flow-step__icon {
+    width: 44px;
+    margin-bottom: var(--space-xs);
+  }
+  .flow-step__label {
+    font-size: var(--font-size-base);
+    margin-bottom: 2px;
+  }
+  .flow-step__desc {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .rules-list {
+    gap: var(--space-xs);
+    margin-bottom: var(--space-md);
+  }
+  .rule-item {
+    padding: 6px var(--space-md);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .btn--hero {
+    padding: 12px 48px;
+    font-size: var(--font-size-lg);
+    min-height: 52px;
+  }
+
+  /* ---- 所有遊戲畫面：鎖定在 100vh，不允許捲動 ---- */
+  .screen {
+    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+  }
+  /* 開始頁本身保留 overflow-y: auto 備用 */
+  #screen-start {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+
+  /* ---- 第一關：壓縮判斷按鈕與手機框 ---- */
+  .level1__header {
+    padding-bottom: var(--space-sm);
+  }
+  .level1__stage {
+    padding: var(--space-sm) 0;
+  }
+  .phone-frame {
+    width: min(520px, 68vw);
+  }
+  .phone-frame__image {
+    max-height: calc(100vh - 260px);
+    object-fit: contain;
+  }
+  .level1__footer {
+    padding: var(--space-sm) 0;
+  }
+  .btn--judge {
+    font-size: var(--font-size-lg);
+    padding: 14px 28px;
+    min-width: 160px;
+    min-height: 56px;
+  }
+
+  /* ---- 第二關：縮小主圖最大高度 ---- */
+  .level2__header {
+    padding-bottom: var(--space-sm);
+  }
+  .level2__stage {
+    padding: var(--space-xs) 0;
+  }
+  .level2__main-image {
+    max-height: calc(100vh - 190px);
+  }
+  .level2__footer {
+    padding: var(--space-xs) 0;
+  }
+
+  /* ---- 第三關：縮小角色卡片 ---- */
+  .level3__header {
+    padding-bottom: var(--space-sm);
+  }
+  .level3__title {
+    margin-bottom: var(--space-sm);
+  }
+  .level3__question {
+    margin: var(--space-sm) 0;
+    font-size: var(--font-size-base);
+  }
+  .level3__characters {
+    padding: var(--space-xs) 0;
+    gap: var(--space-md);
+  }
+  .character-card {
+    width: 160px;
+    padding: var(--space-sm);
+  }
+  .character-card__avatar {
+    width: 88px;
+    height: 88px;
+  }
+  .level3__response {
+    margin-top: var(--space-sm);
+    padding: var(--space-md);
+    font-size: 15px;
+  }
+
+  /* ---- 結算 & 證書頁：允許捲動但初始無需捲動 ---- */
+  #screen-result,
+  #screen-certificate {
+    overflow-y: auto;
+  }
+  .result__title {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-md);
+  }
+  .certificate {
+    padding: var(--space-lg);
+  }
+  .certificate__stars {
+    font-size: 40px;
+    margin: var(--space-sm) 0;
+  }
+}
+
 /* === 無障礙：尊重「減少動畫」偏好 ================== */
 @media (prefers-reduced-motion: reduce) {
   *,
