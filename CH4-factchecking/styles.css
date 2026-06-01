@@ -769,6 +769,11 @@ img { display: block; max-width: 100%; height: auto; }
   box-shadow: var(--shadow-md);
   animation: markerAppear 0.4s ease-out;
 }
+/* 矩形觸發區域標記 */
+.hotspot-marker--rect {
+  border-radius: var(--radius-sm);
+  width: auto; height: auto;  /* 由 JS 動態設定 */
+}
 @keyframes markerAppear {
   0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
   100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }

@@ -1000,14 +1000,22 @@
     const xPct = ((event.clientX - rect.left) / rect.width) * 100;
     const yPct = ((event.clientY - rect.top) / rect.height) * 100;
 
-    // 找出最近的尚未發現破綻
+    // 找出命中的尚未發現破綻（矩形優先，無矩形尺寸則圓形判定）
     for (const bp of L2.breakpoints) {
       if (L2.foundIds.includes(bp.breakpoint_id)) continue;
-      const dx = xPct - bp.center_x_pct;
-      const dy = yPct - bp.center_y_pct;
-      const distSq = dx * dx + dy * dy;
-      const tolSq = bp.tolerance_pct * bp.tolerance_pct;
-      if (distSq <= tolSq) {
+      const dx = xPct - Number(bp.center_x_pct);
+      const dy = yPct - Number(bp.center_y_pct);
+      const wPct = parseFloat(bp.width_pct);
+      const hPct = parseFloat(bp.height_pct);
+      let hit;
+      if (wPct > 0 && hPct > 0) {
+        // 矩形判定
+        hit = Math.abs(dx) <= wPct / 2 && Math.abs(dy) <= hPct / 2;
+      } else {
+        // 圓形判定（向下相容舊資料）
+        hit = dx * dx + dy * dy <= bp.tolerance_pct * bp.tolerance_pct;
+      }
+      if (hit) {
         onBreakpointFound(bp);
         return;
       }
@@ -1049,13 +1057,30 @@
     const offsetX = imgRect.left - stageRect.left;
     const offsetY = imgRect.top - stageRect.top;
 
-    const x = offsetX + (bp.center_x_pct / 100) * imgRect.width;
-    const y = offsetY + (bp.center_y_pct / 100) * imgRect.height;
+    const cx = offsetX + (Number(bp.center_x_pct) / 100) * imgRect.width;
+    const cy = offsetY + (Number(bp.center_y_pct) / 100) * imgRect.height;
+
+    const wPct = parseFloat(bp.width_pct);
+    const hPct = parseFloat(bp.height_pct);
+    const isRect = wPct > 0 && hPct > 0;
 
     const marker = document.createElement('div');
-    marker.className = isHint ? 'hotspot-marker hotspot-marker--hint' : 'hotspot-marker';
-    marker.style.left = `${x}px`;
-    marker.style.top = `${y}px`;
+    if (isRect) {
+      const markerW = (wPct / 100) * imgRect.width;
+      const markerH = (hPct / 100) * imgRect.height;
+      marker.className = isHint
+        ? 'hotspot-marker hotspot-marker--rect hotspot-marker--hint'
+        : 'hotspot-marker hotspot-marker--rect';
+      marker.style.left = `${cx}px`;
+      marker.style.top  = `${cy}px`;
+      marker.style.width  = `${markerW}px`;
+      marker.style.height = `${markerH}px`;
+    } else {
+      // 圓形（舊格式相容）
+      marker.className = isHint ? 'hotspot-marker hotspot-marker--hint' : 'hotspot-marker';
+      marker.style.left = `${cx}px`;
+      marker.style.top  = `${cy}px`;
+    }
     marker.dataset.breakpointId = bp.breakpoint_id;
     stage.appendChild(marker);
 
