@@ -173,8 +173,7 @@
   function loadLocalStorage() {
     try {
       gameState.playerName = '';
-      const completed = localStorage.getItem(LS_KEYS.COMPLETED);
-      gameState.completedScenarios = completed ? JSON.parse(completed) : [];
+      // completedScenarios 為 session 內狀態，不從 localStorage 載入
       gameState.muted = localStorage.getItem(LS_KEYS.MUTED) === 'true';
     } catch (e) {
       console.warn('localStorage 讀取失敗', e);
@@ -182,7 +181,7 @@
   }
   function saveLocalStorage() {
     try {
-      localStorage.setItem(LS_KEYS.COMPLETED, JSON.stringify(gameState.completedScenarios));
+      // completedScenarios 為 session 內狀態，不持久化
       localStorage.setItem(LS_KEYS.MUTED, gameState.muted ? 'true' : 'false');
     } catch (e) {
       console.warn('localStorage 寫入失敗', e);
@@ -323,6 +322,8 @@
   }
 
   function goToIntro() {
+    // 每次從開始頁進入都重置已完成紀錄，確保全新一輪
+    gameState.completedScenarios = [];
     showScreen('screen-intro');
     initIntro();
   }
@@ -1517,11 +1518,15 @@
     $('#cert-scenario').textContent = sc ? sc.name : '—';
     $('#cert-date').textContent = formatDate(new Date());
 
-    // 累計訊息：3 個全完成 → 慶賀；否則提示還有幾個可挑戰
-    const allDone = completedCount >= 3;
+    // 累計訊息：3 個全完成 → 慶賀；否則動態顯示剩餘數量
+    const totalScenarios = gameState.data.scenarios.length || 3;
+    const remaining = totalScenarios - completedCount;
+    const allDone = remaining <= 0;
     $('#cert-message').textContent = allDone
       ? t('certificate_message_all')
-      : t('certificate_message_more');
+      : (remaining === totalScenarios
+          ? `總共有 ${totalScenarios} 個情境可以挑戰！`
+          : `還有 ${remaining} 個情境等你挑戰！`);
 
     // 同步證書姓名（取用 input 目前值；空白就顯示預設）
     const input = $('#cert-name-input');
