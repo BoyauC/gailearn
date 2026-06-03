@@ -227,11 +227,10 @@
   // ===========================================================
 
   async function loadAllData() {
-    const [scenarios, messages, breakpoints, characters, characterResponses, ui, narrator, instructions] = await Promise.all([
+    const [scenarios, messages, breakpoints, characterResponses, ui, narrator, instructions] = await Promise.all([
       loadCSV('data/scenarios.csv'),
       loadCSV('data/messages.csv'),
       loadCSV('data/breakpoints.csv'),
-      loadCSV('data/characters.csv'),
       loadCSV('data/character_responses.csv'),
       loadCSV('data/ui_strings.csv'),
       loadCSV('data/narrator_lines.csv'),
@@ -252,13 +251,10 @@
       center_y_pct: parseFloat(b.center_y_pct),
       tolerance_pct: parseFloat(b.tolerance_pct),
     }));
-    gameState.data.characters = characters.map(c => ({
-      ...c,
-      is_correct: String(c.is_correct).toLowerCase() === 'true',
-    }));
     gameState.data.characterResponses = characterResponses.map(r => ({
       ...r,
       source_message_order: parseInt(r.source_message_order, 10),
+      is_correct: String(r.is_correct).toLowerCase() === 'true',
     }));
 
     // ui_strings 轉成 key -> value 字典
@@ -1203,8 +1199,12 @@
     const sc = gameState.currentScenario;
     if (!sc) return;
 
-    const characters = gameState.data.characters
-      .filter(c => c.scenario_id === sc.scenario_id);
+    const sourceOrder = gameState.level3?.sourceMessageOrder ?? null;
+    // 從 character_responses 取出本情境、本分支的角色（去重，保留第一筆）
+    const seen = new Set();
+    const characters = gameState.data.characterResponses
+      .filter(r => r.scenario_id === sc.scenario_id && r.source_message_order === sourceOrder)
+      .filter(r => { if (seen.has(r.character_id)) return false; seen.add(r.character_id); return true; });
 
     // 打亂角色順序，避免正確答案永遠在固定位置
     const shuffled = shuffleArray(characters.slice());
@@ -1343,13 +1343,8 @@
     const sc = gameState.currentScenario;
     const sourceOrder = gameState.level3?.sourceMessageOrder;
 
-    // 優先查 character_responses.csv 的分支回應；查不到就 fallback 至 characters.csv
-    const branchResp = (gameState.data.characterResponses || []).find(r =>
-      r.scenario_id === sc?.scenario_id &&
-      r.character_id === character.character_id &&
-      r.source_message_order === sourceOrder
-    );
-    const responseText = unescapeText(branchResp?.response_text || character.response_text);
+    // 直接從 character_responses 取回應文字（character 物件本身即來自此 CSV）
+    const responseText = unescapeText(character.response_text);
 
     wrap.innerHTML = `
       <div class="level3__response-header">
