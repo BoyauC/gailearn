@@ -1418,7 +1418,7 @@
       <div class="result__step-title">${escapeHtml(t('result_step2_title'))}</div>
       <div class="result__step-content">
         ${escapeHtml(t('result_step2_found'))} <strong>${found.length} / ${totalBreakpoints}</strong> 個破綻：
-        ${branch ? `<p>本輪主圖分支：<strong>${escapeHtml(branch.label)}</strong></p>` : ''}
+      //${branch ? `<p>本輪主圖分支：<strong>${escapeHtml(branch.label)}</strong></p>` : ''}
         <ul class="result__step-list">${bpListItems || `<li class="result__step-empty">${escapeHtml(t('result_step2_empty'))}</li>`}</ul>
       </div>
     `;

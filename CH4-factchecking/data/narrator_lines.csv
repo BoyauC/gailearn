@@ -2,7 +2,7 @@ line_id,scene,text,voice
 intro_full,intro,注意！我是校園主播吱吱。現在網路上充滿了真假難辨的 AI 資訊，\n連我們的校園福利社都變到司令台上了！大家快記住『停、查、問』口訣，\n我們要拯救校園，找出隱藏的 AI 假消息！GO！ GO！,assets/audio/voices/narrator/intro_full.mp3
 level1_open_s1,level1_open,天氣變化很大！我看到有人說可能颱風停課，我們快來看看這些訊息哪些是真的，哪些是假的！,assets/audio/voices/narrator/level1_open_s1.mp3
 level1_open_s2,level1_open,我看到一個很溫馨的新聞…『偏鄉學校獲得愛心捐贈』…但我們要仔細看看，這是真的好心，還是包裝過的騙局？,assets/audio/voices/narrator/level1_open_s2.mp3
-level1_open_s3,level1_open,我看到有人傳一個『免費 iPhone』的訊息！誰都可以領？嗯…這聽起來太好了！我們快來看看真假！,assets/audio/voices/narrator/level1_open_s3.mp3
+level1_open_s3,level1_open,我看到有人傳一個『免費 iPhone 17』的訊息！誰都可以領？嗯…這聽起來太好了！我們快來看看真假！,assets/audio/voices/narrator/level1_open_s3.mp3
 level2_open,level2_open,接著我們把可疑的圖片放大來看，找出 3 個破綻！,assets/audio/voices/narrator/level2_open.mp3
 level3_open_s1,level3_open,我們找到了 3 個破綻，這個停課公告應該問誰最能確認真假？,assets/audio/voices/narrator/level3_open_s1.mp3
 level3_open_s2,level3_open,我們找到了 3 個破綻，這個『溫馨校園訊息』應該問誰？,assets/audio/voices/narrator/level3_open_s2.mp3

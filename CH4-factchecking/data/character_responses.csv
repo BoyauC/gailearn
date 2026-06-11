@@ -1,5 +1,5 @@
 scenario_id,character_id,source_message_order,display_name,avatar,is_correct,response_text,voice
-s1,teacher,3,王老師（班導）,assets/images/characters/s1_teacher.webp,true,"哎呀，這個停課快訊是假的！\n學校有停課通知一定會透過「全校廣播」或「校務系統」正式發布，不會只靠新聞網路截圖或LINE群組傳遞。\n你剛剛發現的 3 個破綻：\n❌ 沒有官方標誌（只有緊急快訊）\n❌ 文字排版亂七八糟\n❌ 時間戳記不合邏輯\n這些都是 AI 假造圖片的典型特徵！\n以後看到停課消息，記得直接查「學校官網」或打電話確認喔！",assets/audio/voices/s1_correct.mp3
+s1,teacher,3,王老師（班導）,assets/images/characters/s1_teacher.webp,true,"哎呀，這個停課快訊是假的！\n教育部有停課通知，學校依定會公告在學校網頁或正式官方管道發布，\n不會只靠新聞網路截圖或LINE群組傳遞。\n你剛剛發現的 3 個破綻：\n❌ 沒有官方標誌（只有緊急快訊）\n❌ 文字排版亂七八糟\n❌ 時間戳記不合邏輯\n這些都是 AI 假造圖片的典型特徵！\n以後看到停課消息，記得直接查「學校官網」或打電話確認喔！",assets/audio/voices/s1_correct.mp3
 s1,teacher,4,王老師（班導）,assets/images/characters/s1_teacher.webp,true,"這個校長公告是假的！\n你看，左上角的頭像是灰色轉傳圖示，不是學校或校長的官方帳號。\n真正的學校公告一定會有：校徽、正式公文格式、並透過校務系統發出，不會用這種截圖流傳。\n❌ 來源頭像非官方，可信度幾乎是零！\n記住：看到停課訊息，先問老師或查學校官網，不要只看群組截圖！",assets/audio/voices/s1_correct.mp3
 s1,classmate,3,小明（LINE 同學）,assets/images/characters/s1_classmate.webp,false,"天啊！我也有看到這個消息！我媽媽群組也在傳！\n那明天真的不用上課嗎？好棒喔！我要去睡到中午！",assets/audio/voices/s1_classmate.mp3
 s1,classmate,4,小明（LINE 同學）,assets/images/characters/s1_classmate.webp,false,"啊這個校長公告我看起來很正常耶⋯\n那明天還是要去上課嗎？好可惜⋯",assets/audio/voices/s1_classmate.mp3
