@@ -73,6 +73,25 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans TC',sans
 .block-F .block-tag{color:#5B21B6;}
 .block-tag strong{font-weight:700;}
 
+/* Rotation hint icon on block */
+.block-rotate-hint{
+  position:absolute;top:3px;right:4px;
+  font-size:15px;opacity:0.45;pointer-events:none;line-height:1;
+}
+
+/* Labels panel above box grid */
+#box-labels{display:flex;flex-direction:column;gap:3px;width:100%;margin-bottom:5px;}
+.box-label-item{
+  display:flex;align-items:flex-start;gap:6px;
+  padding:4px 8px;border-radius:6px;font-size:11px;line-height:1.4;
+  border-width:1px;border-style:solid;
+}
+.box-label-key{font-weight:700;flex-shrink:0;font-size:12px;min-width:14px;}
+.box-label-R{background:#DBEAFE;color:#1E40AF;border-color:#93C5FD;}
+.box-label-T{background:#DCFCE7;color:#166534;border-color:#86EFAC;}
+.box-label-B{background:#FEF3C7;color:#92400E;border-color:#FCD34D;}
+.box-label-F{background:#EDE9FE;color:#5B21B6;border-color:#C4B5FD;}
+
 /* ── BUTTONS ── */
 .btn{padding:12px 36px;font-size:17px;font-weight:700;border:none;border-radius:10px;cursor:pointer;font-family:'Noto Sans TC',sans-serif;}
 .btn-primary{background:#3B82F6;color:#fff;}
@@ -149,7 +168,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans TC',sans
   </div>
   <div id="play-area">
     <div id="box-container">
-      <div class="box-hint">點擊方塊旋轉切換選項，填滿箱子且四個方塊選項都正確才過關</div>
+      <div id="box-labels"></div>
+      <div class="box-hint">↻ 點方塊旋轉選項，填滿箱子且四個選項都正確才過關</div>
       <div id="box-grid"></div>
     </div>
   </div>
@@ -564,6 +584,12 @@ function renderBlock(el, key, rotation, options) {
   letter.textContent = key;
   inner.appendChild(letter);
 
+  // Rotation hint icon
+  const rotHint = document.createElement('div');
+  rotHint.className = 'block-rotate-hint';
+  rotHint.textContent = '↻';
+  inner.appendChild(rotHint);
+
   el.appendChild(inner);
 
   // Text label — shows option at current rotation index
@@ -641,13 +667,16 @@ function attachEvents(el, key) {
         const newRot = ((block.rotation % numShapes) + numShapes) % numShapes;
         const shape  = SHAPES[key][newRot];
         if (tryPlace(key, shape, oldGy, oldGx)) {
-          snapToGrid(el, key, oldGx, oldGy);
+          snapToGrid(el, key, oldGx, oldGy); // snapToGrid calls updateBoxLabels
+          // Hide tag since block is placed again
+          const t = el.querySelector('.block-tag');
+          if (t) t.style.display = 'none';
           block.placed = true;
           checkWin();
         } else {
-          // New shape doesn't fit here — return to scatter origin
-          el.style.left = block.ox + 'px';
-          el.style.top  = block.oy + 'px';
+          // New shape doesn't fit — keep block at current position
+          block.ox = parseFloat(el.style.left);
+          block.oy = parseFloat(el.style.top);
           showToast('旋轉後形狀放不進同一位置，請重新拖移。');
         }
       }
@@ -688,8 +717,9 @@ function attachEvents(el, key) {
       block.gy = snapRow;
       checkWin();
     } else {
-      el.style.left = block.ox + 'px';
-      el.style.top  = block.oy + 'px';
+      // Keep block wherever it was dropped; update scatter origin
+      block.ox = parseFloat(el.style.left);
+      block.oy = parseFloat(el.style.top);
     }
   });
 }
@@ -715,6 +745,10 @@ function liftFromGrid(key) {
   b.placed = false;
   b.gx = -1;
   b.gy = -1;
+  // Restore block tag; remove from box-labels
+  const tag = b.el.querySelector('.block-tag');
+  if (tag) tag.style.display = '';
+  updateBoxLabels();
 }
 
 function snapToGrid(el, key, col, row) {
@@ -728,6 +762,10 @@ function snapToGrid(el, key, col, row) {
   el.style.top  = (oy + row * STEP) + 'px';
   blocks[key].gx = col;
   blocks[key].gy = row;
+  // Hide block tag; show text in box-labels panel instead
+  const tag = el.querySelector('.block-tag');
+  if (tag) tag.style.display = 'none';
+  updateBoxLabels();
 }
 
 /* ─────────────────────────────────────────────
@@ -740,6 +778,29 @@ function repositionPlaced() {
   }
 }
 window.addEventListener('resize', repositionPlaced);
+
+/* ─────────────────────────────────────────────
+   Box labels: show placed block texts above grid
+───────────────────────────────────────────── */
+function updateBoxLabels() {
+  const container = document.getElementById('box-labels');
+  if (!container) return;
+  container.innerHTML = '';
+  const lv = LEVELS[currentLevel];
+  for (const key of ['R','T','B','F']) {
+    const b = blocks[key];
+    if (!b || !b.placed) continue;
+    const numShapes = SHAPES[key].length;
+    const rot = ((b.rotation % numShapes) + numShapes) % numShapes;
+    const numOpts = lv.options[key].length;
+    const optIdx = rot % numOpts;
+    const text = lv.options[key][optIdx];
+    const item = document.createElement('div');
+    item.className = `box-label-item box-label-${key}`;
+    item.innerHTML = `<span class="box-label-key">${key}｜</span><span>${text}</span>`;
+    container.appendChild(item);
+  }
+}
 
 /* ─────────────────────────────────────────────
    Win check
