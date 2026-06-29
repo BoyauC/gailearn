@@ -27,7 +27,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans TC',sans
 .intro-tag{font-size:13px;font-weight:700;padding:4px 16px;border-radius:20px;background:#E5E7EB;color:#374151;}
 .intro-bad{font-size:17px;color:#991B1B;background:#FEE2E2;border:1px solid #F87171;border-radius:8px;padding:12px 22px;}
 .intro-goal{font-size:16px;color:#166534;background:#DCFCE7;border:1px solid #86EFAC;border-radius:8px;padding:12px 22px;text-align:center;max-width:560px;line-height:1.7;}
-.intro-hint{font-size:14px;color:#555;max-width:560px;text-align:center;line-height:1.7;white-space:pre-line;}
+.intro-hint{font-size:14px;color:#555;max-width:560px;text-align:center;line-height:1.8;white-space:pre-line;}
 
 /* ── GAME ── */
 #game-screen{flex-direction:column;background:#ECEAE4;}
@@ -35,53 +35,43 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans TC',sans
 .game-level-name{font-size:17px;font-weight:700;color:#333;}
 #play-area{flex:1;position:relative;overflow:hidden;}
 
-/* Box inside play area */
-#box-container{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;}
-.box-label-txt{font-size:12px;color:#888;white-space:nowrap;}
+/* Box inside play-area (single coordinate space) */
+#box-container{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:5px;}
+.box-hint{font-size:11px;color:#888;white-space:nowrap;}
 #box-grid{position:relative;background:#D4D0C8;border:2px solid #B8B4AC;border-radius:6px;padding:3px;}
 .box-cell{position:absolute;width:54px;height:54px;background:#EAE7DF;border:1.5px dashed #C4C0B8;border-radius:3px;}
 
 /* ── BLOCKS ── */
-.block{position:absolute;z-index:10;touch-action:none;}
-
-/* Inner: the tetromino cells — handles drag + tap-to-rotate-shape */
-.block-inner{position:relative;cursor:grab;user-select:none;touch-action:none;}
-.block-inner:active{cursor:grabbing;}
-.block-inner.dragging{cursor:grabbing;}
-
+.block{position:absolute;z-index:10;touch-action:none;cursor:grab;user-select:none;}
+.block.dragging{cursor:grabbing;z-index:200;}
+.block-inner{position:relative;}
 .block-cell-div{position:absolute;width:54px;height:54px;border-radius:4px;border-width:2px;border-style:solid;}
 .block-R .block-cell-div{background:#DBEAFE;border-color:#93C5FD;}
 .block-T .block-cell-div{background:#DCFCE7;border-color:#86EFAC;}
 .block-B .block-cell-div{background:#FEF3C7;border-color:#FCD34D;}
 .block-F .block-cell-div{background:#EDE9FE;border-color:#C4B5FD;}
 
-.block.error .block-cell-div{background:#FEE2E2!important;border-color:#F87171!important;animation:errshake .45s ease;}
-@keyframes errshake{0%,100%{transform:translate(0,0);}20%{transform:translate(-5px,0);}40%{transform:translate(5px,0);}60%{transform:translate(-4px,0);}80%{transform:translate(4px,0);}}
+.block.error .block-cell-div{background:#FEE2E2!important;border-color:#F87171!important;animation:shake .45s ease;}
+@keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-5px);}40%{transform:translateX(5px);}60%{transform:translateX(-4px);}80%{transform:translateX(4px);}}
 
-.block-letter-overlay{position:absolute;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;pointer-events:none;}
-.block-R .block-letter-overlay{color:#1E40AF;}
-.block-T .block-letter-overlay{color:#166534;}
-.block-B .block-letter-overlay{color:#92400E;}
-.block-F .block-letter-overlay{color:#5B21B6;}
+.block-letter{position:absolute;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;pointer-events:none;}
+.block-R .block-letter{color:#1E40AF;}
+.block-T .block-letter{color:#166534;}
+.block-B .block-letter{color:#92400E;}
+.block-F .block-letter{color:#5B21B6;}
 
-.block-rotate-hint{position:absolute;top:3px;right:4px;font-size:10px;opacity:.5;pointer-events:none;line-height:1;}
-
-/* Tag: text label — handles tap-to-cycle-text */
+/* Text label below block */
 .block-tag{
   position:absolute;left:50%;transform:translateX(-50%);
-  display:flex;align-items:flex-start;gap:4px;
   background:rgba(255,255,255,0.95);border:1px solid #ddd;border-radius:6px;
-  padding:5px 8px 5px 8px;min-width:130px;max-width:220px;
-  cursor:pointer;user-select:none;touch-action:none;
+  padding:5px 8px;font-size:11px;line-height:1.5;text-align:center;
+  pointer-events:none;min-width:120px;max-width:210px;word-break:break-all;
 }
-.block-tag:active{background:#f0f0f0;}
-.block-tag-content{font-size:11px;line-height:1.5;flex:1;}
-.block-R .block-tag-content{color:#1E40AF;}
-.block-T .block-tag-content{color:#166534;}
-.block-B .block-tag-content{color:#92400E;}
-.block-F .block-tag-content{color:#5B21B6;}
-.block-tag-key{font-weight:700;}
-.block-tag-cycle{flex-shrink:0;font-size:14px;color:#999;line-height:1.4;padding-left:2px;}
+.block-R .block-tag{color:#1E40AF;}
+.block-T .block-tag{color:#166534;}
+.block-B .block-tag{color:#92400E;}
+.block-F .block-tag{color:#5B21B6;}
+.block-tag strong{font-weight:700;}
 
 /* ── BUTTONS ── */
 .btn{padding:12px 36px;font-size:17px;font-weight:700;border:none;border-radius:10px;cursor:pointer;font-family:'Noto Sans TC',sans-serif;}
@@ -159,7 +149,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans TC',sans
   </div>
   <div id="play-area">
     <div id="box-container">
-      <div class="box-label-txt">將四個方塊拼入箱子，填滿所有格子，並讓每個方塊顯示正確選項</div>
+      <div class="box-hint">點擊方塊旋轉切換選項，填滿箱子且四個方塊選項都正確才過關</div>
       <div id="box-grid"></div>
     </div>
   </div>
@@ -209,61 +199,89 @@ const CELL = 54, GAP = 3, STEP = 57;
 const COLS = 5, ROWS = 3;
 
 /* ─────────────────────────────────────────────
-   Shape definitions per rotation
+   Shape definitions [row, col] per rotation
 ───────────────────────────────────────────── */
 const SHAPES = {
   R: [
-    [[0,0],[0,1],[0,2],[1,0],[1,2]],
-    [[0,0],[0,1],[1,1],[2,0],[2,1]],
-    [[0,0],[0,2],[1,0],[1,1],[1,2]],
-    [[0,0],[0,1],[1,0],[2,0],[2,1]]
+    [[0,0],[0,1],[0,2],[1,0],[1,2]],   // rot 0: ∩ shape
+    [[0,0],[0,1],[1,1],[2,0],[2,1]],   // rot 1
+    [[0,0],[0,2],[1,0],[1,1],[1,2]],   // rot 2
+    [[0,0],[0,1],[1,0],[2,0],[2,1]]    // rot 3
   ],
   T: [
-    [[0,0],[0,1],[0,2],[1,1]],
-    [[0,0],[1,0],[1,1],[2,0]],
-    [[0,1],[1,0],[1,1],[1,2]],
-    [[0,0],[0,1],[1,0],[2,0]]
+    [[0,0],[0,1],[0,2],[1,1]],         // rot 0: T shape
+    [[0,0],[1,0],[1,1],[2,0]],         // rot 1
+    [[0,1],[1,0],[1,1],[1,2]],         // rot 2
+    [[0,0],[0,1],[1,0],[2,0]]          // rot 3
   ],
   B: [
-    [[0,0],[1,0]],
-    [[0,0],[0,1]]
+    [[0,0],[1,0]],                     // rot 0: vertical
+    [[0,0],[0,1]]                      // rot 1: horizontal
   ],
   F: [
-    [[0,0],[0,1],[1,0],[2,0]],
-    [[0,0],[1,0],[1,1],[1,2]],
-    [[0,1],[1,1],[2,0],[2,1]],
-    [[0,0],[0,1],[0,2],[1,2]]
+    [[0,0],[0,1],[1,0],[2,0]],         // rot 0: L shape
+    [[0,0],[1,0],[1,1],[1,2]],         // rot 1
+    [[0,1],[1,1],[2,0],[2,1]],         // rot 2
+    [[0,0],[0,1],[0,2],[1,2]]          // rot 3
   ]
 };
 
-/* ─────────────────────────────────────────────
-   Level data
-   NOTE: Text options and shape rotation are
-   intentionally DECOUPLED so the spatial
-   puzzle (fill 5×3) is always solvable at
-   any combination of shape rotations, while
-   the knowledge puzzle (correct text) is
-   solved independently via the text label.
-───────────────────────────────────────────── */
+/*
+  DESIGN NOTE: Each level uses a mathematically verified tiling where the
+  four block shapes (at their specific rotation indices) fill the 5×3 grid
+  exactly. The options arrays are ordered so that the correct answer text
+  appears at the required rotation index for each block.
+
+  Level 1 (R=0,T=2,B=0,F=0): easy — only T needs 2 rotations from start
+  Level 2 (R=1,T=0,B=1,F=1): medium — most blocks need 1 rotation
+  Level 3 (R=2,T=0,B=0,F=0): medium — only R needs 2 rotations
+  Level 4 (R=3,T=2,B=1,F=3): hard — all blocks need rotating to specific pos
+
+  Verified tilings:
+  Lv1: R rot0@(0,0) T rot2@(1,0) B rot0@(1,4) F rot0@(0,3)
+  Lv2: R rot1@(0,3) T rot0@(0,0) B rot1@(1,2) F rot1@(1,0)
+  Lv3: R rot2@(1,0) T rot0@(0,0) B rot0@(1,4) F rot0@(0,3)
+  Lv4: R rot3@(0,0) T rot2@(1,2) B rot1@(1,1) F rot3@(0,2)
+*/
 const LEVELS = [
   {
     name: '第1關｜🎨 圖像創作',
     tag: '第 1 關 / 4',
     bad: '❌ 模糊問法：「幫我畫一個角色」',
     goal: '✅ 目標：找出最能生成奇幻插畫提示詞的 RTBF 組合',
-    introHint: '操作說明：\n📐 點擊彩色格子 → 旋轉方塊形狀（調整拼圖方向）\n📝 點擊下方文字框 → 切換選項（找出正確答案）\n✋ 按住彩色格子拖移 → 放入底部箱子',
-    hint: 'R → 插畫設計師（擅長奇幻風格）\nT → 幫你寫生圖提示詞\nB → 奇幻森林魔法少女，美術作業\nF → 分外型、服裝、背景三部分，各兩句',
+    introHint: '操作說明：\n點擊方塊 → 旋轉90度，文字跟著切換\n拖移方塊 → 放入底部箱子\n四個方塊填滿箱子，且每個都顯示正確選項，才算過關！',
+    hint: 'R ＝ 插畫設計師（擅長奇幻風格）\nT ＝ 幫你寫生圖提示詞\nB ＝ 奇幻森林魔法少女，學校美術作業\nF ＝ 分外型、服裝、背景三部分，各兩句',
     promptLines: [
       { key:'R', text:'你是一位專業的插畫設計師，擅長奇幻風格' },
       { key:'T', text:'請幫我寫一段用來生成圖片的提示詞，描述角色的外型和場景' },
       { key:'B', text:'我想畫一個奇幻森林裡的魔法少女，這是學校美術作業' },
       { key:'F', text:'用條列方式分成外型、服裝、背景三個部分，各寫兩句描述' }
     ],
+    // correctIndex: R=0, T=2, B=0, F=0
+    correctIndex: { R:0, T:2, B:0, F:0 },
     options: {
-      R: ['你是一位專業的插畫設計師，擅長奇幻風格','你是一位高中美術老師，熟悉各種繪畫技法','你是一位視覺藝術家，專門設計遊戲角色','你是一位動畫公司的概念設計師'],
-      T: ['請幫我寫一段用來生成圖片的提示詞，描述角色的外型和場景','請幫我分析這幅畫裡面用了哪些顏色和構圖技巧','請幫我設計一個角色的個性、能力和背景故事','請幫我列出三種不同的畫風，並說明各自的視覺特色'],
-      B: ['我想畫一個奇幻森林裡的魔法少女，這是學校美術作業','我完全不懂怎麼描述圖片，第一次使用 AI 生圖'],
-      F: ['用條列方式分成外型、服裝、背景三個部分，各寫兩句描述','先給我整體風格說明，再逐一列出五個視覺細節','用100字以內描述，讓 AI 生圖工具可以直接使用','附上顏色代碼與構圖建議，分成前景和背景說明']
+      R: [
+        '你是一位專業的插畫設計師，擅長奇幻風格',      // 0 ← correct
+        '你是一位高中美術老師，熟悉各種繪畫技法',
+        '你是一位視覺藝術家，專門設計遊戲角色',
+        '你是一位動畫公司的概念設計師'
+      ],
+      T: [
+        '請幫我分析這幅畫裡面用了哪些顏色和構圖技巧',
+        '請幫我設計一個角色的個性、能力和背景故事',
+        '請幫我寫一段用來生成圖片的提示詞，描述角色的外型和場景', // 2 ← correct
+        '請幫我列出三種不同的畫風，並說明各自的視覺特色'
+      ],
+      B: [
+        '我想畫一個奇幻森林裡的魔法少女，這是學校美術作業', // 0 ← correct
+        '我完全不懂怎麼描述圖片，第一次使用 AI 生圖'
+      ],
+      F: [
+        '用條列方式分成外型、服裝、背景三個部分，各寫兩句描述', // 0 ← correct
+        '先給我整體風格說明，再逐一列出五個視覺細節',
+        '用100字以內描述，讓 AI 生圖工具可以直接使用',
+        '附上顏色代碼與構圖建議，分成前景和背景說明'
+      ]
     }
   },
   {
@@ -279,11 +297,31 @@ const LEVELS = [
       { key:'B', text:'我是國一學生，英文普通，只學過基本句型和日常單字' },
       { key:'F', text:'每次我說錯了，請用中文輕輕提醒我哪裡錯，再示範正確說法' }
     ],
+    // correctIndex: R=1, T=0, B=1, F=1
+    correctIndex: { R:1, T:0, B:1, F:1 },
     options: {
-      R: ['你是一位親切有耐心的英文對話練習夥伴','你是一位擅長糾正發音的外籍英文老師','你是一位專門幫學生準備英文考試的補習班老師','你是一位翻譯專家，精通中英文互譯'],
-      T: ['請用英文和我練習去餐廳點餐的對話，每次只說一句等我回應','請幫我修改這篇英文自我介紹，指出三個文法錯誤並說明原因','請幫我解釋現在完成式和過去式的差別，並各給兩個例句','請幫我寫一封英文感謝信給幫助過我的老師，大約100字'],
-      B: ['我是國一學生，英文普通，只學過基本句型和日常單字','我很害怕說錯英文，需要有人溫柔地幫我糾正'],
-      F: ['每次我說錯了，請用中文輕輕提醒我哪裡錯，再示範正確說法','用中英對照方式呈現，每個句子下面附上中文翻譯','每次對話結束後整理三個我常犯的錯誤','用表格列出重要句型，左欄中文右欄英文對照']
+      R: [
+        '你是一位擅長糾正發音的外籍英文老師',
+        '你是一位親切有耐心的英文對話練習夥伴',         // 1 ← correct
+        '你是一位專門幫學生準備英文考試的補習班老師',
+        '你是一位翻譯專家，精通中英文互譯'
+      ],
+      T: [
+        '請用英文和我練習去餐廳點餐的對話，每次只說一句等我回應', // 0 ← correct
+        '請幫我修改這篇英文自我介紹，指出三個文法錯誤並說明原因',
+        '請幫我解釋現在完成式和過去式的差別，並各給兩個例句',
+        '請幫我寫一封英文感謝信給幫助過我的老師，大約100字'
+      ],
+      B: [
+        '我很害怕說錯英文，需要有人溫柔地幫我糾正',
+        '我是國一學生，英文普通，只學過基本句型和日常單字' // 1 ← correct
+      ],
+      F: [
+        '用中英對照方式呈現，每個句子下面附上中文翻譯',
+        '每次我說錯了，請用中文輕輕提醒我哪裡錯，再示範正確說法', // 1 ← correct
+        '每次對話結束後整理三個我常犯的錯誤',
+        '用表格列出重要句型，左欄中文右欄英文對照'
+      ]
     }
   },
   {
@@ -292,18 +330,38 @@ const LEVELS = [
     bad: '❌ 模糊問法：「幫我做氣候變遷報告」',
     goal: '✅ 目標：為國中生的五分鐘報告找到最合適的 RTBF 組合',
     introHint: '小提示：\nR 要選能讓同學「聽懂」科學的角色\nF 的格式中要包含台灣本地的例子',
-    hint: 'R 要選能讓同學「聽懂」科學的角色\nF 的格式中要包含台灣本地的例子',
+    hint: 'R 要選能讓同學「聽懂」科學的角色\nF 的格式要包含台灣本地的例子',
     promptLines: [
       { key:'R', text:'你是一位擅長用生活例子解釋科學的科普老師' },
       { key:'T', text:'請幫我整理氣候變遷的三個主要原因和兩個具體影響' },
       { key:'B', text:'我是國二學生，下週要上台報告五分鐘，班上同學對這個主題完全陌生' },
       { key:'F', text:'用條列方式整理，每個重點不超過兩句話，最後加一個台灣本地的例子' }
     ],
+    // correctIndex: R=2, T=0, B=0, F=0
+    correctIndex: { R:2, T:0, B:0, F:0 },
     options: {
-      R: ['你是一位擅長用生活例子解釋科學的科普老師','你是一位專門研究環境議題的自然科學研究員','你是一位製作科學節目的主持人，說話生動有趣','你是一位專門撰寫科普文章的環境教育專家'],
-      T: ['請幫我整理氣候變遷的三個主要原因和兩個具體影響','請幫我設計一個在家就能做的科學小實驗，說明步驟和原理','請幫我解釋光合作用的過程，分成吸收、轉換、輸出三個階段','請幫我比較哺乳類和爬蟲類在體溫調節上的三個主要差異'],
-      B: ['我是國二學生，下週要上台報告五分鐘，班上同學對這個主題完全陌生','我看了課本三遍還是看不懂，需要用更簡單的方式說明'],
-      F: ['用條列方式整理，每個重點不超過兩句話，最後加一個台灣本地的例子','分成原因、過程、結果三個段落，每段不超過50字','用國中生聽得懂的語言，避免使用太專業的科學術語','先給一個生活化的比喻，再用步驟說明科學原理']
+      R: [
+        '你是一位專門研究環境議題的自然科學研究員',
+        '你是一位製作科學節目的主持人，說話生動有趣',
+        '你是一位擅長用生活例子解釋科學的科普老師',  // 2 ← correct
+        '你是一位專門撰寫科普文章的環境教育專家'
+      ],
+      T: [
+        '請幫我整理氣候變遷的三個主要原因和兩個具體影響', // 0 ← correct
+        '請幫我設計一個在家就能做的科學小實驗，說明步驟和原理',
+        '請幫我解釋光合作用的過程，分成吸收、轉換、輸出三個階段',
+        '請幫我比較哺乳類和爬蟲類在體溫調節上的三個主要差異'
+      ],
+      B: [
+        '我是國二學生，下週要上台報告五分鐘，班上同學對這個主題完全陌生', // 0 ← correct
+        '我看了課本三遍還是看不懂，需要用更簡單的方式說明'
+      ],
+      F: [
+        '用條列方式整理，每個重點不超過兩句話，最後加一個台灣本地的例子', // 0 ← correct
+        '分成原因、過程、結果三個段落，每段不超過50字',
+        '用國中生聽得懂的語言，避免使用太專業的科學術語',
+        '先給一個生活化的比喻，再用步驟說明科學原理'
+      ]
     }
   },
   {
@@ -319,11 +377,31 @@ const LEVELS = [
       { key:'B', text:'我是喜歡打電動的國中生，對電競歷史完全陌生，想了解它怎麼從遊戲變成運動' },
       { key:'F', text:'用時間軸方式說明三個重要時期，每個時期配一個具體的代表事件' }
     ],
+    // correctIndex: R=3, T=2, B=1, F=3
+    correctIndex: { R:3, T:2, B:1, F:3 },
     options: {
-      R: ['你是一位同時懂遊戲文化和歷史發展的說書老師','你是一位在博物館工作的歷史解說員，擅長說故事','你是一位專門帶學生認識世界地理的旅遊導覽員','你是一位高中社會科老師，熟悉台灣和世界歷史'],
-      T: ['請介紹電子競技從1990年代到現在的發展，說明三個重要轉折點','請幫我比較台灣和日本在飲食文化上的三個相似點和三個差異','請幫我整理二次世界大戰對亞洲造成的影響，分政治、經濟、社會三方面','請幫我介紹絲路的路線和它對東西方貿易帶來的兩個重大改變'],
-      B: ['我是喜歡打電動的國中生，對電競歷史完全陌生，想了解它怎麼從遊戲變成運動','我要做社會科報告，對這個主題不熟悉，需要從基礎開始了解'],
-      F: ['用時間軸方式說明三個重要時期，每個時期配一個具體的代表事件','用故事方式說明，帶入真實的人物名字和地點，300字以內','先給整體背景說明，再用條列方式列出五個關鍵發展','用表格整理，左欄時間、中欄事件、右欄影響']
+      R: [
+        '你是一位在博物館工作的歷史解說員，擅長說故事',
+        '你是一位專門帶學生認識世界地理的旅遊導覽員',
+        '你是一位高中社會科老師，熟悉台灣和世界歷史',
+        '你是一位同時懂遊戲文化和歷史發展的說書老師'  // 3 ← correct
+      ],
+      T: [
+        '請幫我比較台灣和日本在飲食文化上的三個相似點和三個差異',
+        '請幫我整理二次世界大戰對亞洲造成的影響，分政治、經濟、社會三方面',
+        '請介紹電子競技從1990年代到現在的發展，說明三個重要轉折點', // 2 ← correct
+        '請幫我介紹絲路的路線和它對東西方貿易帶來的兩個重大改變'
+      ],
+      B: [
+        '我要做社會科報告，對這個主題不熟悉，需要從基礎開始了解',
+        '我是喜歡打電動的國中生，對電競歷史完全陌生，想了解它怎麼從遊戲變成運動' // 1 ← correct
+      ],
+      F: [
+        '用故事方式說明，帶入真實的人物名字和地點，300字以內',
+        '先給整體背景說明，再用條列方式列出五個關鍵發展',
+        '用表格整理，左欄時間、中欄事件、右欄影響',
+        '用時間軸方式說明三個重要時期，每個時期配一個具體的代表事件' // 3 ← correct
+      ]
     }
   }
 ];
@@ -335,21 +413,15 @@ let currentLevel = 0;
 /*
   blocks[key] = {
     el,
-    shapeRot: number   // controls block SHAPE (click cells to change)
-    optIdx:   number   // controls displayed TEXT (click tag to change)
+    rotation: number  — controls BOTH shape and displayed text option
     placed:   boolean
-    gx, gy:   grid col/row (-1 if unplaced)
-    ox, oy:   scatter origin in play-area coords
+    gx, gy:   grid position (col, row); -1 if unplaced
+    ox, oy:   scatter origin (play-area coords)
   }
-  NOTE: shapeRot and optIdx are INTENTIONALLY DECOUPLED.
-  Shape rotation determines how the block fits in the 5×3 grid.
-  optIdx determines which text option is displayed for the win check.
-  This ensures the spatial puzzle is always solvable regardless of
-  which text option is active.
 */
 let blocks = {};
-let grid   = []; // ROWS×COLS, null or key
-let setupRafId = null; // Fix: race condition guard
+let grid   = []; // ROWS × COLS → null | key
+let setupRafId = null; // guard against multiple rAF callbacks
 
 /* ─────────────────────────────────────────────
    Screen helpers
@@ -391,12 +463,12 @@ function setupGame() {
   const lv = LEVELS[currentLevel];
   document.getElementById('game-level-name').textContent = lv.name;
 
-  // Fix: cancel pending rAF from a previous setupGame call
+  // Cancel any pending rAF from a previous setupGame call
   if (setupRafId !== null) { cancelAnimationFrame(setupRafId); setupRafId = null; }
 
   grid = Array.from({length: ROWS}, () => Array(COLS).fill(null));
 
-  // Build box grid
+  // Build 5×3 box grid
   const boxGrid = document.getElementById('box-grid');
   boxGrid.innerHTML = '';
   const gw = COLS * CELL + (COLS - 1) * GAP;
@@ -405,20 +477,20 @@ function setupGame() {
   boxGrid.style.height = (gh + 6) + 'px';
   for (let r = 0; r < ROWS; r++) {
     for (let c = 0; c < COLS; c++) {
-      const cell = document.createElement('div');
-      cell.className = 'box-cell';
-      cell.style.left = (3 + c * STEP) + 'px';
-      cell.style.top  = (3 + r * STEP) + 'px';
-      boxGrid.appendChild(cell);
+      const d = document.createElement('div');
+      d.className = 'box-cell';
+      d.style.left = (3 + c * STEP) + 'px';
+      d.style.top  = (3 + r * STEP) + 'px';
+      boxGrid.appendChild(d);
     }
   }
 
-  // Remove old blocks
+  // Remove old block elements
   const playArea = document.getElementById('play-area');
   playArea.querySelectorAll('.block').forEach(b => b.remove());
   blocks = {};
 
-  // Defer scatter placement until layout is stable
+  // Defer scatter placement until layout is ready
   setupRafId = requestAnimationFrame(() => {
     setupRafId = null;
     const paRect = playArea.getBoundingClientRect();
@@ -430,16 +502,16 @@ function setupGame() {
       { x: scatterW * 0.04, y: 8 },
       { x: scatterW * 0.33, y: 28 },
       { x: scatterW * 0.60, y: 8 },
-      { x: scatterW * 0.77, y: Math.min(scatterH * 0.3, 40) }
+      { x: scatterW * 0.77, y: Math.min(scatterH * 0.28, 40) }
     ];
 
-    ['R', 'T', 'B', 'F'].forEach((key, i) => {
+    ['R','T','B','F'].forEach((key, i) => {
       const { x, y } = spots[i];
-      const el = buildBlockEl(key);
+      const el = buildBlock(key, 0, lv.options[key]);
       el.style.left = x + 'px';
       el.style.top  = y + 'px';
       playArea.appendChild(el);
-      blocks[key] = { el, shapeRot: 0, optIdx: 0, placed: false, gx: -1, gy: -1, ox: x, oy: y };
+      blocks[key] = { el, rotation: 0, placed: false, gx: -1, gy: -1, ox: x, oy: y };
       attachEvents(el, key);
     });
   });
@@ -454,38 +526,28 @@ function shapeBounds(shape) {
   return { rows: mr + 1, cols: mc + 1 };
 }
 
-function buildBlockEl(key) {
+function buildBlock(key, rotation, options) {
   const el = document.createElement('div');
   el.className = `block block-${key}`;
-
-  const inner = document.createElement('div');
-  inner.className = 'block-inner';
-  el.appendChild(inner);
-
-  const tag = document.createElement('div');
-  tag.className = 'block-tag';
-  tag.innerHTML = `<div class="block-tag-content"><span class="block-tag-key">${key}｜</span><span class="block-tag-text"></span></div><div class="block-tag-cycle">▶</div>`;
-  el.appendChild(tag);
-
-  // Initial render
-  renderShape(el, key, 0);
-  renderTag(el, key, 0);
-
+  renderBlock(el, key, rotation, options);
   return el;
 }
 
-function renderShape(el, key, shapeRot) {
+function renderBlock(el, key, rotation, options) {
   const allShapes = SHAPES[key];
-  const rot = ((shapeRot % allShapes.length) + allShapes.length) % allShapes.length;
+  const numShapes = allShapes.length;
+  const rot  = ((rotation % numShapes) + numShapes) % numShapes;
   const shape = allShapes[rot];
   const { rows, cols } = shapeBounds(shape);
   const w = cols * STEP - GAP;
   const h = rows * STEP - GAP;
 
-  const inner = el.querySelector('.block-inner');
-  inner.innerHTML = '';
-  inner.style.width  = w + 'px';
-  inner.style.height = h + 'px';
+  el.innerHTML = '';
+
+  // Cell container (also the drag target)
+  const inner = document.createElement('div');
+  inner.className = 'block-inner';
+  inner.style.cssText = `position:relative;width:${w}px;height:${h}px;`;
 
   shape.forEach(([r, c]) => {
     const d = document.createElement('div');
@@ -497,83 +559,56 @@ function renderShape(el, key, shapeRot) {
 
   // Letter overlay
   const letter = document.createElement('div');
-  letter.className = 'block-letter-overlay';
+  letter.className = 'block-letter';
   letter.style.cssText = `left:0;top:0;width:${w}px;height:${h}px;pointer-events:none;`;
   letter.textContent = key;
   inner.appendChild(letter);
 
-  // Rotate hint
-  const hint = document.createElement('div');
-  hint.className = 'block-rotate-hint';
-  hint.textContent = '↻';
-  inner.appendChild(hint);
+  el.appendChild(inner);
 
-  // Reposition tag
-  const tag = el.querySelector('.block-tag');
+  // Text label — shows option at current rotation index
+  const numOpts = options.length;
+  const optIdx  = rot % numOpts;
+  const tag = document.createElement('div');
+  tag.className = 'block-tag';
   tag.style.top = (h + 5) + 'px';
+  tag.innerHTML = `<strong>${key}｜</strong>${options[optIdx]}`;
+  el.appendChild(tag);
 
   el.style.width = w + 'px';
 }
 
-function renderTag(el, key, optIdx) {
-  const options = LEVELS[currentLevel].options[key];
-  const idx = ((optIdx % options.length) + options.length) % options.length;
-  const span = el.querySelector('.block-tag-text');
-  if (span) span.textContent = options[idx];
-
-  // Show indicator: dots (filled = current)
-  const cycleEl = el.querySelector('.block-tag-cycle');
-  if (cycleEl) {
-    const total = options.length;
-    cycleEl.textContent = `${idx + 1}/${total} ▶`;
-  }
-}
-
 /* ─────────────────────────────────────────────
-   Event binding
-   - block-inner  → drag (move) + tap (rotate shape)
-   - block-tag    → tap (cycle text option)
+   Pointer Events: drag + tap-to-rotate
+   Rotating changes BOTH shape AND text (coupled).
+   Lift from grid only when drag is confirmed.
 ───────────────────────────────────────────── */
 function attachEvents(el, key) {
-  const inner = el.querySelector('.block-inner');
-  const tag   = el.querySelector('.block-tag');
-
-  /* Text cycle on tag tap */
-  tag.addEventListener('pointerdown', e => e.stopPropagation());
-  tag.addEventListener('click', e => {
-    e.stopPropagation();
-    const b = blocks[key];
-    b.optIdx = (b.optIdx + 1) % LEVELS[currentLevel].options[key].length;
-    renderTag(el, key, b.optIdx);
-    if (b.placed) checkWin();
-  });
-
-  /* Drag + shape-rotate on inner */
   let active = false, moved = false, wasPlaced = false;
   let startPx, startPy, startEx, startEy, tapStart;
 
-  inner.addEventListener('pointerdown', e => {
+  el.addEventListener('pointerdown', e => {
     e.preventDefault();
-    inner.setPointerCapture(e.pointerId);
-    active   = true;
-    moved    = false;
-    tapStart = Date.now();
-    startPx  = e.clientX; startPy = e.clientY;
-    startEx  = parseFloat(el.style.left) || 0;
-    startEy  = parseFloat(el.style.top)  || 0;
+    el.setPointerCapture(e.pointerId);
+    active    = true;
+    moved     = false;
+    tapStart  = Date.now();
+    startPx   = e.clientX; startPy = e.clientY;
+    startEx   = parseFloat(el.style.left) || 0;
+    startEy   = parseFloat(el.style.top)  || 0;
     wasPlaced = blocks[key].placed;
     el.style.zIndex = 100;
   });
 
-  inner.addEventListener('pointermove', e => {
+  el.addEventListener('pointermove', e => {
     if (!active) return;
     e.preventDefault();
     const dx = e.clientX - startPx, dy = e.clientY - startPy;
-    // Fix: lift from grid only when drag is confirmed (not on every pointerdown)
+    // Lift from grid only when drag is confirmed (>6px) to prevent state desync on taps
     if (!moved && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
       moved = true;
       if (wasPlaced) liftFromGrid(key);
-      inner.classList.add('dragging');
+      el.classList.add('dragging');
     }
     if (moved) {
       el.style.left = (startEx + dx) + 'px';
@@ -581,45 +616,50 @@ function attachEvents(el, key) {
     }
   });
 
-  inner.addEventListener('pointerup', e => {
+  el.addEventListener('pointerup', e => {
     if (!active) return;
     active = false;
-    inner.classList.remove('dragging');
+    el.classList.remove('dragging');
     el.style.zIndex = 10;
 
     const block = blocks[key];
 
-    /* ── TAP: rotate shape ── */
+    /* ── TAP → rotate ── */
     if (!moved && Date.now() - tapStart < 500) {
-      const prevRot = block.shapeRot;
-
-      // Temporarily lift if placed
+      // Lift first if placed
       if (wasPlaced) liftFromGrid(key);
 
-      block.shapeRot = (block.shapeRot + 1) % SHAPES[key].length;
-      renderShape(el, key, block.shapeRot);
+      block.rotation++;
+      const lv = LEVELS[currentLevel];
+      renderBlock(el, key, block.rotation, lv.options[key]);
 
       if (wasPlaced) {
-        // Try to re-place at the same grid position with new shape
-        const shape = SHAPES[key][block.shapeRot];
+        // Try to re-place at same grid cell with the new shape
+        const numShapes = SHAPES[key].length;
+        const newRot = ((block.rotation % numShapes) + numShapes) % numShapes;
+        const shape  = SHAPES[key][newRot];
         if (tryPlace(key, shape, block.gy, block.gx)) {
           snapToGrid(el, key, block.gx, block.gy);
           block.placed = true;
           checkWin();
         } else {
-          // Can't re-place with new shape → send to origin
+          // New shape doesn't fit here — return to scatter origin
           el.style.left = block.ox + 'px';
           el.style.top  = block.oy + 'px';
-          showToast('新形狀放不進同一位置，請重新拖移。');
+          showToast('旋轉後形狀放不進同一位置，請重新拖移。');
         }
       }
       return;
     }
 
-    /* ── DRAG END: try snap ── */
+    /* ── DRAG END → try snap ── */
     if (!moved) {
+      // Pointer barely moved but not a tap — restore position
       el.style.left = startEx + 'px';
       el.style.top  = startEy + 'px';
+      if (wasPlaced) {
+        // Re-register in grid (it was lifted on potential drag start... but we only lift on move>6px so actually wasPlaced logic is fine)
+      }
       return;
     }
 
@@ -635,7 +675,8 @@ function attachEvents(el, key) {
     const snapCol = Math.round((elX - boxOriginX) / STEP);
     const snapRow = Math.round((elY - boxOriginY) / STEP);
 
-    const rot = ((block.shapeRot % SHAPES[key].length) + SHAPES[key].length) % SHAPES[key].length;
+    const numShapes = SHAPES[key].length;
+    const rot   = ((block.rotation % numShapes) + numShapes) % numShapes;
     const shape = SHAPES[key][rot];
 
     if (tryPlace(key, shape, snapRow, snapCol)) {
@@ -683,51 +724,52 @@ function snapToGrid(el, key, col, row) {
   const oy = bgRect.top  - paRect.top  + 3;
   el.style.left = (ox + col * STEP) + 'px';
   el.style.top  = (oy + row * STEP) + 'px';
+  blocks[key].gx = col;
+  blocks[key].gy = row;
 }
 
 /* ─────────────────────────────────────────────
-   Resize: reposition placed blocks
+   Resize: reposition placed blocks from stored gx/gy
 ───────────────────────────────────────────── */
-function repositionPlacedBlocks() {
+function repositionPlaced() {
   for (const key of ['R','T','B','F']) {
     const b = blocks[key];
     if (b && b.placed) snapToGrid(b.el, key, b.gx, b.gy);
   }
 }
-window.addEventListener('resize', repositionPlacedBlocks);
+window.addEventListener('resize', repositionPlaced);
 
 /* ─────────────────────────────────────────────
    Win check
 ───────────────────────────────────────────── */
 function checkWin() {
   const keys = ['R','T','B','F'];
-
-  // All placed?
   if (!keys.every(k => blocks[k].placed)) return;
 
-  // All 15 cells filled?
   let filled = 0;
   for (let r = 0; r < ROWS; r++)
     for (let c = 0; c < COLS; c++)
       if (grid[r][c] !== null) filled++;
   if (filled !== 15) { showToast('方塊沒有完全填滿箱子！'); return; }
 
-  // Correct text option? (optIdx === 0 for all blocks)
+  // Check rotation matches correctIndex for each block
+  const lv = LEVELS[currentLevel];
   const wrong = keys.filter(k => {
     const b = blocks[k];
-    const len = LEVELS[currentLevel].options[k].length;
-    return ((b.optIdx % len) + len) % len !== 0;
+    const numOpts = lv.options[k].length;
+    const curIdx  = ((b.rotation % numOpts) + numOpts) % numOpts;
+    return curIdx !== lv.correctIndex[k];
   });
 
   if (wrong.length > 0) {
     wrong.forEach(k => {
       const el = blocks[k].el;
       el.classList.remove('error');
-      void el.offsetWidth;
+      void el.offsetWidth; // reflow to restart animation
       el.classList.add('error');
       setTimeout(() => el.classList.remove('error'), 800);
     });
-    showToast(`方塊 ${wrong.join('、')} 的文字選項不正確！點擊文字框切換到正確選項。`);
+    showToast(`方塊 ${wrong.join('、')} 的選項不正確！點擊旋轉到正確選項。`);
     return;
   }
 
@@ -735,11 +777,12 @@ function checkWin() {
 }
 
 /* ─────────────────────────────────────────────
-   Success overlay
+   Success overlay with staggered animation
 ───────────────────────────────────────────── */
 function showSuccess() {
   const lv = LEVELS[currentLevel];
   document.getElementById('s-bad').textContent = lv.bad;
+
   const container = document.getElementById('prompt-lines');
   container.innerHTML = '';
   lv.promptLines.forEach(line => {
@@ -748,16 +791,18 @@ function showSuccess() {
     d.innerHTML = `<strong>${line.key}｜</strong>${line.text}`;
     container.appendChild(d);
   });
+
   document.getElementById('next-btn').textContent =
     currentLevel < LEVELS.length - 1 ? '下一關 →' : '查看學習總結 →';
   document.getElementById('success-overlay').classList.add('active');
+
   container.querySelectorAll('.pline').forEach((d, i) => {
     setTimeout(() => d.classList.add('vis'), 300 + i * 500);
   });
 }
 
 /* ─────────────────────────────────────────────
-   Hint
+   Hint overlay
 ───────────────────────────────────────────── */
 function showHint() {
   document.getElementById('hint-body').textContent = LEVELS[currentLevel].hint;
@@ -768,7 +813,7 @@ function hideHint() {
 }
 
 /* ─────────────────────────────────────────────
-   Toast
+   Error toast
 ───────────────────────────────────────────── */
 let toastTimer;
 function showToast(msg) {
