@@ -626,7 +626,9 @@ function attachEvents(el, key) {
 
     /* ── TAP → rotate ── */
     if (!moved && Date.now() - tapStart < 500) {
-      // Lift first if placed
+      // Save grid position before lifting (liftFromGrid resets gx/gy to -1)
+      const oldGx = block.gx;
+      const oldGy = block.gy;
       if (wasPlaced) liftFromGrid(key);
 
       block.rotation++;
@@ -638,8 +640,8 @@ function attachEvents(el, key) {
         const numShapes = SHAPES[key].length;
         const newRot = ((block.rotation % numShapes) + numShapes) % numShapes;
         const shape  = SHAPES[key][newRot];
-        if (tryPlace(key, shape, block.gy, block.gx)) {
-          snapToGrid(el, key, block.gx, block.gy);
+        if (tryPlace(key, shape, oldGy, oldGx)) {
+          snapToGrid(el, key, oldGx, oldGy);
           block.placed = true;
           checkWin();
         } else {
