@@ -760,6 +760,7 @@ function snapToGrid(el, key, col, row) {
   const oy = bgRect.top  - paRect.top  + 3;
   el.style.left = (ox + col * STEP) + 'px';
   el.style.top  = (oy + row * STEP) + 'px';
+  blocks[key].placed = true;
   blocks[key].gx = col;
   blocks[key].gy = row;
   // Hide block tag; show text in box-labels panel instead
