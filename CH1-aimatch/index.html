@@ -542,10 +542,14 @@
             flex: 0.72;
             gap: 10px;
         }
-        html.device-pc .card,
-        html.device-tablet .card {
+        html.device-pc .card {
             width: clamp(240px, 31vw, 330px);
             height: clamp(180px, 23vw, 248px);
+        }
+        html.device-tablet .card {
+            height: clamp(140px, 18vh, 190px);
+            aspect-ratio: 4 / 3;
+            width: auto;
         }
         html.device-pc .basket,
         html.device-tablet .basket {
@@ -741,6 +745,41 @@
             if (hoveredBasket) hoveredBasket.classList.add('drop-target');
         }
 
+        function cancelCurrentDrag(pointerId = null) {
+            if (!draggedElement || !dragClone) return;
+
+            _stopAutoScroll();
+            if (DEVICE === 'phone') document.body.style.touchAction = '';
+
+            draggedElement.removeEventListener('pointermove',   onPointerMove);
+            draggedElement.removeEventListener('pointerup',     onPointerUp);
+            draggedElement.removeEventListener('pointercancel', onPointerCancel);
+
+            if (pointerId !== null) {
+                try { draggedElement.releasePointerCapture(pointerId); } catch (_) {}
+            }
+
+            if (dragClone.parentNode) {
+                dragClone.parentNode.removeChild(dragClone);
+            }
+            dragClone = null;
+
+            draggedElement.style.opacity    = '1';
+            draggedElement.style.transition = '';
+            draggedElement.classList.remove('dragging');
+            setHoveredBasket(null);
+            draggedElement   = null;
+            dragOriginParent = null;
+        }
+
+        function onGlobalPointerDown(e) {
+            if (!draggedElement || !dragClone) return;
+            if (e.pointerType === 'touch' && !e.isPrimary) {
+                e.preventDefault();
+                cancelCurrentDrag();
+            }
+        }
+
         /* ====== [orientation check] 直式／橫式偵測邏輯 ====== */
         const overlay = document.getElementById('orientation-overlay');
 
@@ -781,6 +820,7 @@
         }
         // [orientation check] 同時監聽 resize 作為備援（部分舊版瀏覽器需要）
         window.addEventListener('resize', checkOrientation);
+        window.addEventListener('pointerdown', onGlobalPointerDown, { capture: true });
         // 頁面載入時立即檢查一次
         checkOrientation();
 
