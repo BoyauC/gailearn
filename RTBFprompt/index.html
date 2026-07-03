@@ -31,8 +31,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans TC',sans
 
 /* ── GAME ── */
 #game-screen{flex-direction:column;background:#ECEAE4;}
-.game-header{display:flex;align-items:center;justify-content:space-between;padding:8px 18px;background:#F5F3EE;border-bottom:1px solid #D4D0C8;flex-shrink:0;}
+.game-header{display:grid;grid-template-columns:minmax(140px,auto) 1fr auto;align-items:center;gap:16px;padding:8px 18px;background:#F5F3EE;border-bottom:1px solid #D4D0C8;flex-shrink:0;}
 .game-level-name{font-size:17px;font-weight:700;color:#333;}
+.game-goal{font-size:14px;font-weight:500;color:#444;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 #play-area{flex:1;position:relative;overflow:hidden;}
 
 /* Box inside play-area (single coordinate space) */
@@ -134,6 +135,11 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans TC',sans
 .rcard-key{font-size:20px;font-weight:700;}
 .rcard-name{font-size:13px;font-weight:700;margin-bottom:4px;}
 .rcard-desc{font-size:11px;line-height:1.6;}
+
+@media (max-width:640px){
+  .game-header{grid-template-columns:1fr auto;gap:8px 12px;}
+  .game-goal{grid-column:1 / -1;grid-row:2;font-size:12px;text-align:left;white-space:normal;}
+}
 </style>
 </head>
 <body>
@@ -164,7 +170,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans TC',sans
 <div id="game-screen" class="screen">
   <div class="game-header">
     <div class="game-level-name" id="game-level-name"></div>
-    <button class="btn-hint" onclick="showHint()">💡 提示</button>
+    <div class="game-goal" id="game-goal"></div>
+    <button class="btn-hint" id="hint-btn" onclick="showHint()">💡 提示</button>
   </div>
   <div id="play-area">
     <div id="box-container">
@@ -256,17 +263,19 @@ const SHAPES = {
   Level 2 (R=1,T=0,B=1,F=1): medium — most blocks need 1 rotation
   Level 3 (R=2,T=0,B=0,F=0): medium — only R needs 2 rotations
   Level 4 (R=3,T=2,B=1,F=3): hard — all blocks need rotating to specific pos
+  Level 5 (R=1,T=0,B=1,F=1): free play — random topic, no hint
 
   Verified tilings:
   Lv1: R rot0@(0,0) T rot2@(1,0) B rot0@(1,4) F rot0@(0,3)
   Lv2: R rot1@(0,3) T rot0@(0,0) B rot1@(1,2) F rot1@(1,0)
   Lv3: R rot2@(1,0) T rot0@(0,0) B rot0@(1,4) F rot0@(0,3)
   Lv4: R rot3@(0,0) T rot2@(1,2) B rot1@(1,1) F rot3@(0,2)
+  Lv5: same verified tiling as Lv2
 */
 const LEVELS = [
   {
     name: '第1關｜🎨 圖像創作',
-    tag: '第 1 關 / 4',
+    tag: '第 1 關 / 5',
     bad: '❌ 模糊問法：「幫我畫一個角色」',
     goal: '✅ 目標：找出最能生成奇幻插畫提示詞的 RTBF 組合',
     introHint: '操作說明：\n點擊方塊 → 旋轉90度，文字跟著切換\n拖移方塊 → 放入底部箱子\n四個方塊填滿箱子，且每個都顯示正確選項，才算過關！',
@@ -306,7 +315,7 @@ const LEVELS = [
   },
   {
     name: '第2關｜🇬🇧 英文練習',
-    tag: '第 2 關 / 4',
+    tag: '第 2 關 / 5',
     bad: '❌ 模糊問法：「幫我練英文」',
     goal: '✅ 目標：組合出最適合英文對話練習的 RTBF 提示詞',
     introHint: '想想看：\n哪個角色最親切有耐心？\n任務要夠具體（點餐對話）？\n背景說明你是什麼程度？\n格式讓練習中能即時學習？',
@@ -346,7 +355,7 @@ const LEVELS = [
   },
   {
     name: '第3關｜🔬 科學探索',
-    tag: '第 3 關 / 4',
+    tag: '第 3 關 / 5',
     bad: '❌ 模糊問法：「幫我做氣候變遷報告」',
     goal: '✅ 目標：為國中生的五分鐘報告找到最合適的 RTBF 組合',
     introHint: '小提示：\nR 要選能讓同學「聽懂」科學的角色\nF 的格式中要包含台灣本地的例子',
@@ -386,7 +395,7 @@ const LEVELS = [
   },
   {
     name: '第4關｜🌍 歷史地理',
-    tag: '第 4 關 / 4',
+    tag: '第 4 關 / 5',
     bad: '❌ 模糊問法：「介紹電競歷史」',
     goal: '✅ 目標：為電競初學者打造最精準的歷史介紹提示詞',
     introHint: '靠你自己了！\n想想電競初學者最需要什麼樣的說明方式。',
@@ -423,8 +432,90 @@ const LEVELS = [
         '用時間軸方式說明三個重要時期，每個時期配一個具體的代表事件' // 3 ← correct
       ]
     }
+  },
+  {
+    name: '第5關｜🧩 自由挑戰',
+    tag: '第 5 關 / 5',
+    bad: '❌ 自由主題：請依畫面提供的主題自行判斷最佳組合',
+    goal: '✅ 目標：依隨機主題配出唯一正確的 RTBF 組合',
+    introHint: '自由關卡：\n系統會隨機提供主題，不提供提示。\n請依照主題和四類選項，自己判斷最完整、最精準的 RTBF 組合。',
+    hint: '',
+    hasHint: false,
+    promptLines: [],
+    // correctIndex: R=1, T=0, B=1, F=1
+    correctIndex: { R:1, T:0, B:1, F:1 },
+    options: { R: [], T: [], B: [], F: [] }
   }
 ];
+
+const FREE_LEVEL_TOPICS = [
+  {
+    topic: '校園園遊會海報文案',
+    audience: '國中學生會成員，活動要吸引全校同學和家長參加',
+    result: '一份可直接放上海報的宣傳文案',
+    format: '標題、三個亮點、活動資訊、30字以內號召語'
+  },
+  {
+    topic: '海洋塑膠污染短講',
+    audience: '國小高年級學生，第一次接觸環境議題',
+    result: '三分鐘的生活化短講稿',
+    format: '開場問題、三個原因、兩個行動建議、結尾提醒'
+  },
+  {
+    topic: '自主學習計畫',
+    audience: '高中生，想用八週學會基礎影片剪輯',
+    result: '可執行的自主學習規劃',
+    format: '週次表、每週任務、產出作品、檢核方式'
+  },
+  {
+    topic: '讀書會小說介紹',
+    audience: '國中讀書會成員，需要不暴雷但能引起興趣',
+    result: '一段適合口頭分享的小說介紹',
+    format: '故事背景、主角困境、推薦理由、討論問題'
+  }
+];
+
+function buildFreeLevel() {
+  const topic = FREE_LEVEL_TOPICS[Math.floor(Math.random() * FREE_LEVEL_TOPICS.length)];
+  const level = LEVELS[LEVELS.length - 1];
+  const role = `你是一位擅長把「${topic.topic}」轉成清楚內容的學習設計教練`;
+  const task = `請幫我完成「${topic.topic}」：${topic.result}`;
+  const background = `使用者情境：${topic.audience}`;
+  const format = `請依照「${topic.format}」的格式輸出`;
+
+  level.bad = `❌ 自由主題：「${topic.topic}」`;
+  level.goal = `✅ 目標：不看提示，為「${topic.topic}」配出唯一正確的 RTBF 組合`;
+  level.promptLines = [
+    { key:'R', text: role },
+    { key:'T', text: task },
+    { key:'B', text: background },
+    { key:'F', text: format }
+  ];
+  level.options = {
+    R: [
+      '你是一位嚴格批改作文的國文老師',
+      role,
+      '你是一位專門研究統計資料的分析師',
+      '你是一位擅長設計闖關活動的遊戲主持人'
+    ],
+    T: [
+      task,
+      '請幫我出五題選擇題，測驗大家是否理解內容',
+      '請幫我把這個主題改寫成一首押韻短詩',
+      '請幫我整理這個主題的十個相關名詞解釋'
+    ],
+    B: [
+      '使用者情境：我要準備正式研究論文，需要大量引用文獻',
+      background
+    ],
+    F: [
+      '請用一整段散文完成，不需要分段或標示重點',
+      format,
+      '請用表情符號開頭，每一行都不超過八個字',
+      '請用英文輸出，並附上每個單字的中文解釋'
+    ]
+  };
+}
 
 /* ─────────────────────────────────────────────
    State
@@ -458,10 +549,15 @@ function nextLevel() {
   else { showScreen('final-screen'); }
 }
 
+function getHeaderGoal(level) {
+  return level.goal.replace(/^✅\s*目標：/, '');
+}
+
 /* ─────────────────────────────────────────────
    Intro
 ───────────────────────────────────────────── */
 function showIntro() {
+  if (currentLevel === LEVELS.length - 1) buildFreeLevel();
   const lv = LEVELS[currentLevel];
   document.getElementById('intro-tag').textContent      = lv.tag;
   document.getElementById('intro-bad').textContent      = lv.bad;
@@ -482,6 +578,8 @@ function enterGame() {
 function setupGame() {
   const lv = LEVELS[currentLevel];
   document.getElementById('game-level-name').textContent = lv.name;
+  document.getElementById('game-goal').textContent = getHeaderGoal(lv);
+  document.getElementById('hint-btn').style.display = lv.hasHint === false ? 'none' : '';
   document.getElementById('box-labels').innerHTML = '';
 
   // Cancel any pending rAF from a previous setupGame call
