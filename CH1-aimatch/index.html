@@ -221,6 +221,11 @@
             transition: all 0.3s;
             flex-shrink: 0;
         }
+        .basket.drop-target {
+            border-style: solid;
+            box-shadow: 0 0 0 4px rgba(255,255,255,0.55), 0 8px 18px rgba(0,0,0,0.12);
+            transform: scale(1.01);
+        }
 
         .basket-title {
             font-size: 15px;
@@ -703,6 +708,7 @@
         // [touch support] 拖曳狀態（統一給 Pointer Events 使用）
         let draggedElement = null;
         let dragClone = null;
+        let hoveredBasket = null;
         let startX = 0, startY = 0;
         let dragOriginParent = null;
 
@@ -726,6 +732,13 @@
         function _stopAutoScroll() {
             autoScrollDir = 0;
             if (autoScrollRAF) { cancelAnimationFrame(autoScrollRAF); autoScrollRAF = null; }
+        }
+
+        function setHoveredBasket(nextBasket) {
+            if (hoveredBasket === nextBasket) return;
+            if (hoveredBasket) hoveredBasket.classList.remove('drop-target');
+            hoveredBasket = nextBasket;
+            if (hoveredBasket) hoveredBasket.classList.add('drop-target');
         }
 
         /* ====== [orientation check] 直式／橫式偵測邏輯 ====== */
@@ -878,6 +891,10 @@
             // PC 拖曳時放大 1.5 倍；平板/手機維持原尺寸，減少視覺干擾
             const scaleStr = DEVICE === 'pc' ? ' scale(1.5)' : '';
             dragClone.style.transform = `translate(${dx}px, ${dy}px)${scaleStr}`;
+            const elementBelow = document.elementFromPoint(e.clientX, e.clientY);
+            const basketBelow  = elementBelow ? elementBelow.closest('.basket') : null;
+            setHoveredBasket(basketBelow);
+            dragClone.style.opacity = basketBelow ? '0.58' : '1';
 
             // [android-fix] 手機：拖曳到視口邊緣時觸發 rAF autoscroll（不直接呼叫 scrollBy）
             if (DEVICE === 'phone') {
@@ -910,6 +927,7 @@
             draggedElement.style.opacity    = '1';
             draggedElement.style.transition = '';
             draggedElement.classList.remove('dragging');
+            setHoveredBasket(null);
 
             if (basketBelow) {
                 basketBelow.querySelector('.basket-content').appendChild(draggedElement);
@@ -939,6 +957,7 @@
             draggedElement.style.opacity    = '1';
             draggedElement.style.transition = '';
             draggedElement.classList.remove('dragging');
+            setHoveredBasket(null);
             draggedElement    = null;
             dragOriginParent  = null;
         }
