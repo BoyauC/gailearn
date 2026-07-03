@@ -482,6 +482,7 @@ function enterGame() {
 function setupGame() {
   const lv = LEVELS[currentLevel];
   document.getElementById('game-level-name').textContent = lv.name;
+  document.getElementById('box-labels').innerHTML = '';
 
   // Cancel any pending rAF from a previous setupGame call
   if (setupRafId !== null) { cancelAnimationFrame(setupRafId); setupRafId = null; }
