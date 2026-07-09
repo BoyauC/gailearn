@@ -542,12 +542,27 @@
             flex: 0.72;
             gap: 10px;
         }
+        html.device-tablet #game-board {
+            max-width: none;
+            padding: 8px 28px 6px;
+            gap: 8px;
+        }
+        html.device-tablet #cards-area {
+            flex: 1 1 auto;
+            gap: clamp(8px, 1.2dvh, 12px);
+            justify-content: center;
+        }
+        html.device-tablet #baskets-area {
+            flex: 0 0 clamp(360px, 36vw, 460px);
+            gap: clamp(8px, 1.6dvh, 14px);
+            justify-content: center;
+        }
         html.device-pc .card {
             width: clamp(240px, 31vw, 330px);
             height: clamp(180px, 23vw, 248px);
         }
         html.device-tablet .card {
-            height: clamp(170px, 28dvh, 220px);
+            height: clamp(200px, calc((100% - 28px) / 3), 300px);
             aspect-ratio: 4 / 3;
             width: auto;
         }
