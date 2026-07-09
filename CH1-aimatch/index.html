@@ -547,7 +547,7 @@
             height: clamp(180px, 23vw, 248px);
         }
         html.device-tablet .card {
-            height: clamp(140px, 18vh, 190px);
+            height: clamp(170px, 28dvh, 220px);
             aspect-ratio: 4 / 3;
             width: auto;
         }
@@ -928,8 +928,8 @@
             if (!dragClone) return;
             const dx = e.clientX - startX;
             const dy = e.clientY - startY;
-            // PC 拖曳時放大 1.5 倍；平板/手機維持原尺寸，減少視覺干擾
-            const scaleStr = DEVICE === 'pc' ? ' scale(1.5)' : '';
+            // PC 拖曳時放大 1.5 倍；平板適度放大，手機維持原尺寸
+            const scaleStr = DEVICE === 'pc' ? ' scale(1.5)' : (DEVICE === 'tablet' ? ' scale(1.2)' : '');
             dragClone.style.transform = `translate(${dx}px, ${dy}px)${scaleStr}`;
             const elementBelow = document.elementFromPoint(e.clientX, e.clientY);
             const basketBelow  = elementBelow ? elementBelow.closest('.basket') : null;
