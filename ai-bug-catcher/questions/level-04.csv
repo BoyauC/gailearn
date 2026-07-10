@@ -1,0 +1,2 @@
+﻿stage1_message,wrong_word,wrong_prob,wrong_reason,right_word,right_prob,right_reason,retrain_btn_text,final_message,success_feedback
+因為我非常聰明，所以我能做出<span class='word-btn' data-is-bug='true'>完全客觀公平</span>的判斷。,完全客觀公平,90,大眾對電腦程式精準無誤的刻板印象,複製人類歷史偏見,10,需要資料科學家深入分析才會發現,注入 AI 倫理與多元平權資料集,AI 可能複製人類歷史資料中的偏見。,抓出偏見！AI 並非絕對客觀公平。

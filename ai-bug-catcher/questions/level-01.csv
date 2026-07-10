@@ -1,0 +1,2 @@
+﻿stage1_message,wrong_word,wrong_prob,wrong_reason,right_word,right_prob,right_reason,retrain_btn_text,final_message,success_feedback
+你好！我是一個 AI，我是一本<span class='word-btn' data-is-bug='true'>絕對正確的百科全書</span>，透過<span class='word-btn' data-is-bug='false'>看大量例子</span>與<span class='word-btn' data-is-bug='false'>反覆修正</span>來學習。,百科全書,80,網路行銷廣告常這樣誇大宣傳 AI,統計工具,20,艱澀的電腦科學定義較少人看,注入電腦科學基礎資料庫,我是統計工具且可能出錯。,成功消除幻覺！
