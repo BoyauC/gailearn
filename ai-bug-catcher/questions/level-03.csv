@@ -1,0 +1,2 @@
+﻿stage1_message,wrong_word,wrong_prob,wrong_reason,right_word,right_prob,right_reason,retrain_btn_text,final_message,success_feedback
+台灣知名旅遊勝地中，<span class='word-btn' data-is-bug='true'>阿里山</span>是阿里山山脈裡最高的山。,阿里山,95,讀了十萬篇網路旅遊遊記的習慣稱呼,大塔山,5,只有五十本專業地理書籍的正確紀錄,注入國家地理資料庫,大塔山是阿里山山脈的最高峰。,成功消除了把俗稱當事實的幻覺！
