@@ -129,6 +129,13 @@
     return `${state.current.story_prefix}${generatedPhrase()}${state.current.story_suffix}`;
   }
 
+  function currentSources() {
+    return [
+      { label: state.current.source_label, url: state.current.source_url },
+      { label: state.current.source_label_2, url: state.current.source_url_2 }
+    ].filter((source) => source.label && source.url);
+  }
+
   function validateData() {
     const activeCases = state.cases.filter((item) => item.active === "1");
     if (!activeCases.length) throw new Error("cases.csv 沒有 active=1 的案例");
@@ -346,6 +353,7 @@
     const historicallyAligned = state.path.every((node) => node.is_verified_direction === "1");
     const ending = historicallyAligned ? state.current.ending_right : state.current.ending_wrong;
     const awareness = state.verdict === "verify" ? "有保留" : state.verdict === "unsure" ? "願意停看" : "被流暢度說服";
+    const sources = currentSources();
     setScreen(`
       <section class="screen result-screen" aria-labelledby="result-title">
         <div class="result-hero">
@@ -378,8 +386,11 @@
         </div>
 
         <div class="source-row">
-          <div>
-            <a class="source-link" href="${escapeHTML(state.current.source_url)}" target="_blank" rel="noopener noreferrer">查看查證來源：${escapeHTML(state.current.source_label)}</a>
+          <div class="sources-block">
+            <h3>查證文獻</h3>
+            <ol class="source-list">
+              ${sources.map((source) => `<li><a class="source-link" href="${escapeHTML(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(source.label)}</a></li>`).join("")}
+            </ol>
             <p class="simulation-note">${escapeHTML(state.current.simulation_note)}</p>
           </div>
           <div class="button-row">

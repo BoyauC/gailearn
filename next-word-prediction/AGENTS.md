@@ -65,9 +65,11 @@ next-word-prediction/
 
 ### `cases.csv` 必要欄位
 
-`case_id,active,category,difficulty,title,kicker,intro_instruction,story_prefix,story_suffix,reveal_hit,reveal_miss,prediction_prompt,verdict_question,verified_story,comparison_note,ending_wrong,ending_right,source_label,source_url,simulation_note`
+`case_id,active,category,difficulty,title,kicker,intro_instruction,story_prefix,story_suffix,reveal_hit,reveal_miss,prediction_prompt,verdict_question,verified_story,comparison_note,ending_wrong,ending_right,source_label,source_url,source_label_2,source_url_2,simulation_note`
 
 其中 `story_prefix` 是填入生成詞之前的句子，`story_suffix` 是之後的句子。四個節點選出的 `token` 以空字串連接後置入兩者之間。
+
+每個案例至少提供一筆查證文獻於 `source_label` 與 `source_url`；第二筆文獻填入 `source_label_2` 與 `source_url_2`。沒有第二筆時兩欄可留白，結算頁會自動隱藏空白項目。
 
 ### `segments.csv` 必要欄位
 
@@ -130,7 +132,7 @@ next-word-prediction/
 
 ## 新增第二、三案例
 
-新增案例時不複製頁面：只在三份 CSV 增加相同 `case_id` 的資料。每題必須包含一個根群組 `root`、四個步驟與完整查證來源。案例應先由可靠的一手或權威教育／典藏來源查核，再寫入 `verified_story` 與 `source_url`。若新案例需要新的遊戲機制，先維持舊 CSV 向後相容，再擴充欄位與解析器。
+新增案例時不複製頁面：只在三份 CSV 增加相同 `case_id` 的資料。每題必須包含一個根群組 `root`、四個步驟與完整查證來源。案例應先由可靠的一手或權威教育／典藏來源查核，再寫入 `verified_story`、`source_url`，並盡可能提供第二筆交叉查證文獻。若新案例需要新的遊戲機制，先維持舊 CSV 向後相容，再擴充欄位與解析器。
 
 ## 修改邊界
 
