@@ -164,8 +164,8 @@
       <section class="screen hero" aria-labelledby="home-title">
         <div class="hero-copy">
           <p class="eyebrow">NEXT WORD PREDICTION</p>
-          <h1 id="home-title">下一詞，<span>會是事實嗎？</span></h1>
-          <p class="lead">走進 AI 的詞語星空。每一步都選出統計上可能接續的詞，看看一段流暢的歷史敘述，是否真的經得起查證。</p>
+          <h1 id="home-title">AI提供的，<span>會是真的嗎？</span></h1>
+          <p class="lead">跟著 AI 的預測路徑，每一步選出統計上可能接續的詞，看看一段流暢的歷史敘述，是否真的經得起查證。</p>
           <div class="button-row">
             <button class="primary-btn" id="start-game">開始探索</button>
             <span class="selection-count">一局約 5 分鐘・共四次預測</span>
@@ -177,7 +177,8 @@
           <span class="float-node">高機率 ≠ 正確</span>
           <span class="float-node">上下文</span>
           <span class="float-node">重新預測</span>
-          <div class="core-star">下一個詞？</div>
+          <img class="sisi-character" src="assets/images/sisi-60427.png" alt="">
+          <div class="sisi-tablet"><span>下一個詞</span></div>
         </div>
       </section>
     `);
@@ -248,7 +249,7 @@
           <p class="eyebrow">調查點已鎖定</p>
           <h2 id="reveal-title">先別急著找答案</h2>
           <p>${escapeHTML(message)}</p>
-          <button class="primary-btn" id="enter-stars">進入 AI 脈絡星空</button>
+          <button class="primary-btn" id="enter-stars">看看 AI 如何預測</button>
         </div>
       </section>
     `);
