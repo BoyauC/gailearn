@@ -185,6 +185,10 @@ h3 { margin: 0; font-size: 1.08rem; }
 .lesson-note { margin: 20px 0; padding: 22px 25px; border-radius: 18px; background: rgba(183, 156, 255, .08); border: 1px solid rgba(183, 156, 255, .22); }
 .lesson-note p { margin: 8px 0 0; color: var(--muted); }
 .source-row { display: flex; justify-content: space-between; gap: 20px; align-items: center; margin-top: 22px; }
+.sources-block { max-width: 760px; }
+.sources-block h3 { margin-bottom: 8px; color: var(--ink); }
+.source-list { margin: 0 0 14px; padding-left: 1.45rem; color: var(--muted); }
+.source-list li + li { margin-top: 7px; }
 .source-link { color: var(--cyan); text-underline-offset: 4px; }
 .simulation-note { max-width: 680px; color: var(--muted); font-size: .78rem; }
 
