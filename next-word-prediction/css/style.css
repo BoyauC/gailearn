@@ -40,6 +40,12 @@ button:focus-visible, a:focus-visible {
   outline-offset: 4px;
 }
 
+/* Screen changes focus the heading for assistive technology; headings are not controls. */
+h1[tabindex="-1"]:focus,
+h2[tabindex="-1"]:focus {
+  outline: none;
+}
+
 #starfield {
   position: fixed;
   inset: 0;
