@@ -102,25 +102,6 @@
       .sort((a, b) => Number(a.option_order) - Number(b.option_order));
   }
 
-  function applyContextWeights(nodes) {
-    const copies = nodes.map((node) => ({ ...node }));
-    if (!state.path.length) return copies;
-
-    // CSV 提供教學用基礎權重；最近一次選擇再依完整路徑微調下一輪分布。
-    // 三個 delta 永遠合計為 0，因此畫面仍維持 100%。
-    const selectedOrder = Number(state.path[state.path.length - 1].option_order);
-    const patterns = {
-      1: [2, -1, -1],
-      2: [-1, 2, -1],
-      3: [-1, -1, 2]
-    };
-    const deltas = patterns[selectedOrder] || [0, 0, 0];
-    copies.forEach((node, index) => {
-      node.probability = String(Number(node.probability) + deltas[index]);
-    });
-    return copies;
-  }
-
   function generatedPhrase() {
     return state.path.map((node) => node.token).join("");
   }
@@ -152,6 +133,28 @@
         if (nodes.length !== 3 || sum !== 100) {
           throw new Error(`${gameCase.case_id}/${groupId} 必須有三個節點且機率合計為 100`);
         }
+
+        const step = Number(nodes[0].step);
+        if (nodes.some((node) => Number(node.step) !== step)) {
+          throw new Error(`${gameCase.case_id}/${groupId} 不可混用不同步驟`);
+        }
+        if (step < 4 && new Set(nodes.map((node) => node.next_group)).size !== nodes.length) {
+          throw new Error(`${gameCase.case_id}/${groupId} 的每個選項必須指向不同的完整路徑群組`);
+        }
+
+        nodes.forEach((node) => {
+          if (step < 4) {
+            const nextNodes = groups.get(node.next_group);
+            if (!node.next_group || !nextNodes) {
+              throw new Error(`${gameCase.case_id}/${groupId}/${node.label} 缺少下一個完整路徑群組`);
+            }
+            if (nextNodes.some((nextNode) => Number(nextNode.step) !== step + 1)) {
+              throw new Error(`${gameCase.case_id}/${groupId}/${node.label} 的下一群組步驟錯誤`);
+            }
+          } else if (node.next_group) {
+            throw new Error(`${gameCase.case_id}/${groupId}/${node.label} 已是第四步，不可再指定 next_group`);
+          }
+        });
       });
     });
   }
@@ -258,7 +261,7 @@
   }
 
   function showPrediction() {
-    const options = applyContextWeights(nodesFor(state.groupId));
+    const options = nodesFor(state.groupId);
     if (options.length !== 3) return showError(new Error(`找不到節點群組：${state.groupId}`));
     const step = Number(options[0].step);
     const context = `${state.current.story_prefix}${generatedPhrase()}`;
