@@ -33,6 +33,7 @@ let members = [];
 let submissions = [];
 let questions = [];
 let unsubscribeListeners = [];
+let sessionStateTimer = null;
 
 function normalizeCode(value) {
   return String(value || '').replace(/\s+/g, '').replace(/\D/g, '').slice(0, 4);
@@ -217,6 +218,8 @@ async function enterDashboard() {
 function stopSubscriptions() {
   unsubscribeListeners.forEach((unsubscribe) => unsubscribe());
   unsubscribeListeners = [];
+  if (sessionStateTimer) clearTimeout(sessionStateTimer);
+  sessionStateTimer = null;
 }
 
 function leaveDashboard({ focusCreate = false } = {}) {
@@ -244,10 +247,24 @@ async function subscribeToDashboard() {
   unsubscribeListeners.push(onSnapshot(doc(db, 'sessions', sessionId), (snapshot) => {
     if (!snapshot.exists()) return;
     const session = snapshot.data();
-    const open = session.status === 'open';
-    $('session-state-text').textContent = open ? '開放學生加入中' : '課堂已關閉；已加入學生可在 10 分鐘內補交';
-    $('close-session').disabled = !open;
-    $('close-session-settings').disabled = !open;
+    const activeUntil = session.activeUntil && session.activeUntil.toMillis();
+    const renderSessionState = () => {
+      const open = session.status === 'open' && activeUntil && activeUntil > Date.now();
+      const autoClosed = session.status === 'open' && !open;
+      $('session-state-text').textContent = open
+        ? '開放學生加入中'
+        : autoClosed
+          ? '課堂已自動關閉；已加入學生可在到期後 10 分鐘內補交'
+          : '課堂已關閉；已加入學生可在 10 分鐘內補交';
+      $('close-session').disabled = !open;
+      $('close-session-settings').disabled = !open;
+    };
+    if (sessionStateTimer) clearTimeout(sessionStateTimer);
+    sessionStateTimer = null;
+    renderSessionState();
+    if (session.status === 'open' && activeUntil && activeUntil > Date.now()) {
+      sessionStateTimer = setTimeout(renderSessionState, activeUntil - Date.now() + 250);
+    }
   }, errorHandler));
 
   const memberQuery = query(collection(db, 'sessionMembers'), where('sessionId', '==', sessionId), orderBy('joinedAt', 'asc'));
