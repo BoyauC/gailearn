@@ -5,7 +5,8 @@ import {
   getAuth,
   onAuthStateChanged,
   setPersistence,
-  signInAnonymously
+  signInAnonymously,
+  signOut
 } from 'https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js';
 import {
   connectFunctionsEmulator,
@@ -98,6 +99,13 @@ export async function ensureAnonymousAuth() {
   }
 }
 
+
+export async function resetAnonymousAuth() {
+  const { auth } = initializeServices();
+  await signOut(auth);
+  authPromise = undefined;
+  return ensureAnonymousAuth();
+}
 export async function callFunction(name, data = {}) {
   await ensureAnonymousAuth();
   const callable = httpsCallable(initializeServices().functions, name, { timeout: 30000 });
