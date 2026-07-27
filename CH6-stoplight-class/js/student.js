@@ -1,4 +1,4 @@
-﻿import { callFunction, isFirebaseConfigured } from './firebase-client.js?v=11';
+﻿import { callFunction, isFirebaseConfigured, resetAnonymousAuth } from './firebase-client.js?v=12';
 
 const joinForm = document.getElementById('student-join-form');
 const codeInput = document.getElementById('student-code');
@@ -67,13 +67,24 @@ async function saveCheckpoint(sessionId, attemptSessionId, phase, attempts) {
   updateSync('正在同步…');
 
   try {
-    const result = await callFunction('saveCheckpoint', {
-      sessionId,
-      phase,
-      attemptSessionId,
-      attempts,
-      submissionId: submissionIdFor(attemptSessionId, phase)
-    });
+    let result;
+    for (let retryAttempt = 0; retryAttempt < 3; retryAttempt += 1) {
+      try {
+        result = await callFunction('saveCheckpoint', {
+          sessionId,
+          phase,
+          attemptSessionId,
+          attempts,
+          submissionId: submissionIdFor(attemptSessionId, phase)
+        });
+        break;
+      } catch (error) {
+        const code = String(error && error.code || '');
+        const retryable = ['unavailable', 'deadline-exceeded', 'internal', 'resource-exhausted'].some((value) => code.includes(value));
+        if (!retryable || retryAttempt === 2 || !navigator.onLine) throw error;
+        await new Promise((resolve) => setTimeout(resolve, 750 * (retryAttempt + 1)));
+      }
+    }
     target.textContent = phase === 'basic' ? '✓ 基礎關紀錄已備份' : '✓ 完整紀錄已送出給老師';
     updateSync('紀錄已同步', 'saved');
     return result;
@@ -124,7 +135,14 @@ joinForm.addEventListener('submit', async (event) => {
 
   setBusy(true);
   try {
-    const session = await callFunction('joinSession', { code, name: name || undefined });
+    let session;
+    try {
+      session = await callFunction('joinSession', { code, name: name || undefined });
+    } catch (error) {
+      if (!String(error && error.code || '').includes('permission-denied')) throw error;
+      await resetAnonymousAuth();
+      session = await callFunction('joinSession', { code, name: name || undefined });
+    }
     displayName.textContent = session.displayName;
     displayCode.textContent = `課堂 ${session.code}`;
 
@@ -134,13 +152,18 @@ joinForm.addEventListener('submit', async (event) => {
       displayName: session.displayName,
       questions: session.questions,
       attemptSessionId: '',
+      saveQueue: Promise.resolve(),
       beginAttempt() {
         this.attemptSessionId = randomSubmissionId();
         return this.attemptSessionId;
       },
       saveCheckpoint(phase, attempts) {
         if (!this.attemptSessionId) this.beginAttempt();
-        return saveCheckpoint(session.sessionId, this.attemptSessionId, phase, attempts);
+        const attemptSessionId = this.attemptSessionId;
+        this.saveQueue = this.saveQueue
+          .catch(() => undefined)
+          .then(() => saveCheckpoint(session.sessionId, attemptSessionId, phase, attempts));
+        return this.saveQueue;
       }
     };
     window.dispatchEvent(new CustomEvent('stoplight:session-ready', { detail: window.StoplightClassBridge }));
