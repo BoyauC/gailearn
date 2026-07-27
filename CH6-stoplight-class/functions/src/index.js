@@ -226,7 +226,7 @@ exports.joinSession = onCall(CALLABLE_OPTIONS, async (request) => {
     const session = sessionSnapshot.data();
     const now = Date.now();
     const activeUntil = session.activeUntil && session.activeUntil.toMillis();
-    const submissionDeadline = submissionDeadlineMillis(session);
+    const submissionDeadline = submissionDeadlineMillis(session, SUBMISSION_GRACE_MS);
     const existingStudent = memberSnapshot.exists && memberSnapshot.get('role') === 'student';
     const canContinue = existingStudent && submissionDeadline && submissionDeadline >= now;
 
@@ -298,12 +298,22 @@ exports.saveCheckpoint = onCall(CALLABLE_OPTIONS, async (request) => {
   const memberRef = db.collection('sessionMembers').doc(`${sessionId}_${uid}`);
   const [sessionSnapshot, memberSnapshot] = await Promise.all([sessionRef.get(), memberRef.get()]);
   if (!sessionSnapshot.exists || !memberSnapshot.exists || memberSnapshot.get('role') !== 'student') {
+    logger.warn('Checkpoint student permission failed.', {
+      sessionExists: sessionSnapshot.exists,
+      memberExists: memberSnapshot.exists,
+      memberRole: memberSnapshot.exists ? memberSnapshot.get('role') : null
+    });
     throw new HttpsError('permission-denied', 'Student permission is required.');
   }
   const session = sessionSnapshot.data();
   const now = Date.now();
-  const closeAt = submissionDeadlineMillis(session);
+  const closeAt = submissionDeadlineMillis(session, SUBMISSION_GRACE_MS);
   if (!closeAt || closeAt < now) {
+    logger.warn('Checkpoint submission deadline failed.', {
+      sessionStatus: session.status,
+      hasDeadline: Boolean(closeAt),
+      deadlineExpired: Boolean(closeAt && closeAt < now)
+    });
     throw new HttpsError('failed-precondition', 'The submission window is closed.');
   }
 
