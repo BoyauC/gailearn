@@ -5,6 +5,7 @@ function timestampMillis(value) {
 }
 
 function submissionDeadlineMillis(session, graceMs) {
+  if (!Number.isFinite(graceMs) || graceMs < 0) throw new TypeError('A valid grace period is required.');
   if (session.status === 'open') {
     const activeUntil = timestampMillis(session.activeUntil);
     return activeUntil ? activeUntil + graceMs : null;
@@ -13,6 +14,7 @@ function submissionDeadlineMillis(session, graceMs) {
 }
 
 function manualCloseDeadlineMillis(session, now, graceMs) {
+  if (!Number.isFinite(graceMs) || graceMs < 0) throw new TypeError('A valid grace period is required.');
   const activeUntil = timestampMillis(session.activeUntil);
   return activeUntil && activeUntil <= now ? activeUntil + graceMs : now + graceMs;
 }

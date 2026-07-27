@@ -29,3 +29,8 @@ test('closing before automatic expiry grants ten minutes from the manual close',
   const now = 1_000_000;
   assert.equal(manualCloseDeadlineMillis({ activeUntil: timestamp(activeUntil) }, now, GRACE_MS), now + GRACE_MS);
 });
+
+test('deadline helpers reject a missing grace period instead of silently returning NaN', () => {
+  assert.throws(() => submissionDeadlineMillis({ status: 'open', activeUntil: timestamp(1_000_000) }), TypeError);
+  assert.throws(() => manualCloseDeadlineMillis({ activeUntil: timestamp(1_000_000) }, 500_000), TypeError);
+});
