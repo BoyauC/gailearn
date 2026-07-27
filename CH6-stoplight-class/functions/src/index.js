@@ -24,6 +24,7 @@ const {
   selectQuestions
 } = require('./domain');
 const { cleanupExpiredSessions } = require('./maintenance');
+const { manualCloseDeadlineMillis, submissionDeadlineMillis, timestampMillis } = require('./lifecycle');
 
 initializeApp();
 const db = getFirestore();
@@ -225,9 +226,9 @@ exports.joinSession = onCall(CALLABLE_OPTIONS, async (request) => {
     const session = sessionSnapshot.data();
     const now = Date.now();
     const activeUntil = session.activeUntil && session.activeUntil.toMillis();
-    const submissionsCloseAt = session.submissionsCloseAt && session.submissionsCloseAt.toMillis();
+    const submissionDeadline = submissionDeadlineMillis(session);
     const existingStudent = memberSnapshot.exists && memberSnapshot.get('role') === 'student';
-    const canContinue = existingStudent && (session.status === 'open' || (submissionsCloseAt && submissionsCloseAt >= now));
+    const canContinue = existingStudent && submissionDeadline && submissionDeadline >= now;
 
     if (existingStudent && canContinue) {
       return { session: { sessionId, ...session }, displayName: memberSnapshot.get('displayName') };
@@ -301,8 +302,8 @@ exports.saveCheckpoint = onCall(CALLABLE_OPTIONS, async (request) => {
   }
   const session = sessionSnapshot.data();
   const now = Date.now();
-  const closeAt = session.submissionsCloseAt && session.submissionsCloseAt.toMillis();
-  if (session.status !== 'open' && (!closeAt || closeAt < now)) {
+  const closeAt = submissionDeadlineMillis(session);
+  if (!closeAt || closeAt < now) {
     throw new HttpsError('failed-precondition', 'The submission window is closed.');
   }
 
@@ -377,7 +378,10 @@ exports.closeSession = onCall(CALLABLE_OPTIONS, async (request) => {
   if (sessionSnapshot.get('status') !== 'open') {
     return { sessionId, status: 'closed', submissionsCloseAt: sessionSnapshot.get('submissionsCloseAt') };
   }
-  const submissionsCloseAt = Timestamp.fromMillis(Date.now() + SUBMISSION_GRACE_MS);
+  const now = Date.now();
+  const submissionsCloseAt = Timestamp.fromMillis(
+    manualCloseDeadlineMillis(sessionSnapshot.data(), now, SUBMISSION_GRACE_MS)
+  );
   await sessionRef.update({
     status: 'closed',
     closedAt: FieldValue.serverTimestamp(),
