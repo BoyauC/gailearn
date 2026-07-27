@@ -1,8 +1,10 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js';
 import {
+  browserSessionPersistence,
   connectAuthEmulator,
   getAuth,
   onAuthStateChanged,
+  setPersistence,
   signInAnonymously
 } from 'https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js';
 import {
@@ -33,6 +35,9 @@ const missingConfig = Object.values(firebaseConfig).some((value) =>
 
 let services;
 let authPromise;
+let persistencePromise;
+
+const isStudentClient = /\/student\.html$/i.test(globalThis.location && globalThis.location.pathname || '');
 
 function initializeServices() {
   if (missingConfig) {
@@ -40,7 +45,10 @@ function initializeServices() {
   }
   if (services) return services;
 
-  const app = initializeApp(firebaseConfig);
+  // Use a separate Firebase app so teacher and student tabs do not share an anonymous identity.
+  const app = isStudentClient
+    ? initializeApp(firebaseConfig, 'stoplight-student')
+    : initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
   const functions = getFunctions(app, stoplightFirebaseOptions.functionsRegion);
@@ -67,6 +75,10 @@ export async function ensureAnonymousAuth() {
   if (authPromise) return authPromise;
   authPromise = (async () => {
     const { auth } = initializeServices();
+    if (isStudentClient) {
+      persistencePromise ||= setPersistence(auth, browserSessionPersistence);
+      await persistencePromise;
+    }
     if (auth.currentUser) return auth.currentUser;
 
     await new Promise((resolve) => {
