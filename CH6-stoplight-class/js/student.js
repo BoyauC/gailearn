@@ -1,4 +1,4 @@
-﻿import { callFunction, isFirebaseConfigured } from './firebase-client.js';
+﻿import { callFunction, isFirebaseConfigured } from './firebase-client.js?v=11';
 
 const joinForm = document.getElementById('student-join-form');
 const codeInput = document.getElementById('student-code');
