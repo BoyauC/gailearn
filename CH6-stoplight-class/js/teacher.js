@@ -219,6 +219,22 @@ function stopSubscriptions() {
   unsubscribeListeners = [];
 }
 
+function leaveDashboard({ focusCreate = false } = {}) {
+  stopSubscriptions();
+  clearTeacherContext();
+  activeSession = null;
+  createdLoginPassword = '';
+  createForm.reset();
+  loginForm.reset();
+  dashboard.classList.add('hidden');
+  createdView.classList.add('hidden');
+  authView.classList.remove('hidden');
+  setMessage($('dashboard-message'));
+  setMessage(createError);
+  setMessage(loginError);
+  if (focusCreate) createPassword.focus();
+}
+
 async function subscribeToDashboard() {
   stopSubscriptions();
   const { db } = await getFirebaseServices();
@@ -371,6 +387,8 @@ async function closeCurrentSession() {
 
 $('close-session').addEventListener('click', closeCurrentSession);
 $('close-session-settings').addEventListener('click', closeCurrentSession);
+$('new-dashboard-session').addEventListener('click', () => leaveDashboard({ focusCreate: true }));
+$('leave-dashboard').addEventListener('click', () => leaveDashboard());
 $('copy-dashboard-code').addEventListener('click', () => activeSession && copyText(activeSession.code, $('dashboard-message'), '✓ 學生代碼已複製'));
 $('refresh-dashboard').addEventListener('click', subscribeToDashboard);
 
@@ -443,5 +461,6 @@ async function restoreTeacherSession() {
 
 restoreTeacherSession();
 window.addEventListener('beforeunload', stopSubscriptions);
+
 
 
