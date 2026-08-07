@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#e8e3d8">
+  <title>查核行動指揮中心</title>
+  <link rel="stylesheet" href="./css/style.css?v=20260807-8">
+</head>
+<body>
+  <noscript>這份教材需要啟用 JavaScript 才能操作。</noscript>
+
+  <main id="app" class="app-shell" aria-live="polite">
+    <section id="home-screen" class="screen home-screen is-active" aria-labelledby="home-title">
+      <div class="home-grid">
+        <div class="home-copy">
+          <h1 id="home-title">查核行動<br><span>指揮中心</span></h1>
+          <p class="home-lead">訊息越急，越要把證據找齊。今天，你將成為指揮中心的新進調查員。</p>
+          <button id="start-button" class="primary-button" type="button">
+            <span>進入指揮中心</span><span aria-hidden="true">→</span>
+          </button>
+          <p class="home-note">適合平板橫向操作 · 不需要登入</p>
+        </div>
+
+        <div class="command-preview" aria-hidden="true">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="preview-console">
+            <div class="preview-top"><i></i><i></i><i></i><span>STANDBY</span></div>
+            <div class="preview-radar"><span></span></div>
+            <div class="preview-message">待查案件<br><strong>01</strong></div>
+          </div>
+          <img class="home-character home-koko" src="./assets/characters/koko.png" alt="">
+          <img class="home-character home-xiaocheng" src="./assets/characters/xiaocheng.png" alt="">
+          <div class="status-pill"><i></i> 指揮中心連線正常</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="story-screen" class="screen story-screen" aria-labelledby="mission-title">
+      <header class="mission-bar">
+        <div class="brand-mark" aria-hidden="true">CC</div>
+        <div>
+          <p>FACT CHECK COMMAND CENTER</p>
+          <h2 id="mission-title">序幕｜第一天報到</h2>
+        </div>
+        <div class="mission-status"><i></i><span>系統連線中</span></div>
+        <button id="sound-toggle" class="icon-button" type="button" aria-pressed="false" aria-label="音效目前關閉">音效：關</button>
+      </header>
+
+      <div class="scene" role="group" aria-label="查核行動指揮中心場景">
+        <div class="scene-lights" aria-hidden="true"></div>
+        <div class="scene-wall" aria-hidden="true">
+          <div class="wall-panel panel-left"><span>來源</span><span>時間</span></div>
+          <div class="wall-screen">
+            <div class="screen-heading"><i></i> INCOMING CASE</div>
+            <div class="case-signal"><span></span><span></span><span></span><span></span><span></span></div>
+            <p>待查訊息正在擴散</p>
+          </div>
+          <div class="wall-panel panel-right"><span>證據</span><span>內容</span></div>
+        </div>
+        <div class="desk" aria-hidden="true"><div class="desk-glow"></div></div>
+
+        <div id="character-stage" class="character-stage">
+          <img id="character-image" src="./assets/characters/koko.png" alt="可可隊長" draggable="false">
+        </div>
+
+        <div id="choice-panel" class="choice-panel" hidden>
+          <p id="choice-prompt">你要採取什麼行動？</p>
+          <div id="choice-list" class="choice-list"></div>
+        </div>
+
+        <div id="dialogue-panel" class="dialogue-panel">
+          <div id="speaker-name" class="speaker-name">系統</div>
+          <p id="dialogue-text" class="dialogue-text"></p>
+          <div class="dialogue-actions">
+            <button id="skip-typing" class="text-button" type="button">顯示全文</button>
+            <button id="next-dialogue" class="next-button" type="button">
+              <span>繼續</span><span aria-hidden="true">›</span>
+            </button>
+          </div>
+          <div id="progress-dots" class="progress-dots" aria-label="序幕進度"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="case-screen" class="screen case-screen" aria-labelledby="case-title">
+      <header class="case-header">
+        <div>
+          <p class="case-kicker">案件 01 · 三問調查室</p>
+          <h2 id="case-title">神奇飲料傳言</h2>
+        </div>
+        <div class="case-progress"><span id="placed-count">0</span>／<span id="total-clues">0</span> 調查點完成</div>
+        <button id="case-log-toggle" class="case-log-toggle" type="button" aria-expanded="false">行動紀錄</button>
+      </header>
+
+      <div class="case-workspace">
+        <aside id="action-log" class="action-log" aria-label="行動紀錄">
+          <h3>我的查核路徑</h3>
+          <ol id="action-log-list"><li>案件已送達，等待第一項行動。</li></ol>
+        </aside>
+
+        <aside class="partner-panel" aria-labelledby="partner-title">
+          <div class="partner-role">證據員／調查夥伴</div>
+          <div class="partner-dialogue" aria-live="polite">
+            <strong id="partner-title">小澄</strong>
+            <p id="case-feedback-text">先讀完整則消息，再點擊你覺得需要查核的位置。</p>
+          </div>
+          <div class="partner-portrait"><img src="./assets/characters/xiaocheng.png" alt="小澄"></div>
+          <div class="evidence-status">
+            <span>證據狀態</span>
+            <strong id="evidence-status-text">尚未開始調查</strong>
+          </div>
+        </aside>
+
+        <section class="task-panel" aria-labelledby="task-heading">
+          <div class="task-stage-label"><span id="stage-number">STEP 1</span><strong id="task-heading">找出需要查核的位置</strong></div>
+
+          <article id="explore-view" class="rumor-board explore-card" aria-labelledby="rumor-heading">
+            <div class="rumor-source">
+              <button class="hotspot" data-clue-id="anonymous" type="button">熱門轉傳 · 健康分享站</button>
+              <button class="hotspot" data-clue-id="posted_today" type="button"><time>今天 08:20</time></button>
+            </div>
+            <h3 id="rumor-heading">每天喝三杯，三天就能預防流感？</h3>
+            <p>網路流傳某種飲料可以預防流感，並宣稱「<button class="hotspot inline-hotspot" data-clue-id="no_expert" type="button">多位專家已證實</button>，<button class="hotspot inline-hotspot" data-clue-id="miracle_claim" type="button">喝三天就有效</button>」。貼文提醒大家「<button class="hotspot inline-hotspot" data-clue-id="share_now" type="button">趕快分享給所有家人</button>」。</p>
+            <div class="explore-help">點擊畫面中帶有虛線底線的資訊，取得調查線索。</div>
+          </article>
+
+          <section id="review-view" class="review-view" hidden aria-labelledby="review-title">
+            <div class="clue-focus">
+              <span id="clue-sequence">線索 1／5</span>
+              <h3 id="review-title">目前線索</h3>
+              <blockquote id="review-clue-text"></blockquote>
+            </div>
+            <p class="three-question-prompt">這項線索提醒你要問？</p>
+            <div id="three-question-actions" class="three-question-actions">
+              <button data-question="who" type="button"><span>01</span><strong>誰說的？</strong><small>確認消息來源</small></button>
+              <button data-question="when" type="button"><span>02</span><strong>何時發布？</strong><small>確認時間脈絡</small></button>
+              <button data-question="reasonable" type="button"><span>03</span><strong>合不合理？</strong><small>檢查說法與支持依據</small></button>
+            </div>
+            <div id="followup-panel" class="followup-panel" hidden>
+              <p id="followup-prompt"></p>
+              <div id="followup-actions"></div>
+            </div>
+          </section>
+
+          <section id="summary-view" class="investigation-summary" hidden aria-labelledby="summary-heading">
+            <h3 id="summary-heading">整理三問與證據缺口</h3>
+            <div id="question-report" class="question-report"></div>
+            <div class="missing-evidence"><strong>目前仍缺少</strong><p id="missing-evidence-text"></p></div>
+          </section>
+
+          <footer class="task-actions">
+            <p id="task-hint">已找到的調查點會保留標記；請找出全部五個位置。</p>
+            <button id="back-to-explore" class="secondary-button" type="button" hidden>返回案件</button>
+            <button id="next-clue" class="primary-button" type="button" hidden>檢查下一張線索</button>
+            <button id="green-alert" class="green-alert-button" type="button" hidden>綠色警報</button>
+            <button id="finish-case" class="primary-button" type="button" hidden>黃色警報</button>
+          </footer>
+        </section>
+      </div>
+    </section>
+
+    <section id="prototype-end" class="screen end-screen" aria-labelledby="end-title">
+      <div class="end-card">
+        <p class="eyebrow">案件 01 完成</p>
+        <h2 id="end-title">本案件先維持黃色警報</h2>
+        <div class="evidence-chips is-compact" aria-label="審視資訊三問">
+          <span>誰說的？</span><span>何時發布？</span><span>合不合理？</span>
+        </div>
+        <p id="case-summary">目前仍缺少可驗證的專家姓名、研究原文與官方說法，不能因為搜尋不到澄清就直接相信。</p>
+        <div class="next-case-briefing">
+          <img src="./assets/characters/ouni.png" alt="通報員歐匿">
+          <div><strong>通報員歐匿</strong><p>新的通報進來了！社群正在轉傳「全臺停課三天」。這是另一件需要查核的新案件。</p></div>
+        </div>
+        <div class="end-actions">
+          <button id="replay-button" class="secondary-button" type="button">重新挑戰</button>
+          <button id="continue-mission2" class="primary-button" type="button">接收新案件</button>
+        </div>
+      </div>
+      <div class="end-team" aria-hidden="true">
+        <img src="./assets/characters/koko.png" alt="">
+        <img src="./assets/characters/sisi.png" alt="">
+        <img src="./assets/characters/xiaocheng.png" alt="">
+        <img src="./assets/characters/ouni.png" alt="">
+      </div>
+    </section>
+
+    <dialog id="green-alert-dialog" class="case-alert-dialog" aria-labelledby="green-alert-title">
+      <div class="alert-symbol" aria-hidden="true">!</div>
+      <h2 id="green-alert-title">這不是綠色警報</h2>
+      <p>目前取得的資訊仍有證據缺口，還不能判定內容可以採信。請重新調查案件，再依結果選擇警報狀態。</p>
+      <button id="restart-case-investigation" class="primary-button" type="button">重新調查</button>
+    </dialog>
+
+    <section id="mission2-screen" class="screen case-screen" aria-labelledby="mission2-title">
+      <header class="case-header">
+        <div><p class="case-kicker">新案件 02 · 查核行動盤</p><h2 id="mission2-title">全臺停課三天？</h2></div>
+        <div class="case-progress"><span id="mission2-step">0</span>／4 查核結果</div>
+        <button id="mission2-log-toggle" class="case-log-toggle" type="button" aria-expanded="false">調查紀錄</button>
+      </header>
+      <div class="case-workspace">
+        <aside id="mission2-log" class="action-log" aria-label="查核路徑">
+          <h3>已取得的查核結果</h3><ol id="mission2-log-list"><li>尚未取得查核結果。</li></ol>
+        </aside>
+        <aside class="partner-panel" aria-labelledby="mission2-partner-title">
+          <div class="partner-role">證據員／調查夥伴</div>
+          <div class="partner-dialogue" aria-live="polite"><strong id="mission2-partner-title">小澄</strong><p id="mission2-feedback">先別急著行動，看到資訊第一步只有一件事，你覺得是哪一件呢？</p></div>
+          <div class="partner-portrait"><img src="./assets/characters/xiaocheng.png" alt="小澄"></div>
+          <div class="evidence-status"><span>案件狀態</span><strong id="mission2-energy">尚未開始查核</strong></div>
+        </aside>
+        <section class="task-panel mission2-task" aria-labelledby="mission2-task-title">
+          <div class="task-stage-label"><span>MISSION 2</span><strong id="mission2-task-title">先停止擴散</strong></div>
+          <article class="mission2-rumor">
+            <span>正在大量轉傳</span><blockquote>「聽說下週因為高溫，全臺學校停課三天。」</blockquote>
+          </article>
+          <div class="route-strip" aria-label="已取得的查核結果"><div id="mission2-route"></div></div>
+          <section class="action-library" aria-labelledby="action-library-title">
+            <h3 id="action-library-title">你要採取什麼行動？</h3>
+            <div id="mission2-actions"></div>
+          </section>
+          <footer class="task-actions">
+            <p id="mission2-hint">先停止轉傳；接著可依情境自由選擇查核行動。</p>
+            <button id="mission2-undo" class="secondary-button" type="button" disabled>撤回上一項查核</button>
+            <button id="mission2-finish" class="primary-button" type="button" hidden>確認結案行動</button>
+            <button id="continue-mission3" class="primary-button" type="button" hidden>前往查核工具選擇所</button>
+          </footer>
+        </section>
+      </div>
+    </section>
+
+    <section id="mission3-screen" class="screen case-screen" aria-labelledby="mission3-title">
+      <header class="case-header">
+        <div><p class="case-kicker">任務 03 · 工具調度</p><h2 id="mission3-title">查核工具選擇所</h2></div>
+        <div class="case-progress"><span id="mission3-step">1</span>／3 短案件</div>
+      </header>
+      <div class="case-workspace mission3-workspace">
+        <aside class="partner-panel" aria-labelledby="mission3-partner-title">
+          <div class="partner-role">證據員／調查夥伴</div>
+          <div class="partner-dialogue" aria-live="polite"><strong id="mission3-partner-title">小澄</strong><p id="mission3-feedback">先瞭解想確認的問題，再選擇能直接取得證據的查核工具或平台。</p></div>
+          <div class="partner-portrait"><img src="./assets/characters/xiaocheng.png" alt="小澄"></div>
+          <div class="evidence-status"><span>工具調度</span><strong id="mission3-status">尚未選擇</strong></div>
+        </aside>
+        <section class="task-panel mission3-task" aria-labelledby="mission3-case-title">
+          <article class="tool-case-card"><span id="mission3-tag"></span><h3 id="mission3-case-title"></h3><p id="mission3-summary"></p></article>
+          <div id="mission3-selection" class="tool-selection" aria-live="polite"><span>已選工具</span><p>請從四項工具中選出兩項。</p></div>
+          <section class="toolbox" aria-labelledby="toolbox-title"><h3 id="toolbox-title">你要調度哪些工具？</h3><div id="mission3-tools"></div></section>
+          <section id="mission3-result" class="tool-result" hidden><strong>模擬查核結果</strong><p></p></section>
+          <section id="mission3-completion" class="mission3-completion" hidden></section>
+          <footer class="task-actions">
+            <p id="mission3-hint">四選二：點選工具即可加入或取消，不需要拖曳。</p>
+            <button id="mission3-check" class="primary-button" type="button" disabled>執行查核</button>
+            <button id="mission3-next" class="primary-button" type="button" hidden>下一件短案件</button>
+            <button id="continue-mission4" class="primary-button" type="button" hidden>進入綜合挑戰</button>
+          </footer>
+        </section>
+      </div>
+    </section>
+
+    <section id="mission4-screen" class="screen final-challenge-screen" aria-labelledby="mission4-title">
+      <header class="case-header final-header">
+        <div><p class="case-kicker">FINAL CHALLENGE · 安全應變</p><h2 id="mission4-title">熟人視訊緊急求助</h2></div>
+        <div id="mission4-phase" class="case-progress">通話進行中</div>
+      </header>
+      <div class="final-workspace">
+        <section class="video-call-panel" aria-label="模擬視訊通話">
+          <div class="call-status"><span></span><strong id="caller-name">自稱表哥的聯絡人</strong><b>連線不穩</b></div>
+          <div class="caller-visual" aria-hidden="true"><img src="./assets/images/video-caller-mosaic.png" alt=""><div class="signal-noise"></div><span>無視訊畫面</span></div>
+          <blockquote id="caller-message">我出車禍了，現在不能多說！先幫我匯三萬元，拜託不要打給其他人，會來不及！</blockquote>
+          <div class="pressure-signals"><span>要求立刻匯款</span><span>阻止向他人查證</span><span>影像與聲音不能單獨證明身分</span></div>
+        </section>
+        <section class="response-console" aria-labelledby="mission4-action-title">
+          <div class="response-heading"><span>你的決定</span><h3 id="mission4-action-title">面對催促，先做什麼？</h3></div>
+          <div id="mission4-evidence" class="final-evidence"><p>尚未取得獨立證據。</p></div>
+          <div id="mission4-feedback" class="safety-feedback" aria-live="polite"><strong>安全提醒</strong><p>不要因為看起來像本人，就跳過其他管道的確認。</p></div>
+          <div id="mission4-actions" class="final-actions"></div>
+          <footer class="final-footer">
+            <p id="mission4-hint">高風險選擇會被安全攔截，你仍可重新判斷。</p>
+            <button id="mission4-check" class="primary-button" type="button" hidden disabled>執行兩項查證行動</button>
+            <button id="mission4-complete" class="primary-button" type="button" hidden>完成本章任務</button>
+          </footer>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <div id="orientation-note" class="orientation-note" role="status">
+    <strong>橫向體驗更完整</strong><span>目前仍可繼續操作。</span>
+  </div>
+
+  <script src="./js/app.js?v=20260807-8" defer></script>
+</body>
+</html>
