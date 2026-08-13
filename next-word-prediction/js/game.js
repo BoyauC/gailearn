@@ -180,6 +180,21 @@
     return state.openings.find((opening) => opening.case_id === state.current.case_id && opening.opening_id === state.openingId);
   }
 
+  function openingPathNodes(opening) {
+    if (!opening?.matching_path) return [];
+    const labels = opening.matching_path.split(">");
+    const path = [];
+    let groupId = "root";
+    labels.forEach((label) => {
+      const node = state.nodes.find((item) => item.case_id === state.current.case_id
+        && item.group_id === groupId && item.label === label);
+      if (!node) return;
+      path.push(node);
+      groupId = node.next_group;
+    });
+    return path.length === labels.length ? path : [];
+  }
+
   function verdictLabel() {
     return {
       trust: "可以，機率很高",
@@ -360,7 +375,7 @@
           <div class="home-intro">
             <p>跟著 AI 的預測路徑，每一步選出統計上可能接續的詞，看看一段流暢的敘述，是否真的經得起查證。</p>
             <p>AI 看起來很聰明，其實主要是依靠大量運算、統計規律，還有「下一個字可能是什麼」的文字接龍預測能力。</p>
-            <p>接下來 AI 會根據資料庫裡的上下文，拼出一小段看起來很合理、但可能有錯的內容，請你用自己的所學來幫 AI 把關，看看你的理解和 AI 的預測是不是一樣喔。</p>
+            <p>接下來會模擬 AI 依候選權重抽樣生成一段文字。抽樣不一定每一步都選最高權重，結果可能很流暢但仍有錯，請你用自己的所學替 AI 把關。</p>
           </div>
           <div class="button-row">
             <button class="primary-btn" id="start-game">開始探索</button>
@@ -414,9 +429,9 @@
               <h2 id="scan-title">${escapeHTML(state.current.title)}</h2>
               <p class="instruction">${escapeHTML(state.current.intro_instruction)}</p>
             </div>
-            <span class="case-chip">AI 生成敘述</span>
+            <span class="case-chip">AI 模擬抽樣敘述</span>
           </div>
-          <div class="story-select" id="story-segments" aria-label="可選取的 AI 生成敘述">
+          <div class="story-select" id="story-segments" aria-label="可選取的 AI 模擬抽樣敘述">
             ${segments.map((segment) => `<button class="segment" data-order="${segment.order}" aria-pressed="false">${escapeHTML(segment.text)}</button>`).join("")}
           </div>
           <div class="selection-meta">
@@ -596,6 +611,7 @@
         : state.current.ending_wrong;
     const comparison = comparisonConfig();
     const sources = currentSources();
+    const sampledPath = openingPathNodes(opening);
     setScreen(`
       <section class="screen result-screen" aria-labelledby="result-title">
         <div class="result-hero">
@@ -611,13 +627,17 @@
         </div>
 
         <article class="glass-panel result-story-card original-result-card">
-          <div class="result-section-label"><span>1</span>原本 AI 生成敘述</div>
+          <div class="result-section-label"><span>1</span>本局 AI 模擬抽樣敘述</div>
           <p>${originalStoryMarkup()}</p>
+          <p class="sampling-note">這是依候選權重模擬抽出的一條路徑，不代表每一步都選擇最高權重。</p>
+          <div class="path-review sampled-path-review" aria-label="本局 AI 模擬抽樣路徑與權重">
+            ${sampledPath.map((node, index) => `<div class="path-item"><span>第 ${index + 1} 步</span>${escapeHTML(node.label)} <strong>${node.probability}%</strong></div>`).join("")}
+          </div>
         </article>
 
         <section class="glass-panel player-result-card" aria-labelledby="player-route-title">
-          <div class="result-section-label" id="player-route-title"><span>2</span>你的選擇路線與生成敘述</div>
-          <div class="path-review" aria-label="你的 ${predictionSteps()} 步選擇與預測比例">
+          <div class="result-section-label" id="player-route-title"><span>2</span>你選出的路徑與生成敘述</div>
+          <div class="path-review" aria-label="你的 ${predictionSteps()} 步選擇與模擬權重">
             ${state.path.map((node, index) => `<div class="path-item"><span>第 ${index + 1} 步</span>${escapeHTML(node.label)} <strong>${node.probability}%</strong></div>`).join("")}
           </div>
           <p class="player-generated-story">${semanticStoryMarkup(generatedStory(), comparison.playerTerms, comparison.labels)}</p>
