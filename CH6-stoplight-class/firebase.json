@@ -30,6 +30,18 @@
       "css/style-old.css",
       "css/style_merged0427.css"
     ],
+    "redirects": [
+      {
+        "source": "/",
+        "destination": "https://boyauc.github.io/gailearn/CH6-stoplight-class/",
+        "type": 301
+      },
+      {
+        "source": "/:path*",
+        "destination": "https://boyauc.github.io/gailearn/CH6-stoplight-class/:path",
+        "type": 301
+      }
+    ],
     "headers": [
       {
         "source": "**/*.@(html)",
