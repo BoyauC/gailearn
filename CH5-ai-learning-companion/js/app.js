@@ -154,7 +154,15 @@
     elements.choiceList.querySelectorAll("button").forEach((button) => button.remove());
     orderedChoices(event).forEach((choice, index) => {
       const button = document.createElement("button");
-      button.type = "button"; button.className = "choice-button"; button.dataset.key = String.fromCharCode(65 + index); button.textContent = choice.label;
+      button.type = "button"; button.className = "choice-button"; button.dataset.key = String.fromCharCode(65 + index);
+      const content = document.createElement("span"); content.className = "choice-content";
+      const label = document.createElement("strong"); label.textContent = choice.label; content.appendChild(label);
+      if (choice.details?.length) {
+        const details = document.createElement("ul"); details.className = "choice-details";
+        choice.details.forEach((item) => { const detail = document.createElement("li"); detail.textContent = item; details.appendChild(detail); });
+        content.appendChild(details);
+      }
+      button.appendChild(content);
       button.addEventListener("click", () => choose(choice));
       elements.choiceList.appendChild(button);
     });
@@ -188,7 +196,8 @@
 
   function interactionMarkup(event) {
     if (event.id === "D3-01") return `<span class="token">王小明</span><span class="token">光明國中二年三班</span><span class="token">學號 21307</span><span class="token">數學列式易錯</span>`;
-    if (["D3-03", "D3-04", "D5-05"].includes(event.id)) return `<span class="switch">相簿權限 <i></i></span><span class="switch">保存紀錄 <i></i></span><span class="switch">人類確認 <i></i></span>`;
+    if (["D3-03", "D3-04"].includes(event.id)) return `<span class="switch">相簿權限 <i></i></span><span class="switch">保存紀錄 <i></i></span><span class="switch">人類確認 <i></i></span>`;
+    if (event.id === "D5-05") return `<span class="source">公開版倫理設定</span><span class="source">選擇後鎖定</span>`;
     if (["D2-04", "D4-04"].includes(event.id)) return `<span class="source">書名／作者／出版社</span><span class="source">圖書館查詢</span><span class="source">原始資料</span>`;
     if (event.day === 5) return `<span class="source">AI 做了什麼</span><span class="source">團隊如何處理</span><span class="source">誰做最後決定</span>`;
     return `<span class="token">讀懂情境</span><span class="token">做出設計</span><span class="token">觀察後果</span>`;

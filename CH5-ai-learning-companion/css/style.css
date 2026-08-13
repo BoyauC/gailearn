@@ -17,6 +17,9 @@ body.high-contrast{--panel:#fff;--paper:#fff;--ink:#10292f;--muted:#334b50;--lin
 @media(max-width:599px){.app{min-height:0}.cover-copy h1{font-size:43px}.cover-lab{min-height:300px}.topbar{padding:0 9px}.mission-name h2{font-size:.88rem}.metrics{gap:6px}.metric{padding-left:43px}.metric strong{font-size:1.1rem}.stage-screen{width:84%}.character-area{inset:12% 2% 46%}.dialogue-card{min-height:220px;padding:42px 18px 78px}.dialogue-card p{margin:0;font-size:17px}.dialogue-controls{left:16px;right:16px;justify-content:flex-end}.event-card,.feedback-card{margin-top:82px;padding:15px}.choice-button{min-height:60px}.delta-row{grid-template-columns:1fr}.ending-copy{padding:24px}.ending-actions>*{width:100%}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
 
+/* D5-05 ethics setting tags */
+.choice-content{display:block;min-width:0}.choice-content>strong{display:block}.choice-details{margin:8px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px;list-style:none}.choice-details li{padding:4px 9px;border:1px solid #aebc84;border-radius:5px;color:#3f4829;background:#e8efd4;font-size:.76rem;font-weight:850;line-height:1.3}
+
 /* 國中手冊封面配色：霧粉、暖橘、淡藍、奶油黃、鼠尾草綠與灰褐線條 */
 :root{--night:#706b68;--night2:#817875;--panel:#f8eadf;--paper:#fffaf1;--ink:#554d49;--muted:#796f69;--line:rgba(112,101,94,.25);--coral:#dc7a51;--coral-dark:#a9543e;--mint:#becb82;--mint-dark:#667244;--cyan:#9fcce8;--gold:#f2d17e;--lavender:#bea8ca;--pink:#d9a3b5;--red:#c95752;--shadow:0 18px 48px rgba(88,69,61,.24)}
 .cover-screen{background:radial-gradient(circle at 76% 15%,rgba(242,209,126,.48),transparent 31%),linear-gradient(135deg,#d9a3b5 0%,#f4dccd 52%,#b8d9ec 100%)}
