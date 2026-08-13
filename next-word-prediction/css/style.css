@@ -195,6 +195,8 @@ h3 { margin: 0; font-size: 1.08rem; }
 .result-section-label > span { width: 28px; height: 28px; display: inline-grid; place-items: center; flex: 0 0 auto; border-radius: 50%; color: #3f4829; background: var(--lime-strong); letter-spacing: 0; }
 .result-story-card > p, .player-generated-story { margin: 0; font-family: "Noto Serif TC", "PMingLiU", serif; font-size: 1.08rem; line-height: 1.85; }
 .original-result-card { margin-bottom: 18px; }
+.sampling-note { margin-top: 12px !important; color: var(--muted); font-family: inherit !important; font-size: .88rem !important; }
+.original-result-card .sampled-path-review { padding: 0; margin: 14px 0 0; }
 .player-result-card { margin-bottom: 18px; }
 .player-result-card .path-review { padding: 0; margin: 14px 0 16px; }
 .player-generated-story { padding-top: 16px; border-top: 1px solid var(--line); }
@@ -348,8 +350,8 @@ h3 { margin: 0; font-size: 1.08rem; }
   .choice-btn { min-height: 68px; padding: 12px; }
   .result-hero { margin-bottom: 20px; }
   .path-review { padding: 16px; }
-  .player-result-card .path-review { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0; }
-  .player-result-card .path-item::after { display: none; }
+  .player-result-card .path-review, .original-result-card .sampled-path-review { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0; }
+  .player-result-card .path-item::after, .original-result-card .path-item::after { display: none; }
   .result-bottom-grid { grid-template-columns: 1fr; }
 }
 
