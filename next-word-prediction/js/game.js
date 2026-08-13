@@ -164,8 +164,16 @@
   function originalStoryMarkup() {
     return currentSegments().map((segment) => {
       const text = escapeHTML(segment.text);
-      return segment.suspicious === "1" ? `<mark class="generated-word">${text}</mark>` : text;
+      return state.selectedSegments.has(segment.order)
+        ? `<mark class="player-suspicion-mark" aria-label="你在開場標記的詞語：${text}">${text}</mark>`
+        : text;
     }).join("");
+  }
+
+  function openingSelectionNote() {
+    return state.selectedSegments.size
+      ? `淡卡其色標示你在開場時選取的 ${state.selectedSegments.size} 個需要查證片段。`
+      : "你在開場時沒有標記需要查證的詞語，因此這段敘述不加標示。";
   }
 
   function currentSources() {
@@ -629,6 +637,7 @@
         <article class="glass-panel result-story-card original-result-card">
           <div class="result-section-label"><span>1</span>本局 AI 模擬抽樣敘述</div>
           <p>${originalStoryMarkup()}</p>
+          <p class="opening-selection-note">${escapeHTML(openingSelectionNote())}</p>
           <p class="sampling-note">這是依候選權重模擬抽出的一條路徑，不代表每一步都選擇最高權重。</p>
           <div class="path-review sampled-path-review" aria-label="本局 AI 模擬抽樣路徑與權重">
             ${sampledPath.map((node, index) => `<div class="path-item"><span>第 ${index + 1} 步</span>${escapeHTML(node.label)} <strong>${node.probability}%</strong></div>`).join("")}
