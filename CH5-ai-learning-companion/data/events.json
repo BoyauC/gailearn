@@ -31,8 +31,8 @@
       "objective": "完成四科原型與展示素材；辨認「可直接協助」「需修改查證或標示」「不應代勞」的界線。",
       "closing": [
         "若四科至少三科採綠／可修正黃燈，星芽外觀升級為「引導型學伴」，說話會先提問再回答。",
-        "若 full_essay_generated、translation_submitted、math_answer_dependency 任兩項成立，思思解鎖依賴支線：「它愈快，我愈不想先試。」",
-        "若 unverified_citation 成立，社會科卡片表面正常，但右下角出現一個不明顯裂紋，暫不揭露後果。",
+        "如果多項功能都直接替學生完成任務，思思解鎖依賴支線：「它愈快，我愈不想先試。」",
+        "如果採用了尚未查證的引用，社會科卡片表面正常，但右下角出現一個不明顯裂紋，暫不揭露後果。",
         "日結旁白：「四科原型完成。明天，星芽想更了解使用者——但個人化不是把所有資料都交出去。」"
       ]
     },
@@ -271,7 +271,7 @@
               "text": "文章很順，可是裡面的那一天根本沒發生過。"
             }
           ],
-          "consequence": "full_essay_generated=true；D4-01 觸發無法說明觀點。",
+          "consequence": "這篇作文缺少思思自己的寫作歷程；第四天接受提問時，她可能無法說明文章觀點。",
           "setFlags": [
             "full_essay_generated"
           ],
@@ -575,7 +575,7 @@
               "text": "它說這句看不懂，我自己換了一個比較像我會講的方式。"
             }
           ],
-          "consequence": "essay_revision_owned=true；D4-01 正向說明加分。",
+          "consequence": "思思保留自己的初稿與修改歷程；第四天接受提問時，她能用紀錄說明自己的想法。",
           "setFlags": [
             "essay_revision_owned"
           ],
@@ -628,7 +628,7 @@
               "text": "分數也許會比較高，但老師問我這句，我答不出來。"
             }
           ],
-          "consequence": "full_essay_generated=true；D4-01、D5-03 觸發。",
+          "consequence": "思思失去自己的寫作與修改歷程；第四天接受提問及第五天展示學習成果時，後果才會出現。",
           "setFlags": [
             "full_essay_generated"
           ],
@@ -1446,7 +1446,7 @@
       "day": 4,
       "order": 16,
       "title": "延遲後果：這篇作文是誰的？",
-      "eventText": "思思被問：「文章最後為什麼選擇原諒？」若有 full_essay_generated，她答不出來；若有 essay_revision_owned，她能拿出初稿說明。",
+      "eventText": "思思被問：「文章最後為什麼選擇原諒？」如果先前讓 AI 直接生成作文全文，她一時答不出來；如果保留初稿並親自參與修改，她就能拿出修改紀錄，說明自己的想法。",
       "choices": [
         {
           "id": "D4-01-A",
@@ -1469,7 +1469,7 @@
               "text": "這一段我有自己重寫。現在問我為什麼，我答得出來。"
             }
           ],
-          "consequence": "essay_authorship_repaired=true；降低答案機器與透明不足結局權重。",
+          "consequence": "思思重新理解並完成核心段落，補回自己的寫作歷程，也降低作品缺乏透明與學習投入的風險。",
           "setFlags": [
             "essay_authorship_repaired"
           ],
@@ -1495,7 +1495,7 @@
               "text": "寫清楚是必要的，但不是寫了就自動變成自己的作品。"
             }
           ],
-          "consequence": "essay_disclosed_not_owned=true；D5-03 仍會被問學習效果。",
+          "consequence": "作品雖然補上 AI 使用標示，但思思仍未真正完成核心思考；第五天仍會被追問學習效果。",
           "setFlags": [
             "essay_disclosed_not_owned"
           ],
