@@ -30,8 +30,8 @@
       <div class="cover-copy">
         <p class="eyebrow">AI ETHICS DECISION LAB</p>
         <h1 id="cover-title">AI 倫理<br>決策所</h1>
-        <p class="cover-subtitle">打造我的 AI 學伴</p>
-        <p class="cover-lead">五天內完成參賽提案。功能要能用，也要守住資料、誠信與人的決定權。</p>
+        <p class="cover-subtitle">和星芽完成五日跨科挑戰</p>
+        <p class="cover-lead">五天內和星芽完成跨科學習任務。AI 可以幫忙，但查證、誠信與最後決定仍由你負責。</p>
         <div class="cover-actions">
           <button id="new-game" class="primary-button" type="button">開始五日挑戰 <span aria-hidden="true">→</span></button>
           <button id="continue-game" class="secondary-button" type="button" hidden>繼續上次進度</button>
@@ -40,7 +40,7 @@
       </div>
       <div class="cover-lab" aria-hidden="true">
         <div class="lab-grid"></div>
-        <div class="lab-monitor"><span>DESIGN CONTEST</span><strong>5</strong><small>DAYS LEFT</small></div>
+        <div class="lab-monitor"><span>LEARNING CHALLENGE</span><strong>5</strong><small>DAYS LEFT</small></div>
         <img class="cover-koko" src="./assets/characters/koko.png" alt="">
         <img class="cover-sisi" src="./assets/characters/sisi.png" alt="">
         <img class="cover-onick" src="./assets/characters/xingya.png?v=2" alt="">
@@ -52,7 +52,7 @@
         <div class="brand" aria-hidden="true">AL</div>
         <div class="mission-name"><p id="day-label">DAY 1／5</p><h2 id="story-title">先畫界線</h2></div>
         <div class="metrics" aria-label="目前雙數值">
-          <div class="metric progress-metric"><span>專案進度</span><strong id="progress-value">0</strong><i><b id="progress-bar"></b></i></div>
+          <div class="metric progress-metric"><span>任務進度</span><strong id="progress-value">0</strong><i><b id="progress-bar"></b></i></div>
           <div class="metric risk-metric"><span>倫理風險</span><strong id="risk-value">20</strong><i><b id="risk-bar"></b></i></div>
         </div>
         <button id="settings-button" class="icon-button" type="button" aria-expanded="false" aria-controls="settings-panel">設定</button>
@@ -62,10 +62,10 @@
         <aside class="badge-rail" aria-label="五大倫理徽章">
           <h3>倫理徽章</h3>
           <div id="badge-list"></div>
-          <button id="log-button" class="rail-button" type="button" aria-expanded="false" aria-controls="log-panel">設計紀錄</button>
+          <button id="log-button" class="rail-button" type="button" aria-expanded="false" aria-controls="log-panel">挑戰紀錄</button>
         </aside>
 
-        <section class="stage" aria-label="AI 學伴設計實驗室場景">
+        <section class="stage" aria-label="五日跨科學習挑戰場景">
           <div class="stage-grid" aria-hidden="true"></div>
           <div class="stage-screen time-strip" aria-label="比賽剩餘時間"><span id="stage-kicker">剩餘時間</span><strong id="stage-display"></strong></div>
           <div id="character-area" class="character-area" aria-hidden="true"></div>
@@ -87,7 +87,7 @@
             <div id="interaction-preview" class="interaction-preview"></div>
             <p id="event-text" class="event-text"></p>
             <fieldset id="choice-list" class="choice-list">
-              <legend>你要怎麼設計？</legend>
+              <legend>你要怎麼做？</legend>
             </fieldset>
           </article>
 
@@ -99,7 +99,7 @@
             <div class="delta-row" aria-label="本次數值變化">
               <span id="progress-delta"></span><span id="risk-delta"></span>
             </div>
-            <div class="feedback-actions"><button id="feedback-next" class="primary-button" type="button">繼續設計</button></div>
+            <div class="feedback-actions"><button id="feedback-next" class="primary-button" type="button">繼續</button></div>
           </article>
 
           <article id="day-summary" class="summary-card" hidden tabindex="-1">
@@ -111,12 +111,12 @@
           </article>
         </section>
 
-        <aside class="status-panel" aria-label="星芽設計紀錄">
-          <p class="panel-label">星芽設計紀錄</p>
+        <aside class="status-panel" aria-label="五日挑戰紀錄">
+          <p class="panel-label">五日挑戰紀錄</p>
           <div class="onick-core"><img src="./assets/characters/xingya.png?v=2" alt="星芽"><i></i></div>
           <strong id="onick-mode">等待設定</strong>
           <p id="objective-text">建立功能邊界卡。</p>
-          <div class="day-route" id="day-route" aria-label="五日設計紀錄"></div>
+          <div class="day-route" id="day-route" aria-label="五日挑戰紀錄"></div>
           <section id="day-record" class="day-record" aria-live="polite"></section>
         </aside>
       </div>
@@ -125,12 +125,13 @@
     <section id="ending-screen" class="screen ending-screen" aria-labelledby="ending-title">
       <div class="ending-wrap">
         <div class="ending-copy">
-          <p class="eyebrow">DESIGN REVIEW COMPLETE</p>
+          <p class="eyebrow">LEARNING CHALLENGE COMPLETE</p>
           <span id="ending-code" class="ending-code">結局 A</span>
           <h2 id="ending-title"></h2>
           <p id="ending-text"></p>
+          <div class="ending-advice"><strong>下一步建議</strong><p id="ending-advice"></p></div>
           <div class="ending-metrics" aria-label="最終雙數值">
-            <div class="ending-metric progress-result"><span>專案進度</span><strong id="ending-progress"></strong><i><b id="ending-progress-bar"></b></i></div>
+            <div class="ending-metric progress-result"><span>任務進度</span><strong id="ending-progress"></strong><i><b id="ending-progress-bar"></b></i></div>
             <div class="ending-metric risk-result"><span>倫理風險</span><strong id="ending-risk"></strong><i><b id="ending-risk-bar"></b></i></div>
           </div>
           <div id="ending-badges" class="ending-badges"></div>
@@ -153,7 +154,7 @@
   </aside>
 
   <aside id="log-panel" class="drawer log-drawer" hidden aria-labelledby="log-title">
-    <header><h2 id="log-title">設計紀錄</h2><button data-close="log-panel" type="button">關閉</button></header>
+    <header><h2 id="log-title">挑戰紀錄</h2><button data-close="log-panel" type="button">關閉</button></header>
     <ol id="history-list"></ol>
   </aside>
 
