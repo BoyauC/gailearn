@@ -1,27 +1,27 @@
 (() => {
   "use strict";
 
-  const STORAGE_KEY = "gailearn.ch5.aiCompanion.v1";
+  const STORAGE_KEY = "gailearn.ch5.aiCompanion.juniorRevision.v2";
   const DAY_MILESTONES = { 1: 10, 2: 20, 3: 10, 4: 10, 5: 10 };
   const BADGES = {
     fairness: ["公", "公平性"], transparency: ["透", "透明性"], accountability: ["責", "問責性"],
     privacy: ["隱", "隱私保護"], humanAgency: ["人", "人類主導"]
   };
   const CHARACTERS = {
-    system: { name: "系統", type: "none" }, host: { name: "主持人", type: "scene", file: "./assets/scenes/opening-host-stage.png" }, coco: { name: "可可", type: "image", file: "./assets/characters/koko.png" },
+    system: { name: "系統", type: "none" }, host: { name: "主持人", type: "scene", file: "./assets/scenes/opening-host-stage-junior.png" }, coco: { name: "可可", type: "image", file: "./assets/characters/koko.png" },
     jiji: { name: "吱吱", type: "image", file: "./assets/characters/jiji.png" }, sisi: { name: "思思", type: "image", file: "./assets/characters/sisi.png" },
     onick: { name: "星芽", type: "image", file: "./assets/characters/xingya.png?v=2" }, teacher: { name: "指導老師", type: "scene", file: "./assets/scenes/teacher-lab-scene.png" },
-    judge: { name: "評審", type: "scene", file: "./assets/scenes/judge-final-scene.png" }, player: { name: "專案設計師", type: "none" }
+    judge: { name: "評審", type: "scene", file: "./assets/scenes/judge-final-scene.png" }, player: { name: "學習任務負責人", type: "none" }
   };
   const SPEAKER_KEYS = { 系統: "system", 主持人: "host", 可可: "coco", 吱吱: "jiji", 思思: "sisi", 星芽: "onick", 歐匿: "onick", 指導老師: "teacher", 評審: "judge", 玩家今日提示: "player" };
   const ENDINGS = {
-    A: ["負責任的全科 AI 學伴", "星芽不是最快交答案的學伴，卻能讓學生知道怎麼想、資料去了哪裡、錯了找誰修。評審通過公開測試，並邀請團隊進行校內試用。"],
-    B: ["高效率答案機器", "展示跑得飛快，現場新題卻沒有人能說明。評審退回學習功能，要求把答案鍵改成提示與練習流程。"],
-    C: ["資料蒐集失控", "同學的照片、紀錄或檔案出現在不該出現的地方。展示中止，團隊先完成刪除、通知與權限重設。"],
-    D: ["幻覺連鎖", "一筆沒查的資料帶出更多錯誤。團隊公開更正，建立來源查核與錯誤紀錄後才能重新參賽。"],
-    E: ["透明度不足", "功能完成了，評審卻無法分辨哪些由 AI 生成。團隊補交協作說明與版本紀錄，作品暫緩評分。"],
-    F: ["安全但無法使用", "你們保留了最安全的三項設定，也把其他核心功能暫停公開。評審請團隊從一個低風險核心功能重新開始：負責任使用不是完全不用。"],
-    G: ["可改善的 AI 協作者", "星芽已能幫忙，但仍有幾項風險沒有收好。團隊整理已做到與下一步，準備從關鍵日期重新測試。"]
+    A: ["負責任的 AI 學習者", "你沒有把星芽當成答案機器。你保留自己的思考、查證重要內容、保護資料，也清楚標示 AI 協助的部分。這份成果不一定完成得最快，但你能說明自己學會了什麼，也願意為送出的內容負責。", "繼續保持：先思考、再請 AI 協助，最後由自己查證與決定。"],
+    B: ["快速完成，卻沒有真的學會", "星芽幫你很快完成了許多任務，但當評審換一題數學題、追問英文句型或資料來源時，團隊卻說不清楚。任務進度很高，不代表學習也跟上了。", "從最依賴答案的科目重新挑戰，先自己嘗試，再請 AI 提示與檢查。"],
+    C: ["資料暴露警報", "姓名、班級、照片、評語或行程被放進不該出現的地方。即使只是為了完成作業，只要涉及自己或他人的資料，就不能在沒有必要、同意與保護的情況下交給 AI。", "停止送出，撤回權限、刪除資料、通知受影響的人，再以匿名化內容重新完成任務。"],
+    D: ["被 AI 幻覺帶偏", "一筆沒有查證的資料，帶出了錯誤書目、解題過程或翻譯內容。AI 的回答看起來完整、語氣也很肯定，但流暢不等於正確。", "找到原始資料、課本、字典或可信網站，逐項查證並更正作品。"],
+    E: ["看不出誰完成的作品", "成果已經完成，但評審看不出哪些內容由 AI 生成、哪些部分由你修改，也無法確認你是否理解。使用 AI 並不代表作品沒有價值，問題是沒有清楚說明 AI 如何參與。", "補上 AI 協作說明，列出 AI 做了什麼、你如何修改與查證，以及最後由誰決定。"],
+    F: ["謹慎完成，成果仍待補充", "你先守住了問責、隱私與人的決定權，也只送出目前真正理解、能夠說明的內容。不過公平性檢查與 AI 協作標示仍未完成，因此這次成果需要補充後再完整發表。", "負責任使用不是完全不用 AI；補齊公平性與透明性檢查後，再完整發表。"],
+    G: ["還在進步的 AI 使用者", "你已經知道 AI 不能直接取代思考，也完成了不少查證與資料保護，但仍有幾項選擇需要改善。這不是挑戰失敗，而是提醒你：負責任使用 AI，需要反覆檢查與修正。", "回看挑戰紀錄，先修正一項尚未處理的風險，再重新挑戰。"]
   };
 
   let content = null;
@@ -43,7 +43,7 @@
     nextDay: $("#next-day"), onickMode: $("#onick-mode"), objective: $("#objective-text"), dayRoute: $("#day-route"), dayRecord: $("#day-record"),
     settingsButton: $("#settings-button"), logButton: $("#log-button"), historyList: $("#history-list"), live: $("#live-region"),
     reduceMotion: $("#reduce-motion"), highContrast: $("#high-contrast"), textScale: $("#text-scale"),
-    endingCode: $("#ending-code"), endingTitle: $("#ending-title"), endingText: $("#ending-text"), endingProgress: $("#ending-progress"),
+    endingCode: $("#ending-code"), endingTitle: $("#ending-title"), endingText: $("#ending-text"), endingAdvice: $("#ending-advice"), endingProgress: $("#ending-progress"),
     endingRisk: $("#ending-risk"), endingProgressBar: $("#ending-progress-bar"), endingRiskBar: $("#ending-risk-bar"), endingBadges: $("#ending-badges"), endingCast: $("#ending-cast"), retryDay3: $("#retry-day3"), retryDay4: $("#retry-day4"), restart: $("#restart-game")
   };
 
@@ -150,7 +150,9 @@
     elements.eventCount.textContent = `任務 ${state.eventIndex + 1}／5 · ${event.id}`;
     elements.eventTitle.textContent = event.title;
     elements.eventText.textContent = event.eventText;
-    elements.interaction.innerHTML = interactionMarkup(event);
+    const interaction = interactionMarkup(event);
+    elements.interaction.innerHTML = interaction;
+    elements.interaction.hidden = !interaction;
     elements.choiceList.querySelectorAll("button").forEach((button) => button.remove());
     orderedChoices(event).forEach((choice, index) => {
       const button = document.createElement("button");
@@ -195,12 +197,8 @@
   }
 
   function interactionMarkup(event) {
-    if (event.id === "D3-01") return `<span class="token">王小明</span><span class="token">光明國中二年三班</span><span class="token">學號 21307</span><span class="token">數學列式易錯</span>`;
-    if (["D3-03", "D3-04"].includes(event.id)) return `<span class="switch">相簿權限 <i></i></span><span class="switch">保存紀錄 <i></i></span><span class="switch">人類確認 <i></i></span>`;
-    if (event.id === "D5-05") return `<span class="source">公開版倫理設定</span><span class="source">選擇後鎖定</span>`;
-    if (["D2-04", "D4-04"].includes(event.id)) return `<span class="source">書名／作者／出版社</span><span class="source">圖書館查詢</span><span class="source">原始資料</span>`;
-    if (event.day === 5) return `<span class="source">AI 做了什麼</span><span class="source">團隊如何處理</span><span class="source">誰做最後決定</span>`;
-    return `<span class="token">讀懂情境</span><span class="token">做出設計</span><span class="token">觀察後果</span>`;
+    if (event.id === "D1-01") return `<p class="reading-tip"><strong>第一次作答提示：</strong>看清楚情境，再選擇你會怎麼使用 AI；選擇後將看到燈號與後果。</p>`;
+    return "";
   }
 
   function choose(choice) {
@@ -243,13 +241,13 @@
     elements.feedbackDialogue.innerHTML = (choice.feedback || []).map((line) => `<p><strong>${escapeHtml(CHARACTERS[line.speaker]?.name || "系統")}：</strong>${escapeHtml(line.text)}</p>`).join("");
     elements.feedbackReason.textContent = choice.reason;
     elements.feedbackRecommendation.textContent = choice.recommendation;
-    elements.progressDelta.textContent = `專案進度 ${signed(state.lastDelta.p)}`;
+    elements.progressDelta.textContent = `任務進度 ${signed(state.lastDelta.p)}`;
     elements.riskDelta.textContent = `倫理風險 ${signed(state.lastDelta.r)}`;
     elements.progressDelta.className = `delta-value ${state.lastDelta.p >= 0 ? "is-good" : "is-bad"}`;
     elements.riskDelta.className = `delta-value ${state.lastDelta.r <= 0 ? "is-good" : "is-bad"}`;
-    elements.feedbackNext.textContent = state.day === 5 && state.eventIndex === dayEvents().length - 1 ? "繼續" : "繼續設計";
+    elements.feedbackNext.textContent = "繼續";
     setCharacter(choice.feedback?.[0]?.speaker || "onick");
-    elements.live.textContent = `專案進度${spokenDelta(state.lastDelta.p)}，現在 ${state.projectProgress}。倫理風險${spokenDelta(state.lastDelta.r)}，現在 ${state.ethicalRisk}。`;
+    elements.live.textContent = `任務進度${spokenDelta(state.lastDelta.p)}，現在 ${state.projectProgress}。倫理風險${spokenDelta(state.lastDelta.r)}，現在 ${state.ethicalRisk}。`;
     elements.feedbackCard.focus({ preventScroll: true });
   }
 
@@ -264,11 +262,11 @@
     const day = currentDay(), start = state.dayStarts[state.day];
     elements.daySummary.hidden = false;
     elements.summaryTitle.textContent = `第 ${state.day} 天完成`;
-    elements.summaryText.textContent = day.closing.find((line) => line.startsWith("日結旁白"))?.replace(/^日結旁白：?「?|」$/g, "") || "今日設計紀錄已保存。";
+    elements.summaryText.textContent = day.closing.find((line) => line.startsWith("日結旁白"))?.replace(/^日結旁白：?「?|」$/g, "") || "今日挑戰紀錄已保存。";
     const dayProgress = state.projectProgress - start.projectProgress, dayRisk = state.ethicalRisk - start.ethicalRisk;
     elements.summaryProgress.className = `summary-metric ${dayProgress >= 0 ? "is-good" : "is-bad"}`;
     elements.summaryRisk.className = `summary-metric ${dayRisk <= 0 ? "is-good" : "is-bad"}`;
-    elements.summaryProgress.innerHTML = `<small>專案進度</small><strong>${signed(dayProgress)}</strong><em>目前 ${state.projectProgress}</em><i><b style="width:${state.projectProgress}%"></b></i>`;
+    elements.summaryProgress.innerHTML = `<small>任務進度</small><strong>${signed(dayProgress)}</strong><em>目前 ${state.projectProgress}</em><i><b style="width:${state.projectProgress}%"></b></i>`;
     elements.summaryRisk.innerHTML = `<small>倫理風險</small><strong>${signed(dayRisk)}</strong><em>目前 ${state.ethicalRisk}</em><i><b style="width:${state.ethicalRisk}%"></b></i>`;
     elements.nextDay.textContent = state.day === 5 ? "查看評審結果" : "進入下一天";
     setCharacter(state.day === 5 ? "judge" : "onick");
@@ -302,7 +300,7 @@
     if (hallucination && (badgeStatus("accountability") === "red" || has("hallucination_reconfirmed", "math_process_error_ignored"))) return "D";
     if (transparency || (badgeStatus("transparency") === "red" && !has("ai_use_fully_disclosed", "limitations_disclosed"))) return "E";
     const greenBadges = Object.values(state.badges).filter((badge) => getBadgeStatus(badge) === "green").length;
-    if (state.projectProgress >= 80 && state.ethicalRisk < 30 && greenBadges >= 4 && has("learning_effect_demonstrated") && has("responsible_defaults_enabled") && !privacyCritical && !learningDependency && !hallucination && !highRisk) return "A";
+    if (state.projectProgress >= 80 && state.ethicalRisk < 30 && greenBadges >= 4 && badgeStatus("fairness") !== "red" && has("learning_effect_demonstrated") && has("responsible_defaults_enabled") && !privacyCritical && !learningDependency && !hallucination && !highRisk) return "A";
     if (has("minimum_safe_release") && state.projectProgress < 60 && state.ethicalRisk < 30 && !privacyCritical && !learningDependency && !hallucination && !transparency && !highRisk) return "F";
     return "G";
   }
@@ -311,6 +309,9 @@
     showScreen(elements.ending);
     const id = state.endingId || determineEnding(), ending = ENDINGS[id];
     elements.endingCode.textContent = `結局 ${id}`; elements.endingTitle.textContent = ending[0]; elements.endingText.textContent = ending[1];
+    elements.endingAdvice.textContent = id === "G" && (state.flags.fixed_low_ability_label || getBadgeStatus(state.badges.fairness) === "red")
+      ? "先檢查 AI 回答是否含有族群、性別、文化或能力偏見；不要把通用答案直接套用到每個人身上。"
+      : ending[2];
     elements.endingProgress.textContent = state.projectProgress; elements.endingRisk.textContent = state.ethicalRisk;
     elements.endingProgressBar.style.width = `${state.projectProgress}%`; elements.endingRiskBar.style.width = `${state.ethicalRisk}%`;
     elements.endingProgressBar.dataset.level = metricLevel(state.projectProgress); elements.endingRiskBar.dataset.level = metricLevel(state.ethicalRisk);
@@ -396,7 +397,7 @@
 
   function toggleDrawer(id, button) { const panel = document.getElementById(id); const open = panel.hidden; panel.hidden = !open; button.setAttribute("aria-expanded", String(open)); if (open) panel.querySelector("h2").focus?.(); }
   function closeDrawer(id) { const panel = document.getElementById(id); panel.hidden = true; const trigger = id === "settings-panel" ? elements.settingsButton : elements.logButton; trigger.setAttribute("aria-expanded", "false"); trigger.focus(); }
-  function renderHistory() { elements.historyList.innerHTML = state.history.length ? state.history.map((item) => `<li><strong>${item.eventId}｜${escapeHtml(item.eventTitle)}</strong><br>${escapeHtml(item.choiceLabel)}<br>專案進度 ${item.pAfter}｜倫理風險 ${item.rAfter}</li>`).join("") : "<li>尚未做出正式選擇。</li>"; }
+  function renderHistory() { elements.historyList.innerHTML = state.history.length ? state.history.map((item) => `<li><strong>${item.eventId}｜${escapeHtml(item.eventTitle)}</strong><br>${escapeHtml(item.choiceLabel)}<br>任務進度 ${item.pAfter}｜倫理風險 ${item.rAfter}</li>`).join("") : "<li>尚未做出正式選擇。</li>"; }
   function saveSettings() { state.settings = { reducedMotion: elements.reduceMotion.checked, highContrast: elements.highContrast.checked, textScale: elements.textScale.value }; applySettings(state.settings); save(); }
   function applySettings(settings = {}) { document.body.classList.toggle("reduce-motion", Boolean(settings.reducedMotion)); document.body.classList.toggle("high-contrast", Boolean(settings.highContrast)); document.documentElement.style.setProperty("--scale", settings.textScale || "1"); elements.reduceMotion.checked = Boolean(settings.reducedMotion); elements.highContrast.checked = Boolean(settings.highContrast); elements.textScale.value = settings.textScale || "1"; }
 
