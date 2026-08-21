@@ -8,12 +8,12 @@
     privacy: ["隱", "隱私保護"], humanAgency: ["人", "人類主導"]
   };
   const CHARACTERS = {
-    system: { name: "系統", type: "none" }, host: { name: "主持人", type: "scene", file: "./assets/scenes/opening-host-stage-junior.png" }, coco: { name: "可可", type: "image", file: "./assets/characters/koko.png" },
-    jiji: { name: "吱吱", type: "image", file: "./assets/characters/jiji.png" }, sisi: { name: "思思", type: "image", file: "./assets/characters/sisi.png" },
-    onick: { name: "星芽", type: "image", file: "./assets/characters/xingya.png?v=2" }, teacher: { name: "指導老師", type: "scene", file: "./assets/scenes/teacher-lab-scene.png" },
-    judge: { name: "評審", type: "scene", file: "./assets/scenes/judge-final-scene.png" }, player: { name: "學習任務負責人", type: "none" }
+    system: { name: "系統", type: "none" }, host: { name: "主持人", type: "scene", file: "./assets/scenes/opening-host-stage-junior.webp" }, coco: { name: "可可", type: "image", file: "./assets/characters/koko.webp" },
+    jiji: { name: "吱吱", type: "image", file: "./assets/characters/jiji.webp" }, sisi: { name: "思思", type: "image", file: "./assets/characters/sisi.webp" },
+    onick: { name: "星芽", type: "image", file: "./assets/characters/xingya.webp?v=3" }, teacher: { name: "指導老師", type: "scene", file: "./assets/scenes/teacher-lab-scene.webp" },
+    judge: { name: "評審", type: "scene", file: "./assets/scenes/judge-final-scene.webp" }, player: { name: "今日行動提示", type: "image", file: "./assets/ui/today-action-notebook.webp" }
   };
-  const SPEAKER_KEYS = { 系統: "system", 主持人: "host", 可可: "coco", 吱吱: "jiji", 思思: "sisi", 星芽: "onick", 歐匿: "onick", 指導老師: "teacher", 評審: "judge", 玩家今日提示: "player" };
+  const SPEAKER_KEYS = { 系統: "system", 主持人: "host", 可可: "coco", 吱吱: "jiji", 思思: "sisi", 星芽: "onick", 歐匿: "onick", 指導老師: "teacher", 評審: "judge", 今日行動提示: "player", 玩家今日提示: "player" };
   const ENDINGS = {
     A: ["負責任的 AI 學習者", "你沒有把星芽當成答案機器。你保留自己的思考、查證重要內容、保護資料，也清楚標示 AI 協助的部分。這份成果不一定完成得最快，但你能說明自己學會了什麼，也願意為送出的內容負責。", "繼續保持：先思考、再請 AI 協助，最後由自己查證與決定。"],
     B: ["快速完成，卻沒有真的學會", "星芽幫你很快完成了許多任務，但當評審換一題數學題、追問英文句型或資料來源時，團隊卻說不清楚。任務進度很高，不代表學習也跟上了。", "從最依賴答案的科目重新挑戰，先自己嘗試，再請 AI 提示與檢查。"],
@@ -44,7 +44,7 @@
     settingsButton: $("#settings-button"), logButton: $("#log-button"), historyList: $("#history-list"), live: $("#live-region"),
     reduceMotion: $("#reduce-motion"), highContrast: $("#high-contrast"), textScale: $("#text-scale"),
     endingCode: $("#ending-code"), endingTitle: $("#ending-title"), endingText: $("#ending-text"), endingAdvice: $("#ending-advice"), endingProgress: $("#ending-progress"),
-    endingRisk: $("#ending-risk"), endingProgressBar: $("#ending-progress-bar"), endingRiskBar: $("#ending-risk-bar"), endingBadges: $("#ending-badges"), endingCast: $("#ending-cast"), retryDay3: $("#retry-day3"), retryDay4: $("#retry-day4"), restart: $("#restart-game")
+    endingRisk: $("#ending-risk"), endingProgressBar: $("#ending-progress-bar"), endingRiskBar: $("#ending-risk-bar"), endingInsights: $("#ending-insight-list"), endingRetryGuide: $("#ending-retry-guide"), retryComparison: $("#retry-comparison"), endingBadges: $("#ending-badges"), endingCast: $("#ending-cast"), retryDay3: $("#retry-day3"), retryDay4: $("#retry-day4"), restart: $("#restart-game")
   };
 
   function blankState() {
@@ -128,7 +128,7 @@
   }
 
   function parseLine(line) {
-    const match = line.match(/^(系統|主持人|可可|吱吱|思思|星芽|歐匿|指導老師|評審|玩家今日提示)：?「?(.+?)」?$/);
+    const match = line.match(/^(系統|主持人|可可|吱吱|思思|星芽|歐匿|指導老師|評審|今日行動提示|玩家今日提示)：?「?(.+?)」?$/);
     if (!match) return { key: "system", name: "系統", text: line };
     return { key: SPEAKER_KEYS[match[1]] || "system", name: match[1], text: match[2] };
   }
@@ -315,6 +315,12 @@
     elements.endingProgress.textContent = state.projectProgress; elements.endingRisk.textContent = state.ethicalRisk;
     elements.endingProgressBar.style.width = `${state.projectProgress}%`; elements.endingRiskBar.style.width = `${state.ethicalRisk}%`;
     elements.endingProgressBar.dataset.level = metricLevel(state.projectProgress); elements.endingRiskBar.dataset.level = metricLevel(state.ethicalRisk);
+    const insights = endingInsights(id);
+    elements.endingInsights.innerHTML = insights.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+    elements.endingRetryGuide.textContent = `建議：${insights.guide}`;
+    elements.retryDay3.textContent = insights.recommendedDay === 3 ? "從第 3 天修正關鍵問題" : "從第 3 天重新調整";
+    elements.retryDay4.textContent = insights.recommendedDay === 4 ? "從第 4 天修正關鍵問題" : "從第 4 天改善成果";
+    renderRetryComparison(id);
     elements.endingBadges.innerHTML = Object.entries(BADGES).map(([key, [, name]]) => badgeMarkup(key, name, getBadgeStatus(state.badges[key]))).join("");
     elements.endingCast.style.backgroundImage = `url(./assets/endings/ending-${id.toLowerCase()}.png)`;
     elements.retryDay3.hidden = !state.checkpoints[3]; elements.retryDay4.hidden = !state.checkpoints[4];
@@ -322,9 +328,65 @@
 
   function retryFromDay(day) {
     const checkpoint = state.checkpoints[day]; if (!checkpoint) return;
+    const retryBaseline = { fromDay: day, endingId: state.endingId || determineEnding(), projectProgress: state.projectProgress, ethicalRisk: state.ethicalRisk };
     const settings = state.settings, oldCheckpoints = state.checkpoints;
     state = JSON.parse(JSON.stringify(checkpoint)); state.settings = settings; state.checkpoints = Object.fromEntries(Object.entries(oldCheckpoints).filter(([key]) => Number(key) <= day));
+    state.retryBaseline = retryBaseline;
     state.mode = "intro"; save(); showScreen(elements.story); renderIntro();
+  }
+
+  function endingInsights(id) {
+    const has = (...flags) => flags.some((flag) => state.flags[flag]);
+    const greenBadges = Object.values(state.badges).filter((badge) => getBadgeStatus(badge) === "green").length;
+    const result = { items: [], recommendedDay: 4, guide: "從第 4 天重新檢查查證、揭露與最後送出決定。" };
+    if (id === "A") {
+      result.items = ["你保留自己的思考與最後決定。", "重要內容完成查證，AI 協助也有清楚標示。", `共有 ${greenBadges} 枚倫理徽章達到綠色。`];
+      result.guide = "目前已達成負責任使用；重試可探索不同選擇的後果。";
+    } else if (id === "B") {
+      result.items = ["成果進度很高，但仍出現 AI 代替學習的紀錄。", "現場任務缺少能證明自己理解的學習證據。"];
+      result.guide = "從第 4 天修復代寫或答案依賴，並在第 5 天提出自己的學習證據。";
+    } else if (id === "C") {
+      result.items = ["仍有個人資料、照片、附件或過度權限尚未完成補救。", `目前倫理風險為 ${state.ethicalRisk}。`];
+      result.recommendedDay = 3; result.guide = "從第 3 天重新檢查資料最小化、附件內容與存取權限。";
+    } else if (id === "D") {
+      result.items = ["仍有未查證的引用、錯誤解題過程或再次相信錯誤答案的紀錄。", "查證與修正流程尚未完整完成。"];
+      result.guide = "從第 4 天找出外部證據、修正錯誤並留下查核紀錄。";
+    } else if (id === "E") {
+      result.items = ["作品中仍有 AI 協助未清楚標示。", "讀者無法分辨哪些內容由你完成、哪些由 AI 協助。"];
+      result.guide = "從第 4 天整理來源與修改紀錄，第 5 天完整說明 AI 協助。";
+    } else if (id === "F") {
+      result.items = ["倫理風險控制良好，但完成進度不足。", "過度保守地停用協助，也可能讓任務無法完成。"];
+      result.guide = "從第 4 天選擇低風險但可實際使用的協助方式，再完成發表。";
+    } else {
+      if (state.projectProgress < 80) result.items.push(`任務進度 ${state.projectProgress}，尚未達到完整成果門檻。`);
+      if (state.ethicalRisk >= 30) result.items.push(`倫理風險 ${state.ethicalRisk}，仍有需要處理的選擇。`);
+      if (greenBadges < 4) result.items.push(`目前有 ${greenBadges} 枚倫理徽章達到綠色；要達成「負責任的 AI 學習者」結局，至少需要 4 枚綠色徽章。`);
+      if (!has("learning_effect_demonstrated")) result.items.push("尚未提出能證明自己真正學會的證據。");
+      if (!has("responsible_defaults_enabled")) result.items.push("送出前尚未完成五大倫理自我檢核。");
+      if (getBadgeStatus(state.badges.fairness) === "red") result.items.push("公平性仍為紅燈，需要重新檢查偏見與標籤化問題。");
+      if ((has("math_answer_dependency") && !has("math_process_verified")) || (has("full_essay_generated") && !has("essay_authorship_repaired")) || (has("translation_submitted") && !has("translation_verified"))) result.items.push("仍有 AI 代替學習的紀錄尚未完成修復。");
+      if (has("hallucination_reconfirmed", "math_process_error_ignored")) result.items.push("仍有錯誤內容或未查證資訊影響成果。");
+      if (!result.items.length) result.items.push("仍有一項早期選擇尚未完成對應的補救行動。");
+      if (getBadgeStatus(state.badges.privacy) === "red" || has("full_photo_access", "overbroad_permissions", "unreleased_exam_uploaded")) {
+        result.recommendedDay = 3; result.guide = "從第 3 天先修正資料與權限問題，再完成查證及送出檢核。";
+      } else result.guide = "從第 4 天補強查證與學習證據，並在第 5 天完成倫理自我檢核。";
+      result.items = result.items.slice(0, 3);
+    }
+    return result;
+  }
+
+  function renderRetryComparison(id) {
+    const baseline = state.retryBaseline;
+    if (!baseline) { elements.retryComparison.hidden = true; elements.retryComparison.textContent = ""; return; }
+    const progressDelta = state.projectProgress - baseline.projectProgress;
+    const riskDelta = state.ethicalRisk - baseline.ethicalRisk;
+    const progressText = progressDelta === 0 ? "任務進度未改變" : `任務進度${progressDelta > 0 ? "增加" : "減少"}${Math.abs(progressDelta)}`;
+    const riskText = riskDelta === 0 ? "倫理風險未改變" : `倫理風險${riskDelta < 0 ? "下降" : "增加"}${Math.abs(riskDelta)}`;
+    elements.retryComparison.hidden = false;
+    elements.retryComparison.classList.toggle("is-changed", baseline.endingId !== id);
+    elements.retryComparison.textContent = baseline.endingId === id
+      ? `從第 ${baseline.fromDay} 天重試後，結局仍為 ${id}；${progressText}，${riskText}。請依上方關鍵紀錄調整選擇。`
+      : `從第 ${baseline.fromDay} 天重試後，結局由 ${baseline.endingId} 改為 ${id}；${progressText}，${riskText}。`;
   }
 
   function updateChrome() {
@@ -372,17 +434,18 @@
   }
 
   function getBadgeStatus(badge) { if (!badge?.active) return "inactive"; if (badge.score >= 2 && badge.cap !== "yellow") return "green"; if (badge.score <= -2) return "red"; return "yellow"; }
-  function badgeStatusLabel(status) { return ({ inactive: "尚未測試", green: "綠色", yellow: "黃色", red: "紅色" })[status]; }
+  function badgeStatusLabel(status) { return ({ inactive: "尚未檢視", green: "已守住", yellow: "待補強", red: "需修正" })[status]; }
   function badgeMarkup(key, name, status) {
     const files = { fairness: "fairness", transparency: "transparency", accountability: "accountability", privacy: "privacy", humanAgency: "human-agency" };
-    return `<span class="ethics-seal" data-status="${status}" aria-label="${name}：${badgeStatusLabel(status)}"><i class="seal-icon"><img src="./assets/badges/${files[key]}.png" alt=""></i><b>${name}</b><em aria-hidden="true">${status === "inactive" ? "—" : "★"}</em></span>`;
+    const marks = { inactive: "○", green: "✓", yellow: "△", red: "!" };
+    return `<span class="ethics-seal" data-status="${status}" aria-label="${name}：${badgeStatusLabel(status)}"><i class="seal-icon"><img src="./assets/badges/${files[key]}.png?v=2" alt=""></i><em class="status-mark" aria-hidden="true">${marks[status]}</em><b>${name}</b><small class="status-label">${badgeStatusLabel(status)}</small></span>`;
   }
   function setCharacter(key) {
     const character = CHARACTERS[key] || CHARACTERS.onick; elements.characterArea.innerHTML = "";
     if (character.type === "none") return;
     if (character.type === "scene") { const img = document.createElement("img"); img.className = "portrait scene-portrait"; img.src = character.file; img.alt = ""; elements.characterArea.appendChild(img); return; }
     if (character.type === "sprite") { const div = document.createElement("div"); div.className = `portrait sprite ${key}`; elements.characterArea.appendChild(div); return; }
-    const img = document.createElement("img"); img.className = "portrait"; img.src = character.file; img.alt = ""; elements.characterArea.appendChild(img);
+    const img = document.createElement("img"); img.className = `portrait ${key}`; img.src = character.file; img.alt = ""; elements.characterArea.appendChild(img);
   }
 
   function hideCards() { clearTyping(); elements.stage?.classList.remove("summary-mode"); [elements.introCard, elements.eventCard, elements.feedbackCard, elements.daySummary].forEach((item) => { item.hidden = true; }); }
