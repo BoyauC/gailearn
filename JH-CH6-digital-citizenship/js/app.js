@@ -224,7 +224,7 @@ function renderMap() {
     const locked = day.day > state.day;
     const point = points[index];
     return `<button class="node ${done ? "done" : ""} ${current ? "current" : ""}" style="--node-x:${point.x}%;--node-y:${point.y}%" data-day="${day.day}" ${locked ? "disabled" : ""} aria-label="第 ${day.day} 天，${day.title}，${done ? "已完成，可回顧" : current ? "點擊開始今日任務" : "尚未解鎖"}"><span class="badge-shell"><img src="${badgePath(day.axis)}" alt=""></span><span class="node-number">${day.day}</span><span class="node-label">第 ${day.day} 天｜${day.title}</span><span class="node-mark">${done ? "✓" : locked ? "鎖定" : "點擊開始"}</span></button>`;
-  }).join("")}<div class="map-pawn ${arrived ? "arrived" : ""}" style="--pawn-x:${pawnPoint.x}%;--pawn-y:${pawnPoint.y}%" aria-label="小民棋子"><img src="assets/characters/xiaomin-bust-flipped.png" alt=""><span></span></div></div></div></section>`, controls);
+  }).join("")}<div class="map-pawn ${arrived ? "arrived" : ""}" style="--pawn-x:${pawnPoint.x}%;--pawn-y:${pawnPoint.y}%" aria-label="小民棋子"><img src="assets/characters/xiaomin-bust-flipped.webp" alt=""><span></span></div></div></div></section>`, controls);
 
   const enterMission = () => {
     if (state.arrivedDays?.includes(state.day)) { startDay(state.day); return; }
